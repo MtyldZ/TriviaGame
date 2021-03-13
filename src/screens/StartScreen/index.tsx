@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Image, SafeAreaView, Text, TouchableOpacity, View} from 'react-native';
 import {Styles} from './style';
 import {SelectorComponent} from '../../components/SelectorComponent';
@@ -6,8 +6,8 @@ import {fetchData} from '../../api/openTrivia';
 import {useSwitchNavigation} from '../../store/ui/hooks';
 import {useDispatch, useSelector} from 'react-redux';
 import {
-    setAllQuestionsAction, setChosenCategoryAction, setChosenDifficultyAction,
-    setCurrentTotalPointAction,
+    setAllQuestionsAction, setChosenCategoryAction,
+    setChosenDifficultyAction, setCurrentTotalPointAction,
 } from '../../store/triviagame/action';
 
 const difficulties = ['Any Difficulty', 'Easy', 'Medium', 'Hard'];
@@ -39,7 +39,7 @@ const categories = [
     'Entertainment: Cartoon &amp; Animations',
 ];
 
-export function StartScreen(): React.ReactElement {
+export function StartScreen() {
     const dispatch = useDispatch();
     const navigation = useSwitchNavigation();
     const chosenCategory = useSelector(state => state.triviagame.chosenCategory);
@@ -48,14 +48,14 @@ export function StartScreen(): React.ReactElement {
     return (
         <SafeAreaView style={Styles.container}>
             <View style={Styles.logoContainer}>
-                <Image source={require('../../icons/trivia.png')} style={Styles.logo}/>
+                <Image source={require('../../icons/trivia.png')} style={Styles.logoImage}/>
                 <Text style={Styles.logoText}>A trivia game</Text>
             </View>
 
             <SelectorComponent array={categories} onChange={s => dispatch(setChosenCategoryAction(s))}/>
             <SelectorComponent array={difficulties} onChange={s => dispatch(setChosenDifficultyAction(s))}/>
 
-            <TouchableOpacity style={Styles.safeAreaView_TouchableOpacity}
+            <TouchableOpacity style={Styles.buttonContainer}
                               onPress={() => {
                                   fetchData(categories.indexOf(chosenCategory) + 8,
                                       chosenDifficulty)
@@ -65,14 +65,13 @@ export function StartScreen(): React.ReactElement {
                                           navigation.navigate('Question');
                                       });
                               }}>
-                <Text style={Styles.safeAreaView_TouchableOpacity_Text}>GET STARTED</Text>
+                <Text style={Styles.buttonText}>GET STARTED</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={Styles.safeAreaView_TouchableOpacity}
+            <TouchableOpacity style={Styles.buttonContainer}
                               onPress={() => navigation.navigate('HighScores')}>
-                <Text style={Styles.safeAreaView_TouchableOpacity_Text}>HIGH SCORES</Text>
+                <Text style={Styles.buttonText}>HIGH SCORES</Text>
             </TouchableOpacity>
-
         </SafeAreaView>
     );
 }

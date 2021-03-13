@@ -1,13 +1,14 @@
-import React, {ReactElement} from 'react';
-import {SafeAreaView, StyleSheet} from 'react-native';
+import React, {memo} from 'react';
+import {SafeAreaView} from 'react-native';
 import {Header} from '../../components/Header/Header';
 import {BodyResultScreen} from '../../components/Body/BodyResultScreen';
 import {useSwitchNavigation} from '../../store/ui/hooks';
 import {useDispatch, useSelector} from 'react-redux';
-import {addToAllScoresAction, resetTriviaGameAction, setAllScoresAction} from '../../store/triviagame/action';
+import {resetTriviaGameAction, setAllScoresAction} from '../../store/triviagame/action';
 import {UserScore} from '../../@types/types';
+import {Styles} from './style';
 
-export function VictoryScreen(): ReactElement {
+export const VictoryScreen = memo(() => {
     const dispatch = useDispatch();
     const navigation = useSwitchNavigation();
     const questionIndex = useSelector(state => state.triviagame.currentQuestionIndex);
@@ -17,20 +18,19 @@ export function VictoryScreen(): ReactElement {
     const timeSpent = useSelector(state => state.triviagame.totalTimeSpent);
     const allScores = useSelector(state => state.triviagame.allScores);
 
-
     return (
         <SafeAreaView style={Styles.container}>
-            <Header moreStyle={[Styles.moreHeader]}
+            <Header moreStyle={Styles.moreHeader}
                     parts={[{text: 'Question', text2: (questionIndex) + '/10', text2style: []}]}
             />
-            <BodyResultScreen moreStyle={Styles.body}
+            <BodyResultScreen moreStyle={Styles.moreStyle}
                               moreStyleForIcon={{}}
                               iconSource={require('../../icons/correct.png')}
                               text1={'Victory'}
                               text2={`You won with ${totalPoints} points.`}
                               text3={`You answered correctly to all Questions`}
                               buttonText={'Play Again ?'}
-                              moreStyleForButton={[Styles.Choice]}
+                              moreStyleForButton={Styles.moreStyleButton}
                               onButtonPress={() => {
                                   let score: UserScore = {
                                       totalTimeSpent: timeSpent,
@@ -38,34 +38,13 @@ export function VictoryScreen(): ReactElement {
                                       difficulty: difficulty,
                                       score: totalPoints,
                                   };
-                                  const tempArr = [...allScores, score]
-                                      .sort((a, b) => (b.score - a.score));
+                                  const tempArr = [...allScores, score].sort((a, b) => (b.score - a.score));
 
                                   dispatch(setAllScoresAction(tempArr));
-
                                   navigation.navigate('Start');
                                   dispatch(resetTriviaGameAction());
                               }}
             />
         </SafeAreaView>
     );
-}
-
-const Styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        alignItems: 'stretch',
-        backgroundColor: '#ff166f',
-    },
-    body: {
-        backgroundColor: '#ff166f',
-    },
-    moreHeader: {
-        backgroundColor: '#8d133f',
-    },
-    Choice: {
-        backgroundColor: '#8d133f',
-    },
 });

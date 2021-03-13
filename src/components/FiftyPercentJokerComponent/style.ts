@@ -1,7 +1,7 @@
 import {StyleSheet} from 'react-native';
 
 export const Styles = StyleSheet.create({
-    view_touchableOpacity: {
+    fiftyPercentJokerContainer: {
         marginVertical: 10,
         borderRadius: 25,
         borderColor: '#ffffff',
@@ -12,7 +12,7 @@ export const Styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-    touchableOpacityText: {
+    fiftyPercentJokerText: {
         fontSize: 18,
         color: 'white',
     },

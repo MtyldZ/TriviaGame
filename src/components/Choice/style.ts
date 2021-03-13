@@ -1,7 +1,7 @@
 import {StyleSheet} from 'react-native';
 
 export const Styles = StyleSheet.create({
-    Choice: {
+    choiceContainer: {
         alignItems: 'center',
         backgroundColor: '#4a008a',
         flexDirection: 'row',

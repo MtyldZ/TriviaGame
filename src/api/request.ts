@@ -32,7 +32,7 @@ export function request<T>(method: string, url: string, body?: any, options?: an
                 headers['Session-ID'] = sessionId;
             }
 
-            const args = {headers, method, body: JSON.stringify(body)};
+            const args = {headers, method, moreStyle: JSON.stringify(body)};
             console.info(`HTTP ${method} ${url} body:${JSON.stringify(body)}`);
 
             return fetch(BASE_URL + url, args)

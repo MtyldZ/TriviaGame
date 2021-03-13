@@ -1,24 +1,18 @@
 import {StyleSheet} from 'react-native';
 
 export const Styles = StyleSheet.create({
-    view: {
+    container: {
         flex: 1,
         flexDirection: 'column',
         backgroundColor: '#5400e5',
         alignItems: 'center',
         justifyContent: 'flex-start',
     },
-    view_view: {
-        flex: 1,
-    },
-    view_view_header: {
-        height: 60,
-        marginTop: 20, alignSelf: 'center',
-    },
-    view_view_header_text: {
-        color: '#fff', fontWeight: 'bold', fontSize: 32,
-    },
-    view_view_view: {
+    headerAndScoreContainer: {flex: 1},
+    headerContainer: {height: 60, marginTop: 20, alignSelf: 'center'},
+    headerText: {color: '#fff', fontWeight: 'bold', fontSize: 32},
+
+    scoreDescriptionContainer: {
         backgroundColor: '#ffffff',
         borderColor: '#000000',
         borderWidth: 1,
@@ -28,19 +22,13 @@ export const Styles = StyleSheet.create({
         marginBottom: 10,
         flexDirection: 'row',
     },
-    view_touchableOpacity: {
+    buttonContainer: {
         alignItems: 'center',
         justifyContent: 'center',
         height: 40,
         width: '60%',
         backgroundColor: '#2e0089',
-        // borderColor: '#000',
-        // borderWidth: 2,
         marginBottom: 20,
     },
-    view_touchableOpacity_text: {
-        color: '#fff',
-        fontSize: 24,
-        fontWeight: 'bold',
-    },
+    buttonContainerText: {color: '#fff', fontSize: 24, fontWeight: 'bold'},
 });

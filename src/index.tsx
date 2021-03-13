@@ -1,12 +1,10 @@
 import React from 'react';
-import {Provider, useSelector} from 'react-redux';
+import {Provider} from 'react-redux';
 import {store} from './store';
 import {IndicatorView} from './components/IndicatorView';
 import {DefaultTheme, NavigationContainer} from '@react-navigation/native';
 import {ApplicationNavigator} from './navigators/application.navigator';
 import 'react-native-gesture-handler';
-
-import {LeaderBoardScreen} from './screens/LeaderBoardScreen';
 
 const theme = {
     ...DefaultTheme,
@@ -26,7 +24,7 @@ function AppComponent() {
     );
 }
 
-export function App(): React.ReactElement {
+export function App() {
     return (
         <Provider store={store}>
             <AppComponent/>

@@ -15,32 +15,27 @@ export const Styles = StyleSheet.create({
         justifyContent: 'space-between',
         marginBottom: 50,
     },
-    logo: {
+    logoImage: {
         height: 187.5,
         width: 187.5,
         marginBottom: 15,
     },
-    logoText: {
-        color: '#c4c4ff',
-        fontSize: 28,
-        fontWeight: '700',
-    },
+    logoText: {color: '#c4c4ff', fontSize: 28, fontWeight: '700'},
+
     textContainer: {
         alignItems: 'center',
         marginTop: 30,
         marginBottom: 40,
         width: '100%',
     },
-    safeAreaView_TouchableOpacity: {
+    buttonContainer: {
         marginTop: 20,
         width: '60%',
         height: 40,
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#2f008a',
-    }, safeAreaView_TouchableOpacity_Text: {
-        color: '#fff',
-        fontSize: 18,
-        fontWeight: '200',
     },
+    buttonText: {color: '#fff', fontSize: 18, fontWeight: '200'},
+
 });

@@ -1,9 +1,9 @@
-import React, {ReactElement, useEffect, useMemo, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {SafeAreaView, ScrollView, Text, View} from 'react-native';
 import {Styles} from './style';
 import {Header} from '../../components/Header/Header';
 import {useSwitchNavigation} from '../../store/ui/hooks';
-import {Choice} from '../../components/Choice';
+import {ChoiceComponent} from '../../components/Choice';
 import {useDispatch, useSelector} from 'react-redux';
 import {incCurrentTotalPointAction, incTotalTimeSpentAction} from '../../store/triviagame/action';
 import {CalculateEarnedPoint} from '../../components/CalculateEarnedPoint';
@@ -12,7 +12,7 @@ import {FiftyPercentJokerComponent} from '../../components/FiftyPercentJokerComp
 
 const optionNames = ['A', 'B', 'C', 'D'];
 
-export function QuestionScreen(): ReactElement {
+export function QuestionScreen() {
     const dispatch = useDispatch();
     const questionIndex = useSelector(state => state.triviagame.currentQuestionIndex);
     const totalPoints = useSelector(state => state.triviagame.currentTotalPoint);
@@ -24,36 +24,31 @@ export function QuestionScreen(): ReactElement {
     const [allChoices, setAllChoices] = useState([...questionObject.wrong_answers, questionObject.correct_answer]);
     const choices = useMemo(() => randomizer(allChoices), [allChoices]);
 
-
     useEffect(() => {
-        const countInterval = setInterval(() =>
+        const intervalToDecrease = setInterval(() =>
                 setCount(prevState => (prevState > 0 ? prevState - 1 : 0)),
             1000);
 
         if (count === 0) {
             navigation.navigate('Timeout');
         }
-        return () => clearInterval(countInterval);
+        return () => clearInterval(intervalToDecrease);
     }, [count]);
-
 
     return (
         <>
             <SafeAreaView style={Styles.container}>
-                <Header moreStyle={[Styles.moreHeader]}
+                <Header moreStyle={Styles.moreHeader}
                         parts={[
-                            {text: 'Question', text2: (questionIndex + 1) + '/10', text2style: []},
-                            {text: 'Points', text2: totalPoints + '', text2style: []},
-                            {text: 'Remaining Time', text2: count + '', text2style: []},
+                            {text: 'Question', text2: (questionIndex + 1) + '/10', text2style: {}},
+                            {text: 'Points', text2: totalPoints + '', text2style: {}},
+                            {text: 'Remaining Time', text2: count + '', text2style: {}},
                         ]}
                 />
-                <ScrollView style={{flex: 1}}
-                            contentContainerStyle={Styles.scrollView}
-                >
+                <ScrollView style={{flex: 1}} contentContainerStyle={Styles.scrollView}>
                     <View style={Styles.FiftyPercentJokerContainer}>
                         <FiftyPercentJokerComponent
-                            onPress={() => setAllChoices(fiftyPercentJokerHandler(questionObject.wrong_answers, questionObject.correct_answer))
-                            }/>
+                            onPress={() => setAllChoices(fiftyPercentJokerHandler(questionObject.wrong_answers, questionObject.correct_answer))}/>
                     </View>
                     <View style={Styles.midQuestionContainer}>
                         <Text style={Styles.midQuestionText}>
@@ -63,20 +58,20 @@ export function QuestionScreen(): ReactElement {
                     </View>
                     {
                         choices.map((value, index) =>
-                            <Choice onPress={() => {
+                            <ChoiceComponent onPress={() => {
                                 if (questionObject.correct_answer === value) {
                                     dispatch(incCurrentTotalPointAction(CalculateEarnedPoint(count, questionObject.difficulty)));
                                     dispatch(incTotalTimeSpentAction(15 - count));
-
                                     navigation.navigate('Correct');
                                 } else {
                                     navigation.navigate('Wrong');
                                 }
                             }}
-                                    choiceName={optionNames[index]}
-                                    choiceText={value.replace(/&quot;/g, '"')
-                                        .replace(/&#039;/g, '"')}
-                                    key={`part${index}`}/>,
+                                             choiceName={optionNames[index]}
+                                             choiceText={value.replace(/&quot;/g, '"')
+                                                 .replace(/&#039;/g, '"')}
+                                             key={`part${index}`}
+                            />,
                         )
                     }
                 </ScrollView>

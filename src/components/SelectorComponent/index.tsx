@@ -1,12 +1,14 @@
-import React, {ReactElement, useState} from 'react';
-import {StyleSheet, View} from 'react-native';
+import React, {useState} from 'react';
+import {View} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
+import {Styles} from './style';
 
 
-export function SelectorComponent(props: {
-    array: string[],
-    onChange: (string: string) => any;
-}): ReactElement {
+export function SelectorComponent(
+    props: {
+        array: string[],
+        onChange: (string: string) => any;
+    }) {
     const [selected, setSelected] = useState(props.array[0]);
 
     return (
@@ -15,7 +17,7 @@ export function SelectorComponent(props: {
                 <Picker
                     selectedValue={selected}
                     style={Styles.pickerContainerIndividual}
-                    onValueChange={(itemValue, itemIndex) => {
+                    onValueChange={(itemValue) => {
                         setSelected(itemValue);
                         props.onChange(itemValue);
                     }}
@@ -29,18 +31,4 @@ export function SelectorComponent(props: {
     );
 }
 
-const Styles = StyleSheet.create({
-    pickerContainer: {
-        height: 45,
-        width: '80%',
-        marginBottom: 15,
-        paddingLeft: 10,
-        alignItems: 'center',
-        backgroundColor: '#ffffff',
-        borderRadius: 7,
-    },
-    pickerContainerIndividual: {
-        width: '100%',
-        height: '100%',
-    },
-});
+

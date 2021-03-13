@@ -26,9 +26,7 @@ export const Styles = StyleSheet.create({
     lowerText: {
         fontSize: 22,
     },
-    scrollView: {
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
+    scrollView: {justifyContent: 'center', alignItems: 'center'},
+
     FiftyPercentJokerContainer: {flexDirection: 'row', width: '95%', justifyContent: 'flex-start'},
 });

@@ -6,18 +6,19 @@ import {useFiftyPercentJokerAction} from '../../store/triviagame/action';
 
 export function FiftyPercentJokerComponent(props: {
     onPress(): any;
-}): React.ReactElement {
+}) {
     const dispatch = useDispatch();
     const used = useSelector(state => state.triviagame.fiftyPercentJokerIsUsed);
 
     return (
         <>
             {renderIf(!used)(() =>
-                <TouchableOpacity style={Styles.view_touchableOpacity} onPress={() => {
-                    dispatch(useFiftyPercentJokerAction());
-                    props.onPress();
-                }}>
-                    <Text style={Styles.touchableOpacityText}>
+                <TouchableOpacity style={Styles.fiftyPercentJokerContainer}
+                                  onPress={() => {
+                                      dispatch(useFiftyPercentJokerAction());
+                                      props.onPress();
+                                  }}>
+                    <Text style={Styles.fiftyPercentJokerText}>
                         %50
                     </Text>
                 </TouchableOpacity>,

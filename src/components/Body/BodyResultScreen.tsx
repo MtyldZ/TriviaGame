@@ -22,7 +22,7 @@ export function BodyResultScreen(props: {
                     <Text style={[Styles.middleText, Styles.lowerText]}>{props.text2}</Text>
                     <Text style={[Styles.middleText, Styles.lowerText]}>{props.text3}</Text>
                 </View>
-                <TouchableOpacity style={[Styles.Choice, props.moreStyleForButton]}
+                <TouchableOpacity style={[Styles.moreStyleButton, props.moreStyleForButton]}
                                   onPress={() => props.onButtonPress()}>
                     <Text style={Styles.ChoiceName}>{props.buttonText}</Text>
                 </TouchableOpacity>
@@ -38,7 +38,7 @@ const Styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
     },
-    Choice: {
+    moreStyleButton: {
         width: '95%',
         height: 60,
         marginVertical: 50,

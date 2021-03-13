@@ -50,7 +50,7 @@ export function QuestionScreen(): ReactElement {
                 <ScrollView style={{flex: 1}}
                             contentContainerStyle={Styles.scrollView}
                 >
-                    <View style={{flexDirection: 'row', width: '95%', justifyContent: 'flex-start'}}>
+                    <View style={Styles.FiftyPercentJokerContainer}>
                         <FiftyPercentJokerComponent
                             onPress={() => setAllChoices(fiftyPercentJokerHandler(questionObject.wrong_answers, questionObject.correct_answer))
                             }/>

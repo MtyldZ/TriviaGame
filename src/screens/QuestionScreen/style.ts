@@ -30,4 +30,5 @@ export const Styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    FiftyPercentJokerContainer: {flexDirection: 'row', width: '95%', justifyContent: 'flex-start'},
 });

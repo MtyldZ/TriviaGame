@@ -4,7 +4,7 @@ export const Styles = StyleSheet.create({
     view: {
         flex: 1,
         flexDirection: 'column',
-        backgroundColor: '#bf6ac2',
+        backgroundColor: '#5400e5',
         alignItems: 'center',
         justifyContent: 'flex-start',
     },
@@ -33,7 +33,7 @@ export const Styles = StyleSheet.create({
         justifyContent: 'center',
         height: 40,
         width: '60%',
-        backgroundColor: '#b92abf',
+        backgroundColor: '#2e0089',
         // borderColor: '#000',
         // borderWidth: 2,
         marginBottom: 20,

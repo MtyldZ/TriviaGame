@@ -40,7 +40,7 @@ export const addToAllScoresAction = createAction(
 
 export const resetAllScoresAction = createAction('ADD_TO_ALL_SCORES');
 
-export const useFiftyPercentJokerAction = createAction('USE_FIFTY_PERCENT_JOKER_ACTION');
+export const spendFiftyPercentJokerRightAction = createAction('SPEND_FIFTY_PERCENT_JOKER_RIGHT_ACTION');
 
 export const incTotalTimeSpentAction = createAction(
     'INCREMENT_TOTAL_TIME_SPENT_POINT',

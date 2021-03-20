@@ -56,4 +56,8 @@ export const defaultThemes = {
         t3: '',
         t4: '',
     },
+    start: {
+        1: '#5300e6',
+        2: '#2f008a',
+    },
 };

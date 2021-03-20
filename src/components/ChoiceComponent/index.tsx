@@ -5,12 +5,12 @@ import {Styles} from './style';
 export function ChoiceComponent(props: {
     choiceName: string,
     choiceText: string,
-    onPress: () => any
+    onPress?: () => void;
 }) {
     return (
         <TouchableOpacity style={Styles.choiceContainer} onPress={() => props.onPress()}>
             <Text style={Styles.ChoiceName}>{props.choiceName + ':   '}</Text>
-            <Text style={Styles.ChoiceText}>{props.choiceText}</Text>
+            <Text adjustsFontSizeToFit={true} numberOfLines={2} style={Styles.ChoiceText}>{props.choiceText}</Text>
         </TouchableOpacity>
     );
 }

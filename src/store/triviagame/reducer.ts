@@ -2,15 +2,17 @@ import {createReducer} from 'deox';
 import {TriviaGameState} from './state';
 import {
     incCurrentQuestionIndexAction,
-    setCurrentTotalPointAction,
-    setAllQuestionsAction,
     incCurrentTotalPointAction,
-    resetTriviaGameAction,
-    setEarnedPointFromLastQuestion,
-    addToAllScoresAction,
+    incTotalTimeSpentAction,
     resetAllScoresAction,
+    resetTriviaGameAction,
+    setAllQuestionsAction,
     setAllScoresAction,
-    useFiftyPercentJokerAction, incTotalTimeSpentAction, setChosenCategoryAction, setChosenDifficultyAction,
+    setChosenCategoryAction,
+    setChosenDifficultyAction,
+    setCurrentTotalPointAction,
+    setEarnedPointFromLastQuestion,
+    spendFiftyPercentJokerRightAction,
 } from './action';
 
 
@@ -66,7 +68,7 @@ export const triviaGameReducer = createReducer(
                 ...state, allScores: [],
             };
         }),
-        handle(useFiftyPercentJokerAction, (state) => {
+        handle(spendFiftyPercentJokerRightAction, (state) => {
             return {
                 ...state, fiftyPercentJokerIsUsed: true,
             };

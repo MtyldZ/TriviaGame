@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {View} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import {Styles} from './style';
+import {textReplace} from '../../utils/rePlaceText';
 
 
 export function SelectorComponent(
@@ -23,7 +24,7 @@ export function SelectorComponent(
                     }}
                 >
                     {props.array.map(((value, i) =>
-                            <Picker.Item label={value} value={value} key={`part_${i}`}/>
+                            <Picker.Item label={textReplace(value)} value={value} key={`part_${i}`}/>
                     ))}
                 </Picker>
             </View>

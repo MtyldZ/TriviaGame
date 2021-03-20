@@ -14,7 +14,7 @@ export function LeaderBoardScreen() {
 
     return (
         <SafeAreaView style={Styles.container}>
-            <ScrollView showsVerticalScrollIndicator={false} style={Styles.headerAndScoreContainer}>
+            <ScrollView showsVerticalScrollIndicator={true} style={Styles.headerAndScoreContainer}>
                 <View style={Styles.headerContainer}>
                     <Text style={Styles.headerText}>HIGH SCORES</Text>
                 </View>

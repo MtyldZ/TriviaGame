@@ -1,5 +1,5 @@
 import React, {useEffect, useMemo, useState} from 'react';
-import {SafeAreaView, ScrollView, Text, View} from 'react-native';
+import {SafeAreaView, Text, View} from 'react-native';
 import {Styles} from './style';
 import {useSwitchNavigation} from '../../store/ui/hooks';
 import {useDispatch, useSelector} from 'react-redux';
@@ -10,8 +10,23 @@ import {FiftyPercentJokerComponent} from '../../components/FiftyPercentJokerComp
 import {DefaultHeaderComponent} from '../../components/DefaultHeaderComponent';
 import {defaultThemes} from '../../utils/themes';
 import {ChoiceComponent} from '../../components/ChoiceComponent';
+import {textReplace} from '../../utils/rePlaceText';
+import {randomizer} from '../../utils/randomizer';
 
 const optionNames = ['A', 'B', 'C', 'D'];
+
+const QuestionTextPart = (props: { questionObject: Question }) => {
+    const lineNumberNeededNormally = Math.ceil(props.questionObject.questionText.length / 25);
+    const neededHeight = 175 * (lineNumberNeededNormally > 4 ? 4 : lineNumberNeededNormally) / 4;
+
+    return (
+        <View style={[Styles.questionContainer, {height: neededHeight}]}>
+            <Text style={Styles.questionTextStyle} numberOfLines={4} adjustsFontSizeToFit={true}>
+                {textReplace(props.questionObject.questionText)}
+            </Text>
+        </View>
+    );
+};
 
 export function QuestionScreen() {
     const dispatch = useDispatch();
@@ -26,9 +41,7 @@ export function QuestionScreen() {
     const choices = useMemo(() => randomizer(allChoices), [allChoices]);
 
     useEffect(() => {
-        const intervalToDecrease = setInterval(() =>
-                setCount(prevState => (prevState > 0 ? prevState - 1 : 0)),
-            1000);
+        const intervalToDecrease = setInterval(() => setCount(prev => (prev > 0 ? prev - 1 : 0)), 1000);
 
         if (count === 0) {
             navigation.navigate('Timeout');
@@ -36,52 +49,35 @@ export function QuestionScreen() {
         return () => clearInterval(intervalToDecrease);
     }, [count, navigation]);
 
+    const choicePressHandler = (value: string) => {
+        if (questionObject.correct_answer === value) {
+            dispatch(incCurrentTotalPointAction(calculateEarnedPoint(count, questionObject.difficulty)));
+            dispatch(incTotalTimeSpentAction(15 - count));
+            navigation.navigate('Correct');
+        } else {
+            navigation.navigate('Wrong');
+        }
+    };
+
     return (
-        <>
-            <SafeAreaView style={Styles.container}>
-                <DefaultHeaderComponent theme={defaultThemes.question}
-                                        parts={[
-                                            {first: 'Points', second: totalPoints + ''},
-                                            {first: 'Remaining Time', second: count + ''},
-                                        ]}/>
-                <ScrollView style={{flex: 1}} contentContainerStyle={Styles.scrollView}>
-                    <View style={Styles.FiftyPercentJokerContainer}>
-                        <FiftyPercentJokerComponent
-                            onPress={(strings) => setAllChoices(strings)}/>
-                    </View>
-                    <View style={Styles.midQuestionContainer}>
-                        <Text style={Styles.midQuestionText}>
-                            {questionObject.questionText.replace(/&quot;/g, '"')
-                                .replace(/&#039;/g, '"')}
-                        </Text>
-                    </View>
-                    {
-                        choices.map((value, index) =>
-                            <ChoiceComponent onPress={() => {
-                                if (questionObject.correct_answer === value) {
-                                    dispatch(incCurrentTotalPointAction(calculateEarnedPoint(count, questionObject.difficulty)));
-                                    dispatch(incTotalTimeSpentAction(15 - count));
-                                    navigation.navigate('Correct');
-                                } else {
-                                    navigation.navigate('Wrong');
-                                }
-                            }}
-                                             choiceName={optionNames[index]}
-                                             choiceText={value.replace(/&quot;/g, '"')
-                                                 .replace(/&#039;/g, '"')}
-                                             key={`part${index}`}
-                            />,
-                        )
-                    }
-                </ScrollView>
-            </SafeAreaView>
-        </>
+        <SafeAreaView style={Styles.container}>
+            <DefaultHeaderComponent theme={defaultThemes.question}
+                                    parts={[
+                                        {first: 'Points', second: totalPoints + ''},
+                                        {first: 'Remaining Time', second: count + ''},
+                                    ]}/>
+            <View style={Styles.bodyPartContainer}>
+                <View style={Styles.FiftyPercentJokerContainer}>
+                    <FiftyPercentJokerComponent onPress={(strings) => setAllChoices(strings)}/>
+                </View>
+                <QuestionTextPart questionObject={questionObject}/>
+                {choices.map((value, index) =>
+                    <ChoiceComponent onPress={() => choicePressHandler(value.toString())}
+                                     choiceName={optionNames[index]}
+                                     choiceText={textReplace(value.toString())}
+                                     key={`part${index}`}
+                    />)}
+            </View>
+        </SafeAreaView>
     );
-}
-
-
-function randomizer(array: String[]) {
-    const tempArr = [...array];
-    tempArr.sort(() => 0.5 - Math.random() - 1); // added -1 to not randomize :)
-    return tempArr;
 }

@@ -1,41 +1,45 @@
 import {StyleSheet} from 'react-native';
+import {defaultThemes} from '../../utils/themes';
+import {rx, screenWidth} from '../../utils/dimensions';
 
 export const Styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#5300e6',
+        backgroundColor: defaultThemes.start['1'],
     },
     logoContainer: {
-        width: 200,
-        height: 220,
+        width: 220 * rx,
+        height: 220 * rx,
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'space-between',
-        marginBottom: 50,
+        marginBottom: 60 * rx,
     },
     logoImage: {
-        height: 187.5,
-        width: 187.5,
-        marginBottom: 15,
+        height: 187.5 * rx,
+        width: 187.5 * rx,
+        marginBottom: 15 * rx,
     },
-    logoText: {color: '#c4c4ff', fontSize: 28, fontWeight: '700'},
-
-    textContainer: {
-        alignItems: 'center',
-        marginTop: 30,
-        marginBottom: 40,
-        width: '100%',
+    logoText: {
+        color: '#ffffff',
+        fontSize: 32,
+        fontWeight: '700',
+        fontFamily: 'sans-serif-condensed',
     },
     buttonContainer: {
-        marginTop: 20,
-        width: '60%',
-        height: 40,
+        marginTop: 20 * rx,
+        width: screenWidth * 0.6,
+        height: 40 * rx,
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#2f008a',
     },
-    buttonText: {color: '#fff', fontSize: 18, fontWeight: '200'},
+    buttonText: {
+        color: '#ffffff',
+        fontSize: 20,
+        fontFamily: 'sans-serif-condensed',
+    },
 
 });

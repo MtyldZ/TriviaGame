@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {Image, SafeAreaView, Text, TouchableOpacity, View} from 'react-native';
 import {Styles} from './style';
 import {SelectorComponent} from '../../components/SelectorComponent';
@@ -6,8 +6,10 @@ import {fetchData} from '../../api/openTrivia';
 import {useSwitchNavigation} from '../../store/ui/hooks';
 import {useDispatch, useSelector} from 'react-redux';
 import {
-    setAllQuestionsAction, setChosenCategoryAction,
-    setChosenDifficultyAction, setCurrentTotalPointAction,
+    setAllQuestionsAction,
+    setChosenCategoryAction,
+    setChosenDifficultyAction,
+    setCurrentTotalPointAction,
 } from '../../store/triviagame/action';
 
 const difficulties = ['Any Difficulty', 'Easy', 'Medium', 'Hard'];
@@ -45,6 +47,16 @@ export function StartScreen() {
     const chosenCategory = useSelector(state => state.triviagame.chosenCategory);
     const chosenDifficulty = useSelector(state => state.triviagame.chosenDifficulty);
 
+    const onPressHandler = useCallback(() => {
+        fetchData(categories.indexOf(chosenCategory) + 8,
+            chosenDifficulty)
+            .then(arr => {
+                dispatch(setAllQuestionsAction(arr));
+                dispatch(setCurrentTotalPointAction(0));
+                navigation.navigate('Question');
+            });
+    }, [chosenCategory, chosenDifficulty, dispatch, navigation]);
+
     return (
         <SafeAreaView style={Styles.container}>
             <View style={Styles.logoContainer}>
@@ -55,16 +67,7 @@ export function StartScreen() {
             <SelectorComponent array={categories} onChange={s => dispatch(setChosenCategoryAction(s))}/>
             <SelectorComponent array={difficulties} onChange={s => dispatch(setChosenDifficultyAction(s))}/>
 
-            <TouchableOpacity style={Styles.buttonContainer}
-                              onPress={() => {
-                                  fetchData(categories.indexOf(chosenCategory) + 8,
-                                      chosenDifficulty)
-                                      .then(arr => {
-                                          dispatch(setAllQuestionsAction(arr));
-                                          dispatch(setCurrentTotalPointAction(0));
-                                          navigation.navigate('Question');
-                                      });
-                              }}>
+            <TouchableOpacity style={Styles.buttonContainer} onPress={onPressHandler}>
                 <Text style={Styles.buttonText}>GET STARTED</Text>
             </TouchableOpacity>
 

@@ -1,32 +1,32 @@
 import {StyleSheet} from 'react-native';
+import {rx, screenWidth} from '../../utils/dimensions';
+import {defaultThemes} from '../../utils/themes';
 
 export const Styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'column',
-        justifyContent: 'space-between',
+        justifyContent: 'flex-start',
         alignItems: 'stretch',
-        backgroundColor: '#7b00e9',
+        backgroundColor: defaultThemes.question['1'],
     },
-    moreHeader: {
-        backgroundColor: '#4a008b',
+    questionContainer: {
+        height: 175 * rx,
+        width: screenWidth,
+        paddingHorizontal: 10 * rx,
     },
-    midQuestionContainer: {
-        flex: 1,
-        paddingHorizontal: 10,
+    bodyPartContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
     },
-    midQuestionText: {
+    questionTextStyle: {
         color: '#fff',
-        fontSize: 38,
+        fontSize: 36,
+        fontFamily: 'sans-serif-condensed',
     },
-    middleText: {
-        color: '#fff',
-        fontSize: 32,
+    FiftyPercentJokerContainer: {
+        flexDirection: 'row',
+        width: screenWidth * 0.9,
+        justifyContent: 'flex-start',
     },
-    lowerText: {
-        fontSize: 22,
-    },
-    scrollView: {justifyContent: 'center', alignItems: 'center'},
-
-    FiftyPercentJokerContainer: {flexDirection: 'row', width: '95%', justifyContent: 'flex-start'},
 });

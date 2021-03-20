@@ -12,7 +12,7 @@ export const DefaultResultBodyComponent = memo((
     },
 ) => {
     const theme = props.theme || defaultThemes.correct;
-    const onPress = props.onPress || (event => console.log('DefaultButtonPressed, something went Wrong'));
+    const onPress = props.onPress || (() => console.log('DefaultButtonPressed, something went Wrong'));
 
     const earnedPoint = useSelector(state => state.triviagame.earnedPointFromLastQuestion);
     const totalPoint = useSelector(state => state.triviagame.currentTotalPoint);

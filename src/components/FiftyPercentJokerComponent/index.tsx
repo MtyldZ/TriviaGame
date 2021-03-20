@@ -2,7 +2,7 @@ import React, {memo} from 'react';
 import {Text, TouchableOpacity} from 'react-native';
 import {Styles} from './style';
 import {useDispatch, useSelector} from 'react-redux';
-import {useFiftyPercentJokerAction} from '../../store/triviagame/action';
+import {spendFiftyPercentJokerRightAction} from '../../store/triviagame/action';
 import {Question} from '../../@types/types';
 
 export const FiftyPercentJokerComponent = memo((props: {
@@ -18,20 +18,16 @@ export const FiftyPercentJokerComponent = memo((props: {
 
         const pressHandler = () => {
             let i = Math.round(Math.random() * (questionObject.wrong_answers.length - 1));
-            return [questionObject.wrong_answers[i], questionObject.correct_answer];
+            dispatch(spendFiftyPercentJokerRightAction());
+            onPress([questionObject.wrong_answers[i], questionObject.correct_answer]);
         };
 
         return (
             <>
                 {renderIf(!used)(() =>
                     <TouchableOpacity style={Styles.fiftyPercentJokerContainer}
-                                      onPress={() => {
-                                          dispatch(useFiftyPercentJokerAction());
-                                          onPress(pressHandler());
-                                      }}>
-                        <Text style={Styles.fiftyPercentJokerText}>
-                            %50
-                        </Text>
+                                      onPress={pressHandler}>
+                        <Text style={Styles.fiftyPercentJokerText}>%50</Text>
                     </TouchableOpacity>,
                 )}
             </>

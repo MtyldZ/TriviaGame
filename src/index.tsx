@@ -1,10 +1,10 @@
 import React from 'react';
-import {Provider} from 'react-redux';
-import {store} from './store';
 import {IndicatorView} from './components/IndicatorView';
 import {DefaultTheme, NavigationContainer} from '@react-navigation/native';
 import {ApplicationNavigator} from './navigators/application.navigator';
 import 'react-native-gesture-handler';
+import {Provider} from 'react-redux';
+import {store} from './store';
 
 const theme = {
     ...DefaultTheme,

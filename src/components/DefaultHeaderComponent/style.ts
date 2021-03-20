@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {screenWidth, rx} from '../../utils/dimensions';
+import {rx, screenWidth} from '../../utils/dimensions';
 
 export const Styles = StyleSheet.create({
     container: {
@@ -18,6 +18,7 @@ export const Styles = StyleSheet.create({
     },
     rowPartText: {
         color: 'white',
-        fontSize: 20,
+        fontSize: 22,
+        fontFamily: 'sans-serif-condensed',
     },
 });

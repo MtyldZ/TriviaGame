@@ -1,27 +1,28 @@
 import {StyleSheet} from 'react-native';
+import {rx, screenWidth} from '../../utils/dimensions';
 
 export const Styles = StyleSheet.create({
-    view_view: {
+    LeaderBoardRowContainer: {
         backgroundColor: '#ffffff',
         borderColor: '#000000',
-        borderWidth: 1,
-        height: 50,
-        width: '95%',
+        borderWidth: rx,
+        height: 50 * rx,
+        width: screenWidth * 0.95,
         marginVertical: 10,
         flexDirection: 'row',
     },
-    viewPart: {
-        paddingLeft: 2,
-        borderWidth: 1,
+    leaderBoardRowPartContainer: {
+        paddingLeft: 2 * rx,
+        borderWidth: rx,
         borderColor: 'black',
-        backgroundColor: '#2e0088',
+        backgroundColor: '#17633e',
         height: '100%',
-        width: '25%',
         justifyContent: 'center',
     },
     text: {
-        fontSize: 16,
+        fontSize: 20,
         color: '#ffffff',
         fontWeight: '700',
+        fontFamily: 'sans-serif-condensed',
     },
 });

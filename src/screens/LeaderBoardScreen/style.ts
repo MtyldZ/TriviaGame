@@ -4,7 +4,7 @@ export const Styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'column',
-        backgroundColor: '#5400e5',
+        backgroundColor: '#2ba067',
         alignItems: 'center',
         justifyContent: 'flex-start',
     },
@@ -27,7 +27,7 @@ export const Styles = StyleSheet.create({
         justifyContent: 'center',
         height: 40,
         width: '60%',
-        backgroundColor: '#2e0089',
+        backgroundColor: '#17633e',
         marginBottom: 20,
     },
     buttonContainerText: {color: '#fff', fontSize: 24, fontWeight: 'bold'},

@@ -27,7 +27,7 @@ export const Styles = StyleSheet.create({
         fontSize: 22,
     },
     buttonContainer: {
-        width: screenWidth * .9,
+        width: screenWidth * 0.9,
         height: rx * 70,
         marginVertical: rx * 65,
         justifyContent: 'center',

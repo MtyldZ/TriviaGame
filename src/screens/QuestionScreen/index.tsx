@@ -1,22 +1,23 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import {SafeAreaView, ScrollView, Text, View} from 'react-native';
 import {Styles} from './style';
-import {Header} from '../../components/Header/Header';
 import {useSwitchNavigation} from '../../store/ui/hooks';
-import {ChoiceComponent} from '../../components/Choice';
 import {useDispatch, useSelector} from 'react-redux';
 import {incCurrentTotalPointAction, incTotalTimeSpentAction} from '../../store/triviagame/action';
-import {CalculateEarnedPoint} from '../../components/CalculateEarnedPoint';
+import {calculateEarnedPoint} from '../../utils/calculateEarnedPoint';
 import {Question} from '../../@types/types';
 import {FiftyPercentJokerComponent} from '../../components/FiftyPercentJokerComponent';
+import {DefaultHeaderComponent} from '../../components/DefaultHeaderComponent';
+import {defaultThemes} from '../../utils/themes';
+import {ChoiceComponent} from '../../components/ChoiceComponent';
 
 const optionNames = ['A', 'B', 'C', 'D'];
 
 export function QuestionScreen() {
     const dispatch = useDispatch();
     const questionIndex = useSelector(state => state.triviagame.currentQuestionIndex);
-    const totalPoints = useSelector(state => state.triviagame.currentTotalPoint);
     const allQuestions: Question[] = useSelector(state => state.triviagame.allQuestions);
+    const totalPoints = useSelector(state => state.triviagame.currentTotalPoint);
     const questionObject: Question = allQuestions[questionIndex];
 
     const navigation = useSwitchNavigation();
@@ -33,22 +34,20 @@ export function QuestionScreen() {
             navigation.navigate('Timeout');
         }
         return () => clearInterval(intervalToDecrease);
-    }, [count]);
+    }, [count, navigation]);
 
     return (
         <>
             <SafeAreaView style={Styles.container}>
-                <Header moreStyle={Styles.moreHeader}
-                        parts={[
-                            {text: 'Question', text2: (questionIndex + 1) + '/10', text2style: {}},
-                            {text: 'Points', text2: totalPoints + '', text2style: {}},
-                            {text: 'Remaining Time', text2: count + '', text2style: {}},
-                        ]}
-                />
+                <DefaultHeaderComponent theme={defaultThemes.question}
+                                        parts={[
+                                            {first: 'Points', second: totalPoints + ''},
+                                            {first: 'Remaining Time', second: count + ''},
+                                        ]}/>
                 <ScrollView style={{flex: 1}} contentContainerStyle={Styles.scrollView}>
                     <View style={Styles.FiftyPercentJokerContainer}>
                         <FiftyPercentJokerComponent
-                            onPress={() => setAllChoices(fiftyPercentJokerHandler(questionObject.wrong_answers, questionObject.correct_answer))}/>
+                            onPress={(strings) => setAllChoices(strings)}/>
                     </View>
                     <View style={Styles.midQuestionContainer}>
                         <Text style={Styles.midQuestionText}>
@@ -60,7 +59,7 @@ export function QuestionScreen() {
                         choices.map((value, index) =>
                             <ChoiceComponent onPress={() => {
                                 if (questionObject.correct_answer === value) {
-                                    dispatch(incCurrentTotalPointAction(CalculateEarnedPoint(count, questionObject.difficulty)));
+                                    dispatch(incCurrentTotalPointAction(calculateEarnedPoint(count, questionObject.difficulty)));
                                     dispatch(incTotalTimeSpentAction(15 - count));
                                     navigation.navigate('Correct');
                                 } else {
@@ -80,14 +79,9 @@ export function QuestionScreen() {
     );
 }
 
-function fiftyPercentJokerHandler(wrongAnswers: string[], correctAnswer: string) {
-    let i = Math.round(Math.random() * (wrongAnswers.length - 1));
-    return [wrongAnswers[i], correctAnswer];
-}
-
 
 function randomizer(array: String[]) {
     const tempArr = [...array];
-    tempArr.sort(() => .5 - Math.random() - 1); // added -1 to not randomize :)
+    tempArr.sort(() => 0.5 - Math.random() - 1); // added -1 to not randomize :)
     return tempArr;
 }

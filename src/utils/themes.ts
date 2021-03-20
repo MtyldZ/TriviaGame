@@ -50,6 +50,10 @@ export const defaultThemes = {
     question: {
         1: '#7b00e9',
         2: '#4a008b',
-        image: '',
+        image: require('../icons/correct.png'),
+        t1: '',
+        t2: '',
+        t3: '',
+        t4: '',
     },
 };

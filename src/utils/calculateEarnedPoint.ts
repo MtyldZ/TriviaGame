@@ -1,4 +1,4 @@
-export const CalculateEarnedPoint = (remainingTime: number, difficulty: string) => {
+export const calculateEarnedPoint = (remainingTime: number, difficulty: string) => {
     let rawPoint: number;
     if (difficulty.toLowerCase() == 'easy') {
         rawPoint = 100;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {memo} from 'react';
 import {LeaderBoardRow} from '../../components/LeaderBoardRow';
 import {useDispatch, useSelector} from 'react-redux';
 import {SafeAreaView, ScrollView, Text, TouchableOpacity, View} from 'react-native';
@@ -7,7 +7,7 @@ import {resetAllScoresAction, setAllScoresAction} from '../../store/triviagame/a
 import {UserScore, UserScoreSTR, userSoreToUserScoreSTR} from '../../@types/types';
 import {StackActions, useNavigation} from '@react-navigation/native';
 
-export function LeaderBoardScreen() {
+export const LeaderBoardScreen = memo(() => {
     const dispatch = useDispatch();
     const navigation = useNavigation();
     const allScores = useSelector(state => state.triviagame.allScores);
@@ -46,7 +46,7 @@ export function LeaderBoardScreen() {
             </View>
         </SafeAreaView>
     );
-}
+});
 
 // this function fills high score array
 function temp() {

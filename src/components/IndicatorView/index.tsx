@@ -1,11 +1,10 @@
 import {ActivityIndicator, View} from 'react-native';
 import {Style} from './style';
-import React, {PropsWithChildren, ReactElement} from 'react';
+import React, {memo, PropsWithChildren} from 'react';
 import {useSelector} from 'react-redux';
 
-export function IndicatorView(props: PropsWithChildren<{}>): ReactElement {
+export const IndicatorView = memo((props: PropsWithChildren<{}>) => {
     const busy = useSelector(state => state.ui.busy);
-
     return (
         <>
             {props.children}
@@ -17,4 +16,4 @@ export function IndicatorView(props: PropsWithChildren<{}>): ReactElement {
             }
         </>
     );
-}
+});

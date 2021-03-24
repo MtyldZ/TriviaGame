@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {memo, useCallback} from 'react';
 import {Image, SafeAreaView, Text, TouchableOpacity, View} from 'react-native';
 import {Styles} from './style';
 import {SelectorComponent} from '../../components/SelectorComponent';
@@ -42,7 +42,7 @@ const categories = [
     'Entertainment: Cartoon &amp; Animations',
 ];
 
-export function StartScreen() {
+export const StartScreen = memo(() => {
     const dispatch = useDispatch();
     const navigation = useNavigation();
     const chosenCategory = useSelector(state => state.triviagame.chosenCategory);
@@ -78,4 +78,4 @@ export function StartScreen() {
             </TouchableOpacity>
         </SafeAreaView>
     );
-}
+});

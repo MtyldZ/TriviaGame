@@ -5,9 +5,10 @@ import {useSelector} from 'react-redux';
 import {defaultThemes, themeType} from '../../utils/themes';
 
 
-const DefaultHeaderRowPartComponent = memo((
-    props: { firstLine: string; secondLine: string },
-) => {
+const DefaultHeaderRowPartComponent = memo((props: {
+    firstLine: string;
+    secondLine: string
+}) => {
     return (
         <View style={Styles.rowPartContainer}>
             <Text style={Styles.rowPartText}>{props.firstLine}</Text>

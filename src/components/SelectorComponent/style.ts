@@ -1,14 +1,15 @@
 import {StyleSheet} from 'react-native';
+import {rx, screenWidth} from '../../utils/dimensions';
 
 export const Styles = StyleSheet.create({
     pickerContainer: {
-        height: 45,
-        width: '80%',
-        marginBottom: 15,
-        paddingLeft: 10,
+        height: 45 * rx,
+        width: screenWidth * 0.8,
+        marginBottom: 15 * rx,
+        paddingLeft: 10 * rx,
         alignItems: 'center',
         backgroundColor: '#ffffff',
-        borderRadius: 7,
+        borderRadius: 7 * rx,
     },
     pickerContainerIndividual: {
         width: '100%',

@@ -21,7 +21,7 @@ export const defaultThemes = {
         t4: 'Next Question',
     },
     wrong: {
-        1: '#fd0041',
+        1: '#fd004a',
         2: '#a0002c',
         image: require('../icons/wrong.png'),
         t1: 'Wrong',
@@ -30,7 +30,7 @@ export const defaultThemes = {
         t4: 'Main Menu',
     },
     timeout: {
-        1: '#fd0041',
+        1: '#fd004a',
         2: '#a0002c',
         image: require('../icons/timeout.png'),
         t1: 'Time Out',
@@ -41,7 +41,7 @@ export const defaultThemes = {
     victory: {
         1: '#ff166f',
         2: '#a00d42',
-        image: require('../icons/correct.png'),
+        image: require('../icons/victory.png'),
         t1: 'Victory',
         t2: 'You answered correctly to all Questions',
         t3: 'You won with %%% points.',

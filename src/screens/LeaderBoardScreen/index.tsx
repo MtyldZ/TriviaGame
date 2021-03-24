@@ -1,16 +1,22 @@
 import React from 'react';
-import {LeaderBoardRow, LeaderBoardRowPart} from '../../components/LeaderBoardRow';
+import {LeaderBoardRow} from '../../components/LeaderBoardRow';
 import {useDispatch, useSelector} from 'react-redux';
 import {SafeAreaView, ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import {Styles} from './style';
 import {useSwitchNavigation} from '../../store/ui/hooks';
 import {resetAllScoresAction, setAllScoresAction} from '../../store/triviagame/action';
-import {UserScore} from '../../@types/types';
+import {UserScore, UserScoreSTR, userSoreToUserScoreSTR} from '../../@types/types';
 
 export function LeaderBoardScreen() {
     const dispatch = useDispatch();
     const navigation = useSwitchNavigation();
     const allScores = useSelector(state => state.triviagame.allScores);
+    const firstRow: UserScoreSTR = {
+        category: 'Score',
+        difficulty: 'Difficulty',
+        score: 'Category',
+        totalTimeSpent: 'Time Spent',
+    };
 
     return (
         <SafeAreaView style={Styles.container}>
@@ -18,15 +24,10 @@ export function LeaderBoardScreen() {
                 <View style={Styles.headerContainer}>
                     <Text style={Styles.headerText}>HIGH SCORES</Text>
                 </View>
-                <View style={Styles.scoreDescriptionContainer}>
-                    <LeaderBoardRowPart text={'Score'} size={15}/>
-                    <LeaderBoardRowPart text={'Difficulty'} size={20}/>
-                    <LeaderBoardRowPart text={'Category'} size={40}/>
-                    <LeaderBoardRowPart text={'Time Spent'} size={25}/>
-                </View>
+                <LeaderBoardRow userScore={firstRow}/>
                 {
                     allScores.map((value, index) =>
-                        <LeaderBoardRow userScore={value} key={`part${index}`}/>,
+                        <LeaderBoardRow userScore={userSoreToUserScoreSTR(value)} key={`part${index}`}/>,
                     )
                 }
             </ScrollView>
@@ -58,8 +59,6 @@ function temp() {
     for (let i = 0; i < 10; i++) {
         tempArr.push(score);
     }
-
     tempArr.sort((a, b) => (b.score - a.score));
-
     return tempArr;
 }

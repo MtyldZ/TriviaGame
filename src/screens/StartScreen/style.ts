@@ -28,7 +28,7 @@ export const Styles = StyleSheet.create({
         fontWeight: '700',
         fontFamily: 'sans-serif-condensed',
     },
-    buttonContainer: {
+    buttonStyle: {
         marginTop: 20 * rx,
         width: screenWidth * 0.6,
         height: 40 * rx,

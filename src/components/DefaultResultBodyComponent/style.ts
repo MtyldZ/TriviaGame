@@ -26,7 +26,7 @@ export const Styles = StyleSheet.create({
         color: '#ffffff',
         fontSize: 22,
     },
-    buttonContainer: {
+    buttonStyle: {
         width: screenWidth * 0.9,
         height: rx * 70,
         marginVertical: rx * 65,

@@ -33,7 +33,7 @@ export const triviaGameReducer = createReducer(
         handle(incCurrentQuestionIndexAction, state => {
             return {
                 ...state,
-                currentQuestionIndex: state.currentQuestionIndex + (state.currentQuestionIndex !== 10 ? 1 : 0),
+                currentQuestionIndex: state.currentQuestionIndex + (state.currentQuestionIndex === 10 ? 0 : 1),
             };
         }),
         handle(incCurrentTotalPointAction, (state, action) => {

@@ -1,7 +1,6 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {memo, useEffect, useMemo, useState} from 'react';
 import {SafeAreaView, Text, View} from 'react-native';
 import {Styles} from './style';
-import {useSwitchNavigation} from '../../store/ui/hooks';
 import {useDispatch, useSelector} from 'react-redux';
 import {incCurrentTotalPointAction, incTotalTimeSpentAction} from '../../store/triviagame/action';
 import {calculateEarnedPoint} from '../../utils/calculateEarnedPoint';
@@ -12,10 +11,11 @@ import {defaultThemes} from '../../utils/themes';
 import {ChoiceComponent} from '../../components/ChoiceComponent';
 import {textReplace} from '../../utils/rePlaceText';
 import {randomizer} from '../../utils/randomizer';
+import {StackActions, useNavigation} from '@react-navigation/native';
 
 const optionNames = ['A', 'B', 'C', 'D'];
 
-const QuestionTextPart = (props: { questionObject: Question }) => {
+const QuestionTextPart = memo((props: { questionObject: Question }) => {
     const lineNumberNeededNormally = Math.ceil(props.questionObject.questionText.length / 25);
     const neededHeight = 175 * (lineNumberNeededNormally > 4 ? 4 : lineNumberNeededNormally) / 4;
 
@@ -26,36 +26,37 @@ const QuestionTextPart = (props: { questionObject: Question }) => {
             </Text>
         </View>
     );
-};
+});
 
-export function QuestionScreen() {
+export const QuestionScreen = memo(() => {
     const dispatch = useDispatch();
     const questionIndex = useSelector(state => state.triviagame.currentQuestionIndex);
     const allQuestions: Question[] = useSelector(state => state.triviagame.allQuestions);
     const totalPoints = useSelector(state => state.triviagame.currentTotalPoint);
     const questionObject: Question = allQuestions[questionIndex];
 
-    const navigation = useSwitchNavigation();
+    const navigation = useNavigation();
     const [count, setCount] = useState(15);
     const [allChoices, setAllChoices] = useState([...questionObject.wrong_answers, questionObject.correct_answer]);
     const choices = useMemo(() => randomizer(allChoices), [allChoices]);
 
     useEffect(() => {
         const intervalToDecrease = setInterval(() => setCount(prev => (prev > 0 ? prev - 1 : 0)), 1000);
-
         if (count === 0) {
-            navigation.navigate('Timeout');
+            navigation.dispatch(StackActions.replace('Timeout'));
         }
-        return () => clearInterval(intervalToDecrease);
+        return () => {
+            clearInterval(intervalToDecrease);
+        };
     }, [count, navigation]);
 
     const choicePressHandler = (value: string) => {
         if (questionObject.correct_answer === value) {
             dispatch(incCurrentTotalPointAction(calculateEarnedPoint(count, questionObject.difficulty)));
             dispatch(incTotalTimeSpentAction(15 - count));
-            navigation.navigate('Correct');
+            navigation.dispatch(StackActions.replace('Correct'));
         } else {
-            navigation.navigate('Wrong');
+            navigation.dispatch(StackActions.replace('Wrong'));
         }
     };
 
@@ -80,4 +81,4 @@ export function QuestionScreen() {
             </View>
         </SafeAreaView>
     );
-}
+});

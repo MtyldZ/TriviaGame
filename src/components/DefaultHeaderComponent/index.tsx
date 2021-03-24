@@ -26,7 +26,7 @@ export const DefaultHeaderComponent = memo((props: {
 
     return (
         <View style={[Styles.container, {backgroundColor: color['2']}]}>
-            <DefaultHeaderRowPartComponent firstLine={'Question'} secondLine={`${questionIndex + 1}/10`}/>
+            <DefaultHeaderRowPartComponent firstLine={'Question'} secondLine={`${questionIndex}/10`}/>
             {
                 partsDefault.map(
                     (value, index) =>

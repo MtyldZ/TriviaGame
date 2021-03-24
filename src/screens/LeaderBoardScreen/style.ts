@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import {rx, screenWidth} from '../../utils/dimensions';
 
 export const Styles = StyleSheet.create({
     container: {
@@ -8,27 +9,35 @@ export const Styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'flex-start',
     },
-    headerAndScoreContainer: {flex: 1},
-    headerContainer: {height: 60, marginTop: 20, alignSelf: 'center'},
-    headerText: {color: '#fff', fontWeight: 'bold', fontSize: 32},
-
-    scoreDescriptionContainer: {
-        backgroundColor: '#ffffff',
-        borderColor: '#000000',
-        borderWidth: 1,
-        height: 50,
-        width: '95%',
-        marginTop: 30,
-        marginBottom: 10,
-        flexDirection: 'row',
+    headerAndScoreContainer: {
+        flex: 1,
     },
-    buttonContainer: {
+    headerContainer: {
+        height: 60 * rx,
+        marginTop: 20 * rx,
+        alignSelf: 'center',
+    },
+    headerText: {
+        color: '#fff',
+        fontWeight: 'bold',
+        fontSize: 32,
+        fontFamily: 'sans-serif-condensed',
+    },
+    buttonsContainer: {
+        height: 140 * rx,
+        justifyContent: 'space-evenly',
+    },
+    buttonStyle: {
         alignItems: 'center',
         justifyContent: 'center',
-        height: 40,
-        width: '60%',
+        height: 40 * rx,
+        width: screenWidth * 0.6,
         backgroundColor: '#17633e',
-        marginBottom: 20,
     },
-    buttonContainerText: {color: '#fff', fontSize: 24, fontWeight: 'bold'},
+    buttonText: {
+        color: '#fff',
+        fontSize: 24,
+        fontWeight: 'bold',
+        fontFamily: 'sans-serif-condensed',
+    },
 });

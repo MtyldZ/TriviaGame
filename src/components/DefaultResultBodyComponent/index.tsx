@@ -27,7 +27,7 @@ export const DefaultResultBodyComponent = memo((
                 <Text style={Styles.smallerText}>{theme.t3.replace(/%%%/g, totalPoint + '')}</Text>
             </View>
 
-            <TouchableOpacity style={[Styles.buttonContainer, {backgroundColor: theme['2']}]}
+            <TouchableOpacity style={[Styles.buttonStyle, {backgroundColor: theme['2']}]}
                               onPress={onPress}>
                 <Text style={Styles.smallerText}>{theme.t4}</Text>
             </TouchableOpacity>

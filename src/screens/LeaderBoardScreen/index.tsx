@@ -3,13 +3,13 @@ import {LeaderBoardRow} from '../../components/LeaderBoardRow';
 import {useDispatch, useSelector} from 'react-redux';
 import {SafeAreaView, ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import {Styles} from './style';
-import {useSwitchNavigation} from '../../store/ui/hooks';
 import {resetAllScoresAction, setAllScoresAction} from '../../store/triviagame/action';
 import {UserScore, UserScoreSTR, userSoreToUserScoreSTR} from '../../@types/types';
+import {StackActions, useNavigation} from '@react-navigation/native';
 
 export function LeaderBoardScreen() {
     const dispatch = useDispatch();
-    const navigation = useSwitchNavigation();
+    const navigation = useNavigation();
     const allScores = useSelector(state => state.triviagame.allScores);
     const firstRow: UserScoreSTR = {
         category: 'Score',
@@ -20,7 +20,7 @@ export function LeaderBoardScreen() {
 
     return (
         <SafeAreaView style={Styles.container}>
-            <ScrollView showsVerticalScrollIndicator={true} style={Styles.headerAndScoreContainer}>
+            <ScrollView showsVerticalScrollIndicator={false} style={Styles.headerAndScoreContainer}>
                 <View style={Styles.headerContainer}>
                     <Text style={Styles.headerText}>HIGH SCORES</Text>
                 </View>
@@ -31,17 +31,19 @@ export function LeaderBoardScreen() {
                     )
                 }
             </ScrollView>
-            <TouchableOpacity style={Styles.buttonContainer}
-                              onPress={() => navigation.navigate('Start')}
-            >
-                <Text style={Styles.buttonContainerText}>MAIN MENU</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={Styles.buttonContainer}
-                              onPress={() => dispatch(resetAllScoresAction())}
-                              onLongPress={() => dispatch(setAllScoresAction(temp()))}
-            >
-                <Text style={Styles.buttonContainerText}>Reset Scores</Text>
-            </TouchableOpacity>
+            <View style={Styles.buttonsContainer}>
+                <TouchableOpacity style={Styles.buttonStyle}
+                                  onPress={() => navigation.dispatch(StackActions.popToTop())}
+                >
+                    <Text style={Styles.buttonText}>MAIN MENU</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={Styles.buttonStyle}
+                                  onPress={() => dispatch(resetAllScoresAction())}
+                                  onLongPress={() => dispatch(setAllScoresAction(temp()))}
+                >
+                    <Text style={Styles.buttonText}>Reset Scores</Text>
+                </TouchableOpacity>
+            </View>
         </SafeAreaView>
     );
 }

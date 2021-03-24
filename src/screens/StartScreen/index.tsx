@@ -3,7 +3,6 @@ import {Image, SafeAreaView, Text, TouchableOpacity, View} from 'react-native';
 import {Styles} from './style';
 import {SelectorComponent} from '../../components/SelectorComponent';
 import {fetchData} from '../../api/openTrivia';
-import {useSwitchNavigation} from '../../store/ui/hooks';
 import {useDispatch, useSelector} from 'react-redux';
 import {
     setAllQuestionsAction,
@@ -11,6 +10,8 @@ import {
     setChosenDifficultyAction,
     setCurrentTotalPointAction,
 } from '../../store/triviagame/action';
+
+import {StackActions, useNavigation} from '@react-navigation/native';
 
 const difficulties = ['Any Difficulty', 'Easy', 'Medium', 'Hard'];
 const categories = [
@@ -43,7 +44,7 @@ const categories = [
 
 export function StartScreen() {
     const dispatch = useDispatch();
-    const navigation = useSwitchNavigation();
+    const navigation = useNavigation();
     const chosenCategory = useSelector(state => state.triviagame.chosenCategory);
     const chosenDifficulty = useSelector(state => state.triviagame.chosenDifficulty);
 
@@ -53,7 +54,7 @@ export function StartScreen() {
             .then(arr => {
                 dispatch(setAllQuestionsAction(arr));
                 dispatch(setCurrentTotalPointAction(0));
-                navigation.navigate('Question');
+                navigation.dispatch(StackActions.push('Question'));
             });
     }, [chosenCategory, chosenDifficulty, dispatch, navigation]);
 
@@ -67,12 +68,12 @@ export function StartScreen() {
             <SelectorComponent array={categories} onChange={s => dispatch(setChosenCategoryAction(s))}/>
             <SelectorComponent array={difficulties} onChange={s => dispatch(setChosenDifficultyAction(s))}/>
 
-            <TouchableOpacity style={Styles.buttonContainer} onPress={onPressHandler}>
+            <TouchableOpacity style={Styles.buttonStyle} onPress={onPressHandler}>
                 <Text style={Styles.buttonText}>GET STARTED</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={Styles.buttonContainer}
-                              onPress={() => navigation.navigate('HighScores')}>
+            <TouchableOpacity style={Styles.buttonStyle}
+                              onPress={() => navigation.dispatch(StackActions.push('HighScores'))}>
                 <Text style={Styles.buttonText}>HIGH SCORES</Text>
             </TouchableOpacity>
         </SafeAreaView>

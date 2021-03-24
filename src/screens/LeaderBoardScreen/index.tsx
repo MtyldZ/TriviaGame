@@ -54,7 +54,7 @@ function temp() {
         totalTimeSpent: 120,
         category: 'Any Category',
         difficulty: 'Any Difficulty',
-        score: 5500,
+        score: Math.round(8000 * Math.random()),
     };
     const tempArr = [score];
 

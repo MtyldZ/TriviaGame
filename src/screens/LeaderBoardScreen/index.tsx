@@ -50,15 +50,15 @@ export function LeaderBoardScreen() {
 
 // this function fills high score array
 function temp() {
-    let score: UserScore = {
-        totalTimeSpent: 120,
-        category: 'Any Category',
-        difficulty: 'Any Difficulty',
-        score: Math.round(8000 * Math.random()),
-    };
-    const tempArr = [score];
+    const tempArr = [];
 
     for (let i = 0; i < 10; i++) {
+        let score: UserScore = {
+            totalTimeSpent: Math.round(150 * Math.random()),
+            category: 'Any Category',
+            difficulty: 'Any Difficulty',
+            score: Math.round(8000 * Math.random()),
+        };
         tempArr.push(score);
     }
     tempArr.sort((a, b) => (b.score - a.score));

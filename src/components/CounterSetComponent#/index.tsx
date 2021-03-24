@@ -3,7 +3,7 @@ import {Styles} from './style';
 import React, {useState} from 'react';
 import {CounterApiService} from '../../api/services/counter-api.service';
 import {useUIActions} from '../../store/ui/hooks';
-import {useCountActions} from '../../store/count/hooks';
+import {useCountActions} from '../../store/count#/hooks';
 
 export function CounterSetComponent() {
     const setBusy = useUIActions(actions => actions.changeBusyAction);

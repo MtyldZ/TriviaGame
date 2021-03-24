@@ -2,7 +2,7 @@ import {Styles} from './style';
 import {Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {useSelector} from 'react-redux';
-import {useCountActions} from '../../store/count/hooks';
+import {useCountActions} from '../../store/count#/hooks';
 
 export function CounterComponent() {
     const currentCount = useSelector(state => state.counter.currentCount);

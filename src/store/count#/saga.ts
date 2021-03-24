@@ -8,14 +8,14 @@ const maxCount = 10;
 
 function* setCountSaga(action: Action<string, { newCount: number }>) {
     if (action.payload.newCount >= maxCount) {
-        yield call(Alert.alert, 'Max count is reached!');
+        yield call(Alert.alert, 'Max count# is reached!');
     }
 }
 
 function* incrementSaga() {
     const currentCount: number = yield select((state: GlobalState) => state.counter.currentCount);
     if (currentCount >= maxCount) {
-        yield call(Alert.alert, 'Max count is reached!');
+        yield call(Alert.alert, 'Max count# is reached!');
     }
 }
 

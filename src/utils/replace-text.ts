@@ -4,5 +4,7 @@ export function textReplace(text: string) {
         .replace(/&Eacute;/g, 'É')
         .replace(/&eacute;/g, 'é')
         .replace(/&shy;/g, '')
+        .replace(/&ldquo;/g, '“')
+        .replace(/&rdquo;/g, '”')
         .replace(/&amp;/g, '&');
 }

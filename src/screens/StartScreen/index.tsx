@@ -1,4 +1,4 @@
-import React, {memo, useCallback} from 'react';
+import React, {memo, useCallback, useState} from 'react';
 import {Alert, BackHandler, Image, SafeAreaView, Text, TouchableOpacity, View} from 'react-native';
 import {Styles} from './style';
 import {SelectorComponent} from '../../components/SelectorComponent';
@@ -19,14 +19,16 @@ export const StartScreen = memo(() => {
     const navigation = useNavigation();
     const chosenCategory = useSelector(state => state.triviaGame.chosenCategory);
     const chosenDifficulty = useSelector(state => state.triviaGame.chosenDifficulty);
+    const [buttonAvailable, setButtonAvailable] = useState(false);
 
     const onPressHandler = useCallback(() => {
+        setButtonAvailable(true);
         fetchData(Categories.indexOf(chosenCategory) + 8, chosenDifficulty)
             .then(arr => {
                 dispatch(resetTriviaGameAction());
                 dispatch(setQuestionsAction(arr));
                 navigation.navigate('Question');
-            });
+            }).then(() => setButtonAvailable(false));
     }, [chosenCategory, chosenDifficulty, dispatch, navigation]);
 
     const onBackRequestHandler = useCallback(() => {
@@ -50,7 +52,7 @@ export const StartScreen = memo(() => {
             </View>
             <SelectorComponent array={Categories} onChange={s => dispatch(setChosenCategoryAction(s))}/>
             <SelectorComponent array={Difficulties} onChange={s => dispatch(setChosenDifficultyAction(s))}/>
-            <TouchableOpacity style={Styles.buttonStyle} onPress={onPressHandler}>
+            <TouchableOpacity style={Styles.buttonStyle} onPress={onPressHandler} disabled={buttonAvailable}>
                 <Text style={Styles.buttonText}>GET STARTED</Text>
             </TouchableOpacity>
             <TouchableOpacity style={Styles.buttonStyle} onPress={() => navigation.navigate('HighScores')}>

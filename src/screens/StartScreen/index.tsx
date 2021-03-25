@@ -1,5 +1,5 @@
 import React, {memo, useCallback} from 'react';
-import {Image, SafeAreaView, Text, TouchableOpacity, View} from 'react-native';
+import {Alert, BackHandler, Image, SafeAreaView, Text, TouchableOpacity, View} from 'react-native';
 import {Styles} from './style';
 import {SelectorComponent} from '../../components/SelectorComponent';
 import {fetchData} from '../../api/openTrivia';
@@ -10,7 +10,7 @@ import {
     setChosenDifficultyAction,
     setQuestionsAction,
 } from '../../store/triviaGame/action';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {Difficulties} from '../../utils/difficulties';
 import {Categories} from '../../utils/categories';
 
@@ -28,6 +28,19 @@ export const StartScreen = memo(() => {
                 navigation.navigate('Question');
             });
     }, [chosenCategory, chosenDifficulty, dispatch, navigation]);
+
+    const onBackRequestHandler = () => {
+        Alert.alert('Hold on!', 'Are you sure you want quit?', [
+            {text: 'Cancel', style: 'cancel'},
+            {text: 'Quit', style: 'default', onPress: () => BackHandler.exitApp()},
+        ]);
+        return true;
+    };
+
+    useFocusEffect(useCallback(() => {
+        BackHandler.addEventListener('hardwareBackPress', onBackRequestHandler);
+        return () => BackHandler.removeEventListener('hardwareBackPress', onBackRequestHandler);
+    }, []));
 
     return (
         <SafeAreaView style={Styles.container}>

@@ -2,14 +2,14 @@ import {Text, View} from 'react-native';
 import {Styles} from './style';
 import React, {memo} from 'react';
 import {useTimeout} from '../../hooks/timeout';
-import {useNavigation} from '@react-navigation/native';
+import {StackActions, useNavigation} from '@react-navigation/native';
 
 const DELAY_SECONDS = 2;
 
 export const SplashScreen = memo(() => {
     const navigation = useNavigation();
     useTimeout(
-        () => navigation.navigate('Start'),
+        () => navigation.dispatch(StackActions.replace('Start')),
         DELAY_SECONDS * 1000,
     );
 

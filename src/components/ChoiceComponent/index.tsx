@@ -1,12 +1,7 @@
 import React, {memo} from 'react';
-import {GestureResponderEvent, Text, TouchableOpacity} from 'react-native';
+import {Text, TouchableOpacity} from 'react-native';
 import {Styles} from './style';
-
-type Choice = {
-    choiceName: string;
-    choiceText: string;
-    onPress?: (event: GestureResponderEvent) => void;
-}
+import {Choice} from '../../@types/types';
 
 export const ChoiceComponent = memo((props: Choice) => {
     return (

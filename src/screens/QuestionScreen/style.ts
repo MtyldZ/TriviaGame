@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {rx, screenWidth} from '../../utils/dimensions';
-import {defaultThemes} from '../../utils/themes';
+import {Colors} from '../../utils/color';
 
 export const Styles = StyleSheet.create({
     container: {
@@ -8,7 +8,7 @@ export const Styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'stretch',
-        backgroundColor: defaultThemes.question['1'],
+        backgroundColor: Colors.questionBody,
     },
     questionContainer: {
         height: 175 * rx,
@@ -24,7 +24,7 @@ export const Styles = StyleSheet.create({
         fontSize: 36,
         fontFamily: 'sans-serif-condensed',
     },
-    FiftyPercentJokerContainer: {
+    jokerContainer: {
         flexDirection: 'row',
         width: screenWidth * 0.9,
         justifyContent: 'flex-start',

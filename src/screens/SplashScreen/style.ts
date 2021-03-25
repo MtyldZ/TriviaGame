@@ -7,7 +7,7 @@ export const Styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: 'white',
     },
-    text: {
+    rowPartText: {
         color: 'black',
         fontSize: 24,
     },

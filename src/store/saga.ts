@@ -1,8 +1,5 @@
-import {fork, all} from 'redux-saga/effects';
-import {counterSaga} from './count#/saga';
+import {all, fork} from 'redux-saga/effects';
 
 export function* rootSaga() {
-    yield all([
-        counterSaga,
-    ].map(saga => fork(saga)));
+    yield all([].map(saga => fork(saga)));
 }

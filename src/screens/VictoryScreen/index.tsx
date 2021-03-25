@@ -1,39 +1,55 @@
 import React, {memo, useCallback} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {resetTriviaGameAction, setAllScoresAction} from '../../store/triviagame/action';
+import {resetTriviaGameAction, setHighScoresAction} from '../../store/triviaGame/action';
 import {UserScore} from '../../@types/types';
-import {DefaultHeaderComponent} from '../../components/DefaultHeaderComponent';
-import {defaultThemes} from '../../utils/themes';
-import {DefaultResultBodyComponent} from '../../components/DefaultResultBodyComponent';
+import {HeaderComponent} from '../../components/HeaderComponent';
 import {StackActions, useNavigation} from '@react-navigation/native';
+import {Colors} from '../../utils/color';
+import {Styles} from '../TimeOutScreen/style';
+import {Image, Text, TouchableOpacity, View} from 'react-native';
 
 export const VictoryScreen = memo(() => {
     const dispatch = useDispatch();
     const navigation = useNavigation();
-    const totalPoints = useSelector(state => state.triviagame.currentTotalPoint);
-    const category = useSelector(state => state.triviagame.chosenCategory);
-    const difficulty = useSelector(state => state.triviagame.chosenDifficulty);
-    const timeSpent = useSelector(state => state.triviagame.totalTimeSpent);
-    const allScores = useSelector(state => state.triviagame.allScores);
+    const totalPoint = useSelector(state => state.triviaGame.totalPoint);
+    const category = useSelector(state => state.triviaGame.chosenCategory);
+    const difficulty = useSelector(state => state.triviaGame.chosenDifficulty);
+    const timeSpent = useSelector(state => state.triviaGame.totalTimeSpent);
+    const allScores = useSelector(state => state.triviaGame.highScores);
 
     const pressHandler = useCallback(() => {
         let score: UserScore = {
             totalTimeSpent: timeSpent,
             category: category,
             difficulty: difficulty,
-            score: totalPoints,
+            score: totalPoint,
         };
         const tempArr = [...allScores, score].sort((a, b) => (b.score - a.score));
 
-        dispatch(setAllScoresAction(tempArr));
+        dispatch(setHighScoresAction(tempArr));
         navigation.dispatch(StackActions.popToTop());
         dispatch(resetTriviaGameAction());
-    }, [allScores, category, difficulty, dispatch, navigation, timeSpent, totalPoints]);
+    }, [allScores, category, difficulty, dispatch, navigation, timeSpent, totalPoint]);
 
     return (
         <>
-            <DefaultHeaderComponent theme={defaultThemes.victory}/>
-            <DefaultResultBodyComponent theme={defaultThemes.victory} onPress={pressHandler}/>
+            <HeaderComponent color={Colors.victoryHeader}/>
+            <View style={Styles.container}>
+                <Image source={require('../../assets/icons/victory.png')} style={Styles.imageStyle}/>
+                <Text style={Styles.biggerText}>{'Victory'}</Text>
+                <View style={Styles.middleViewContainer}>
+                    <Text style={Styles.smallerText}>
+                        {'You answered correctly to all Questions'}
+                    </Text>
+                    <Text style={Styles.smallerText}>
+                        {'You won with %%% points.'.replace(/%%%/g, totalPoint.toString())}
+                    </Text>
+                </View>
+                <TouchableOpacity style={Styles.buttonStyle}
+                                  onPress={pressHandler}>
+                    <Text style={Styles.smallerText}>{'Main Menu'}</Text>
+                </TouchableOpacity>
+            </View>
         </>
     );
 });

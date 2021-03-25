@@ -1,25 +1,26 @@
 import {StyleSheet} from 'react-native';
 import {rx, screenWidth} from '../../utils/dimensions';
+import {Colors} from '../../utils/color';
 
 export const Styles = StyleSheet.create({
-    LeaderBoardRowContainer: {
+    highScoreRowContainer: {
         backgroundColor: '#ffffff',
         borderColor: '#000000',
         borderWidth: rx,
         height: 50 * rx,
         width: screenWidth * 0.95,
-        marginVertical: 10,
+        marginVertical: 10 * rx,
         flexDirection: 'row',
     },
-    leaderBoardRowPartContainer: {
+    rowPartContainer: {
         paddingLeft: 2 * rx,
         borderWidth: rx,
         borderColor: 'black',
-        backgroundColor: '#17633e',
+        backgroundColor: Colors.highScoreRowColor,
         height: '100%',
         justifyContent: 'center',
     },
-    text: {
+    rowPartText: {
         fontSize: 20,
         color: '#ffffff',
         fontWeight: '700',

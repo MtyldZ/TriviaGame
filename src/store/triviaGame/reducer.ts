@@ -1,27 +1,25 @@
 import {createReducer} from 'deox';
 import {TriviaGameState} from './state';
 import {
-    incCurrentQuestionIndexAction,
-    incCurrentTotalPointAction,
-    incTotalTimeSpentAction,
-    resetAllScoresAction,
+    incrementQuestionIndexAction,
+    incrementTotalPointAction,
+    incrementTotalTimeSpentAction,
+    resetHighScoresAction,
     resetTriviaGameAction,
-    setAllQuestionsAction,
-    setAllScoresAction,
     setChosenCategoryAction,
     setChosenDifficultyAction,
-    setCurrentTotalPointAction,
-    setEarnedPointFromLastQuestion,
+    setHighScoresAction,
+    setQuestionsAction,
     spendFiftyPercentJokerRightAction,
 } from './action';
 
 
 const initialState: TriviaGameState = {
-    currentQuestionIndex: 0,
-    currentTotalPoint: 0,
-    earnedPointFromLastQuestion: 0,
-    allQuestions: [],
-    allScores: [],
+    questionIndex: 0,
+    totalPoint: 0,
+    lastEarnedPointAmount: 0,
+    questions: [],
+    highScores: [],
     fiftyPercentJokerIsUsed: false,
     chosenCategory: 'Any Category',
     chosenDifficulty: 'Any Difficulty',
@@ -30,40 +28,30 @@ const initialState: TriviaGameState = {
 
 export const triviaGameReducer = createReducer(
     initialState, handle => [
-        handle(incCurrentQuestionIndexAction, state => {
+        handle(incrementQuestionIndexAction, state => {
             return {
                 ...state,
-                currentQuestionIndex: state.currentQuestionIndex + (state.currentQuestionIndex === 10 ? 0 : 1),
+                currentQuestionIndex: state.questionIndex + (state.questionIndex === 10 ? 0 : 1),
             };
         }),
-        handle(incCurrentTotalPointAction, (state, action) => {
+        handle(incrementTotalPointAction, (state, action) => {
             return {
                 ...state,
-                currentTotalPoint: state.currentTotalPoint + action.payload.morePoints,
+                currentTotalPoint: state.totalPoint + action.payload.morePoints,
                 earnedPointFromLastQuestion: action.payload.morePoints,
             };
         }),
-        handle(setCurrentTotalPointAction, (state, action) => {
+        handle(setQuestionsAction, (state, action) => {
             return {
-                ...state, currentTotalPoint: action.payload.newCurrentTotalPoint,
+                ...state, questions: action.payload.questions,
             };
         }),
-        handle(setEarnedPointFromLastQuestion, (state, action) => {
-            return {
-                ...state, earnedPointFromLastQuestion: action.payload.newEarnedPointFromLastQuestion,
-            };
-        }),
-        handle(setAllQuestionsAction, (state, action) => {
-            return {
-                ...state, allQuestions: action.payload.allQuestions,
-            };
-        }),
-        handle(setAllScoresAction, (state, action) => {
+        handle(setHighScoresAction, (state, action) => {
             return {
                 ...state, allScores: [...action.payload.scoreArray],
             };
         }),
-        handle(resetAllScoresAction, (state) => {
+        handle(resetHighScoresAction, (state) => {
             return {
                 ...state, allScores: [],
             };
@@ -73,11 +61,10 @@ export const triviaGameReducer = createReducer(
                 ...state, fiftyPercentJokerIsUsed: true,
             };
         }),
-
         handle(resetTriviaGameAction, state => {
             return {
                 ...state,
-                allQuestions: [],
+                questions: [],
                 currentTotalPoint: 0,
                 currentQuestionIndex: 0,
                 earnedPointFromLastQuestion: 0,
@@ -87,7 +74,7 @@ export const triviaGameReducer = createReducer(
                 totalTimeSpent: 0,
             };
         }),
-        handle(incTotalTimeSpentAction, (state, action) => {
+        handle(incrementTotalTimeSpentAction, (state, action) => {
             return {
                 ...state, totalTimeSpent: state.totalTimeSpent + action.payload.spentTime,
             };

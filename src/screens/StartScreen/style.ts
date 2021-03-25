@@ -1,13 +1,13 @@
 import {StyleSheet} from 'react-native';
-import {defaultThemes} from '../../utils/themes';
 import {rx, screenWidth} from '../../utils/dimensions';
+import {Colors} from '../../utils/color';
 
 export const Styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: defaultThemes.start['1'],
+        backgroundColor: Colors.startBody,
     },
     logoContainer: {
         width: 220 * rx,

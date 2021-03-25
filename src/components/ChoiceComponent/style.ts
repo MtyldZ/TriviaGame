@@ -1,11 +1,11 @@
 import {StyleSheet} from 'react-native';
 import {rx, screenWidth} from '../../utils/dimensions';
-import {defaultThemes} from '../../utils/themes';
+import {Colors} from '../../utils/color';
 
 export const Styles = StyleSheet.create({
     choiceContainer: {
         alignItems: 'center',
-        backgroundColor: defaultThemes.question['2'],
+        backgroundColor: Colors.questionButton,
         flexDirection: 'row',
         height: 65 * rx,
         justifyContent: 'flex-start',
@@ -14,11 +14,11 @@ export const Styles = StyleSheet.create({
         paddingRight: 30 * rx,
         width: screenWidth * 0.95,
     },
-    ChoiceName: {
+    choiceName: {
         color: '#fff',
         fontSize: 20,
     },
-    ChoiceText: {
+    choiceText: {
         color: '#fff',
         fontSize: 26,
         fontFamily: 'sans-serif-condensed',

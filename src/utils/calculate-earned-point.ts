@@ -1,10 +1,10 @@
 export const calculateEarnedPoint = (remainingTime: number, difficulty: string) => {
     let rawPoint: number;
-    if (difficulty.toLowerCase() == 'easy') {
+    if (difficulty.toLowerCase() === 'easy') {
         rawPoint = 100;
-    } else if (difficulty.toLowerCase() == 'medium') {
+    } else if (difficulty.toLowerCase() === 'medium') {
         rawPoint = 200;
-    } else if (difficulty.toLowerCase() == 'hard') {
+    } else if (difficulty.toLowerCase() === 'hard') {
         rawPoint = 400;
     }
 

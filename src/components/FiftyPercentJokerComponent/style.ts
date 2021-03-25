@@ -2,7 +2,7 @@ import {StyleSheet} from 'react-native';
 import {rx} from '../../utils/dimensions';
 
 export const Styles = StyleSheet.create({
-    fiftyPercentJokerContainer: {
+    jokerContainer: {
         marginVertical: 15 * rx,
         borderRadius: 25 * rx,
         borderColor: '#ffffff',

@@ -1,5 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {rx, screenHeight, screenWidth} from '../../utils/dimensions';
+import {Colors} from '../../utils/color';
 
 export const Styles = StyleSheet.create({
     container: {
@@ -7,6 +8,7 @@ export const Styles = StyleSheet.create({
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'space-between',
+        backgroundColor: Colors.wrongBody,
     },
     imageStyle: {
         width: rx * 160,
@@ -32,5 +34,6 @@ export const Styles = StyleSheet.create({
         marginVertical: rx * 65,
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: Colors.wrongButton,
     },
 });

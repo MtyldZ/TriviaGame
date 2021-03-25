@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {resetTriviaGameAction, setHighScoresAction} from '../../store/triviaGame/action';
 import {UserScore} from '../../@types/types';
 import {HeaderComponent} from '../../components/HeaderComponent';
-import {StackActions, useNavigation} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {Colors} from '../../utils/color';
 import {Styles} from '../TimeOutScreen/style';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
@@ -27,7 +27,7 @@ export const VictoryScreen = memo(() => {
         const tempArr = [...allScores, score].sort((a, b) => (b.score - a.score));
 
         dispatch(setHighScoresAction(tempArr));
-        navigation.dispatch(StackActions.popToTop());
+        navigation.navigate('Start');
         dispatch(resetTriviaGameAction());
     }, [allScores, category, difficulty, dispatch, navigation, timeSpent, totalPoint]);
 

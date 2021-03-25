@@ -11,7 +11,7 @@ export const incrementTotalPointAction = createAction(
 );
 export const setQuestionsAction = createAction(
     'SET_QUESTIONS',
-    resolve => (questions: Question[]) => resolve({questions: questions}),
+    resolve => (questions: Question[]) => resolve({questions}),
 );
 export const setHighScoresAction = createAction(
     'SET_HIGH_SCORES',

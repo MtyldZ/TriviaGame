@@ -31,14 +31,14 @@ export const triviaGameReducer = createReducer(
         handle(incrementQuestionIndexAction, state => {
             return {
                 ...state,
-                currentQuestionIndex: state.questionIndex + (state.questionIndex === 10 ? 0 : 1),
+                questionIndex: state.questionIndex + (state.questionIndex === 10 ? 0 : 1),
             };
         }),
         handle(incrementTotalPointAction, (state, action) => {
             return {
                 ...state,
-                currentTotalPoint: state.totalPoint + action.payload.morePoints,
-                earnedPointFromLastQuestion: action.payload.morePoints,
+                totalPoint: state.totalPoint + action.payload.morePoints,
+                lastEarnedPointAmount: action.payload.morePoints,
             };
         }),
         handle(setQuestionsAction, (state, action) => {
@@ -48,12 +48,12 @@ export const triviaGameReducer = createReducer(
         }),
         handle(setHighScoresAction, (state, action) => {
             return {
-                ...state, allScores: [...action.payload.scoreArray],
+                ...state, highScores: [...action.payload.scoreArray],
             };
         }),
         handle(resetHighScoresAction, (state) => {
             return {
-                ...state, allScores: [],
+                ...state, highScores: [],
             };
         }),
         handle(spendFiftyPercentJokerRightAction, (state) => {

@@ -5,7 +5,7 @@ import {SafeAreaView, ScrollView, Text, TouchableOpacity, View} from 'react-nati
 import {Styles} from './style';
 import {resetHighScoresAction, setHighScoresAction} from '../../store/triviaGame/action';
 import {UserScore} from '../../@types/types';
-import {StackActions, useNavigation} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
 // this function fills high score array
 // used long press of ResetHighScores button
@@ -55,7 +55,7 @@ export const HighScoresScreen = memo(() => {
             </ScrollView>
             <View style={Styles.buttonsContainer}>
                 <TouchableOpacity style={Styles.buttonStyle}
-                                  onPress={() => navigation.dispatch(StackActions.popToTop())}
+                                  onPress={() => navigation.navigate('Start')}
                 >
                     <Text style={Styles.buttonText}>MAIN MENU</Text>
                 </TouchableOpacity>

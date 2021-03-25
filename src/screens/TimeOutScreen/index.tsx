@@ -2,7 +2,7 @@ import React, {memo, useCallback} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {resetTriviaGameAction} from '../../store/triviaGame/action';
 import {HeaderComponent} from '../../components/HeaderComponent';
-import {StackActions, useNavigation} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {Colors} from '../../utils/color';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
 import {Styles} from './style';
@@ -15,7 +15,7 @@ export const Timeout = memo(() => {
     const pressHandler = useCallback(
         () => {
             dispatch(resetTriviaGameAction());
-            navigation.dispatch(StackActions.popToTop());
+            navigation.navigate('Start');
         }, [dispatch, navigation]);
 
     return (

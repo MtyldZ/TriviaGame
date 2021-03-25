@@ -1,10 +1,10 @@
 import React, {memo, useCallback} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {HeaderComponent} from '../../components/HeaderComponent';
-import {incrementQuestionIndexAction} from '../../store/triviaGame/action';
-import {StackActions, useNavigation} from '@react-navigation/native';
+import {incrementQuestionIndexAction, resetTriviaGameAction} from '../../store/triviaGame/action';
+import {StackActions, useFocusEffect, useNavigation} from '@react-navigation/native';
 import {Colors} from '../../utils/color';
-import {Image, Text, TouchableOpacity, View} from 'react-native';
+import {Alert, BackHandler, Image, Text, TouchableOpacity, View} from 'react-native';
 import {Styles} from './style';
 
 export const CorrectScreen = memo(() => {
@@ -12,6 +12,27 @@ export const CorrectScreen = memo(() => {
     const navigation = useNavigation();
     const earnedPoint = useSelector(state => state.triviaGame.lastEarnedPointAmount);
     const totalPoint = useSelector(state => state.triviaGame.totalPoint);
+
+    const onBackRequestHandler = useCallback(() => {
+        Alert.alert('Caution!', 'Are you sure you want give up?', [
+            {text: 'Cancel', style: 'cancel'},
+            {
+                text: 'Give Up',
+                style: 'default',
+                onPress: () => {
+                    navigation.dispatch(StackActions.replace('Start'));
+                    dispatch(resetTriviaGameAction());
+                },
+            },
+        ]);
+        return true;
+    }, [dispatch, navigation]);
+
+    useFocusEffect(
+        useCallback(() => {
+            BackHandler.addEventListener('hardwareBackPress', onBackRequestHandler);
+            return () => BackHandler.removeEventListener('hardwareBackPress', onBackRequestHandler);
+        }, [onBackRequestHandler]));
 
     const pressHandler = useCallback(
         () => {

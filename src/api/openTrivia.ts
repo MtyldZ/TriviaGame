@@ -14,8 +14,8 @@ export async function fetchData(categoryNumber: number, difficulty: string) {
                     index: i,
                     difficulty: (difficultyUrlPart === '' ? result.difficulty : difficulty),
                     questionText: result.question,
-                    correct_answer: result.correct_answer,
-                    wrong_answers: [...result.incorrect_answers],
+                    correctAnswer: result.correct_answer,
+                    wrongAnswers: [...result.incorrect_answers],
                 };
                 allQuestions.push(questionData);
             }

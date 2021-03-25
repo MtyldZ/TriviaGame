@@ -11,9 +11,17 @@ export type Question = {
     index: number;
     difficulty: string;
     questionText: string;
-    correct_answer: string;
-    wrong_answers: string[];
+    correctAnswer: string;
+    wrongAnswers: string[];
 }
+
+export const DefaultQuestion: Question = {
+    index: 99,
+    difficulty: 'easy',
+    questionText: 'This is the default question. What is 2+2?',
+    correctAnswer: '4',
+    wrongAnswers: ['1', '2', '3'],
+};
 
 export type ResultScreenObjectType = {
     colorBody: string;

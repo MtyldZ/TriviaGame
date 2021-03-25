@@ -17,9 +17,9 @@ export const FiftyPercentJokerComponent = memo((props: {
         const questionObject: Question = allQuestions[questionIndex];
 
         const pressHandler = () => {
-            let i = Math.round(Math.random() * (questionObject.wrong_answers.length - 1));
+            let i = Math.round(Math.random() * (questionObject.wrongAnswers.length - 1));
             dispatch(spendFiftyPercentJokerRightAction());
-            onPress([questionObject.wrong_answers[i], questionObject.correct_answer]);
+            onPress([questionObject.wrongAnswers[i], questionObject.correctAnswer]);
         };
         return (
             <>

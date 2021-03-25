@@ -29,18 +29,18 @@ export const StartScreen = memo(() => {
             });
     }, [chosenCategory, chosenDifficulty, dispatch, navigation]);
 
-    const onBackRequestHandler = () => {
+    const onBackRequestHandler = useCallback(() => {
         Alert.alert('Hold on!', 'Are you sure you want quit?', [
             {text: 'Cancel', style: 'cancel'},
             {text: 'Quit', style: 'default', onPress: () => BackHandler.exitApp()},
         ]);
         return true;
-    };
+    }, []);
 
     useFocusEffect(useCallback(() => {
         BackHandler.addEventListener('hardwareBackPress', onBackRequestHandler);
         return () => BackHandler.removeEventListener('hardwareBackPress', onBackRequestHandler);
-    }, []));
+    }, [onBackRequestHandler]));
 
     return (
         <SafeAreaView style={Styles.container}>

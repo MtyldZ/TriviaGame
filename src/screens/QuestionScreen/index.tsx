@@ -1,16 +1,20 @@
-import React, {memo, useEffect, useMemo, useState} from 'react';
-import {SafeAreaView, Text, View} from 'react-native';
+import React, {memo, useCallback, useEffect, useMemo, useState} from 'react';
+import {Alert, BackHandler, SafeAreaView, Text, View} from 'react-native';
 import {Styles} from './style';
 import {useDispatch, useSelector} from 'react-redux';
-import {incrementTotalPointAction, incrementTotalTimeSpentAction} from '../../store/triviaGame/action';
+import {
+    incrementTotalPointAction,
+    incrementTotalTimeSpentAction,
+    resetTriviaGameAction,
+} from '../../store/triviaGame/action';
 import {calculateEarnedPoint} from '../../utils/calculate-earned-point';
-import {Question} from '../../@types/types';
+import {DefaultQuestion, Question} from '../../@types/types';
 import {FiftyPercentJokerComponent} from '../../components/FiftyPercentJokerComponent';
 import {HeaderComponent} from '../../components/HeaderComponent';
 import {ChoiceComponent} from '../../components/ChoiceComponent';
 import {textReplace} from '../../utils/replace-text';
 import {randomizer} from '../../utils/randomizer';
-import {StackActions, useNavigation} from '@react-navigation/native';
+import {StackActions, useFocusEffect, useNavigation} from '@react-navigation/native';
 import {Colors} from '../../utils/color';
 
 const optionNames = ['A', 'B', 'C', 'D'];
@@ -30,17 +34,16 @@ const QuestionTextPart = memo((props: { questionObject: Question }) => {
 
 export const QuestionScreen = memo(() => {
     const dispatch = useDispatch();
-    const questionIndex = useSelector(state => state.triviaGame.questionIndex);
-    const allQuestions: Question[] = useSelector(state => state.triviaGame.questions);
     const totalPoints = useSelector(state => state.triviaGame.totalPoint);
-    const questionObject: Question = allQuestions[questionIndex];
     const navigation = useNavigation();
     const [count, setCount] = useState(15);
-    const [allChoices, setAllChoices] = useState([...questionObject.wrong_answers, questionObject.correct_answer]);
+    const questionObject: Question = useSelector(state =>
+        state.triviaGame.questions[state.triviaGame.questionIndex]) || DefaultQuestion;
+    const [allChoices, setAllChoices] = useState([
+        ...questionObject.wrongAnswers, questionObject.correctAnswer]);
     const choices = useMemo(() => randomizer(allChoices), [allChoices]);
-
     const choicePressHandler = (value: string) => {
-        if (questionObject.correct_answer === value) {
+        if (questionObject.correctAnswer === value) {
             dispatch(incrementTotalPointAction(calculateEarnedPoint(count, questionObject.difficulty)));
             dispatch(incrementTotalTimeSpentAction(15 - count));
             navigation.dispatch(StackActions.replace('Correct'));
@@ -48,6 +51,27 @@ export const QuestionScreen = memo(() => {
             navigation.dispatch(StackActions.replace('Wrong'));
         }
     };
+
+    const onBackRequestHandler = useCallback(() => {
+        Alert.alert('Caution!', 'Are you sure you want give up?', [
+            {text: 'Cancel', style: 'cancel'},
+            {
+                text: 'Give Up',
+                style: 'default',
+                onPress: () => {
+                    navigation.dispatch(StackActions.replace('Start'));
+                    dispatch(resetTriviaGameAction());
+                },
+            },
+        ]);
+        return true;
+    }, [dispatch, navigation]);
+
+    useFocusEffect(
+        useCallback(() => {
+            BackHandler.addEventListener('hardwareBackPress', onBackRequestHandler);
+            return () => BackHandler.removeEventListener('hardwareBackPress', onBackRequestHandler);
+        }, [onBackRequestHandler]));
 
     useEffect(() => {
         const intervalToDecrease = setInterval(() => setCount(prev => (prev > 0 ? prev - 1 : 0)), 1000);
@@ -63,9 +87,9 @@ export const QuestionScreen = memo(() => {
         <SafeAreaView style={Styles.container}>
             <HeaderComponent color={Colors.questionHeader}
                              parts={[
-                                        {first: 'Points', second: totalPoints.toString()},
-                                        {first: 'Remaining Time', second: count.toString()},
-                                    ]}/>
+                                 {first: 'Points', second: totalPoints.toString()},
+                                 {first: 'Remaining Time', second: count.toString()},
+                             ]}/>
             <View style={Styles.bodyPartContainer}>
                 <View style={Styles.jokerContainer}>
                     <FiftyPercentJokerComponent onPress={(strings) => setAllChoices(strings)}/>

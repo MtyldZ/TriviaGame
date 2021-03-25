@@ -64,10 +64,10 @@ export const triviaGameReducer = createReducer(
         handle(resetTriviaGameAction, state => {
             return {
                 ...state,
+                questionIndex: 0,
+                totalPoint: 0,
+                lastEarnedPointAmount: 0,
                 questions: [],
-                currentTotalPoint: 0,
-                currentQuestionIndex: 0,
-                earnedPointFromLastQuestion: 0,
                 fiftyPercentJokerIsUsed: false,
                 chosenCategory: 'Any Category',
                 chosenDifficulty: 'Any Difficulty',

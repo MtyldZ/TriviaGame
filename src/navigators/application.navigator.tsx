@@ -18,11 +18,7 @@ export const ApplicationNavigator = memo(function ApplicationNavigator() {
 
     return (
         <Stack.Navigator screenOptions={{headerShown: false}}>
-            {/*{*/}
-            {/*    renderIf(route === 'Splash')(() => (*/}
-            {/*        <Stack.Screen name="Splash" component={SplashScreen}/>*/}
-            {/*    ))*/}
-            {/*}*/}
+            {/*{renderIf(route === 'Splash')(() => (<Stack.Screen name="Splash" component={SplashScreen}/>))}*/}
             <Stack.Screen name="Splash" component={SplashScreen}/>
             <Stack.Screen name="Start" component={StartScreen}/>
             <Stack.Screen name="HighScores" component={HighScoresScreen}/>

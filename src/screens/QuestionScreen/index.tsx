@@ -68,11 +68,10 @@ export const QuestionScreen = memo(() => {
         return true;
     }, [dispatch, navigation]);
 
-    useFocusEffect(
-        useCallback(() => {
-            BackHandler.addEventListener('hardwareBackPress', onBackRequestHandler);
-            return () => BackHandler.removeEventListener('hardwareBackPress', onBackRequestHandler);
-        }, [onBackRequestHandler]));
+    useFocusEffect(useCallback(() => {
+        BackHandler.addEventListener('hardwareBackPress', onBackRequestHandler);
+        return () => BackHandler.removeEventListener('hardwareBackPress', onBackRequestHandler);
+    }, [onBackRequestHandler]));
 
     useEffect(() => {
         const intervalToDecrease = setInterval(() => setCount(prev => (prev > 0 ? prev - 1 : 0)), 1000);

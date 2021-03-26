@@ -13,19 +13,19 @@ export type Choice = {
     onPress?: (event: GestureResponderEvent) => void;
 }
 
+export type HighScoreRowPartType = {
+    text1: string;
+    text2: string;
+    text3: string;
+    text4: string;
+}
+
 export type Question = {
     index: number;
     difficulty: string;
     questionText: string;
     correctAnswer: string;
     wrongAnswers: string[];
-}
-
-export type HighScoreRowPartType = {
-    text1: string;
-    text2: string;
-    text3: string;
-    text4: string;
 }
 
 // this should not be here :)

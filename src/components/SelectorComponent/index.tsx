@@ -9,18 +9,20 @@ export const SelectorComponent = memo((props: { array: string[], onChange: (stri
 
     return (
         <View style={Styles.pickerContainer}>
-            <Picker
-                selectedValue={selected}
-                style={Styles.pickerContainerIndividual}
-                onValueChange={(itemValue) => {
-                    setSelected(itemValue);
-                    props.onChange(itemValue);
-                }
-                }>
+            <Picker style={Styles.pickerContainerIndividual}
+                    selectedValue={selected}
+                    onValueChange={(itemValue: string) => {
+                        setSelected(itemValue);
+                        props.onChange(itemValue);
+                    }
+                    }>
                 {
                     props.array.map((value, index) =>
-                        <Picker.Item label={textReplace(value)} value={value} key={`part_${index}`}/>,
-                    )
+                        <Picker.Item label={textReplace(value)}
+                                     fontFamily={'sans-serif-condensed'}
+                                     value={value}
+                                     key={`part_${index}`}
+                        />)
                 }
             </Picker>
         </View>

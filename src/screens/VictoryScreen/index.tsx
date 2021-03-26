@@ -18,13 +18,14 @@ export const VictoryScreen = memo(() => {
     const allScores = useSelector(state => state.triviaGame.highScores);
 
     const pressHandler = useCallback(() => {
-        let score: UserScore = {
+        const score: UserScore = {
             totalTimeSpent: timeSpent,
             category: category,
             difficulty: difficulty,
             score: totalPoint,
         };
-        const tempArr = [...allScores, score].sort((a, b) => (b.score - a.score));
+        const tempArr = [...allScores, score].sort((a, b) => (
+            b.score - a.score));
 
         dispatch(setHighScoresAction(tempArr));
         navigation.navigate('Start');

@@ -42,6 +42,7 @@ export const QuestionScreen = memo(() => {
     const [allChoices, setAllChoices] = useState([
         ...questionObject.wrongAnswers, questionObject.correctAnswer]);
     const choices = useMemo(() => randomizer(allChoices), [allChoices]);
+
     const choicePressHandler = (value: string) => {
         if (questionObject.correctAnswer === value) {
             dispatch(incrementTotalPointAction(calculateEarnedPoint(count, questionObject.difficulty)));

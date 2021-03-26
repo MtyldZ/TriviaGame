@@ -28,6 +28,7 @@ export type HighScoreRowPartType = {
     text4: string;
 }
 
+// this should not be here :)
 export const DefaultQuestion: Question = {
     index: 99,
     difficulty: 'easy',

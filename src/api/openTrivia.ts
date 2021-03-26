@@ -9,8 +9,8 @@ export async function fetchData(categoryNumber: number, difficulty: string) {
         json => {
             const allQuestions: Question[] = [];
             for (let i = 0; i < 10; i++) {
-                let result = json.results[i];
-                let questionData = {
+                const result = json.results[i];
+                const questionData: Question = {
                     index: i,
                     difficulty: (difficultyUrlPart === '' ? result.difficulty : difficulty),
                     questionText: result.question,

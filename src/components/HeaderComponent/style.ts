@@ -1,9 +1,9 @@
 import {StyleSheet} from 'react-native';
-import {rx, screenWidth} from '../../utils/dimensions';
+import {rx} from '../../utils/dimensions';
 
 export const Styles = StyleSheet.create({
     container: {
-        width: screenWidth,
+        width: '100%',
         height: rx * 110,
         flexDirection: 'row',
         alignItems: 'center',

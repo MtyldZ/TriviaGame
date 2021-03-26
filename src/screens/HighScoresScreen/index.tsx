@@ -4,12 +4,10 @@ import {useDispatch, useSelector} from 'react-redux';
 import {SafeAreaView, ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import {Styles} from './style';
 import {resetHighScoresAction, setHighScoresAction} from '../../store/triviaGame/action';
-import {UserScore} from '../../@types/types';
+import {UserScore} from '../../utils/types';
 import {useNavigation} from '@react-navigation/native';
 
-// this function fills high score array
-// used long press of ResetHighScores button
-function temp() {
+function fillHighScoreArray() {
     const tempArr = [];
     for (let i = 0; i < 10; i++) {
         const score: UserScore = {
@@ -49,7 +47,7 @@ export const HighScoresScreen = memo(() => {
                                        text4={'Time Spent'}/>
                 {
                     allScores.map((value, index) => {
-                        return <HighScoreRowGenerator userScore={value} key={`part${index}`}/>;
+                        return <HighScoreRowGenerator userScore={value} key={`key_${index}`}/>;
                     })
                 }
             </ScrollView>
@@ -61,7 +59,7 @@ export const HighScoresScreen = memo(() => {
                 </TouchableOpacity>
                 <TouchableOpacity style={Styles.buttonStyle}
                                   onPress={() => dispatch(resetHighScoresAction())}
-                                  onLongPress={() => dispatch(setHighScoresAction(temp()))}
+                                  onLongPress={() => dispatch(setHighScoresAction(fillHighScoreArray()))}
                 >
                     <Text style={Styles.buttonText}>Reset Scores</Text>
                 </TouchableOpacity>

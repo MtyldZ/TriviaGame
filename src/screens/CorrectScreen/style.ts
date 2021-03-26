@@ -1,10 +1,10 @@
 import {StyleSheet} from 'react-native';
-import {rx, screenHeight, screenWidth} from '../../utils/dimensions';
+import {rx} from '../../utils/dimensions';
 import {Colors} from '../../utils/color';
 
 export const Styles = StyleSheet.create({
     container: {
-        height: screenHeight - rx * 110,
+        flex: 1,
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -29,7 +29,7 @@ export const Styles = StyleSheet.create({
         fontSize: 22,
     },
     buttonStyle: {
-        width: screenWidth * 0.9,
+        width: '90%',
         height: rx * 70,
         marginVertical: rx * 65,
         justifyContent: 'center',

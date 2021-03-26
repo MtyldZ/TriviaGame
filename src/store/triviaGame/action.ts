@@ -1,5 +1,5 @@
 import {createAction} from 'deox';
-import {Question, UserScore} from '../../@types/types';
+import {Question, UserScore} from '../../utils/types';
 
 export const incrementQuestionIndexAction = createAction('INCREMENT_QUESTION_INDEX');
 export const spendFiftyPercentJokerRightAction = createAction('SPEND_FIFTY_PERCENT_JOKER_RIGHT_ACTION');

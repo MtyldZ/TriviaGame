@@ -1,4 +1,4 @@
-import {Question, UserScore} from '../../@types/types';
+import {Question, UserScore} from '../../utils/types';
 
 export interface TriviaGameState {
     questions: Question[];

@@ -1,7 +1,7 @@
 import React, {memo, useCallback} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {resetTriviaGameAction, setHighScoresAction} from '../../store/triviaGame/action';
-import {UserScore} from '../../@types/types';
+import {UserScore} from '../../utils/types';
 import {HeaderComponent} from '../../components/HeaderComponent';
 import {useNavigation} from '@react-navigation/native';
 import {Colors} from '../../utils/color';

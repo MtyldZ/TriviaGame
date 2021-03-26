@@ -1,9 +1,14 @@
 import React, {memo} from 'react';
 import {Text, View} from 'react-native';
 import {Styles} from './style';
-import {HighScoreRowPartType} from '../../@types/types';
+import {HighScoreRowPartType} from '../../utils/types';
 
-export const HighScoresRowPart = memo((props: { text: string, size: number }) => {
+type PartProps = {
+    text: string;
+    size: number;
+}
+
+export const HighScoresRowPart = memo((props: PartProps) => {
     return (
         <View style={[Styles.rowPartContainer, {width: `${props.size}%`}]}>
             <Text style={Styles.rowPartText} numberOfLines={1}>{props.text}</Text>

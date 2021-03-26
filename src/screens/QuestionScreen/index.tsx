@@ -8,7 +8,7 @@ import {
     resetTriviaGameAction,
 } from '../../store/triviaGame/action';
 import {calculateEarnedPoint} from '../../utils/calculate-earned-point';
-import {DefaultQuestion, Question} from '../../@types/types';
+import {Question} from '../../utils/types';
 import {FiftyPercentJokerComponent} from '../../components/FiftyPercentJokerComponent';
 import {HeaderComponent} from '../../components/HeaderComponent';
 import {ChoiceComponent} from '../../components/ChoiceComponent';
@@ -16,6 +16,7 @@ import {textReplace} from '../../utils/replace-text';
 import {randomizer} from '../../utils/randomizer';
 import {StackActions, useFocusEffect, useNavigation} from '@react-navigation/native';
 import {Colors} from '../../utils/color';
+import {DefaultQuestion} from '../../utils/defaultObjects';
 
 const optionNames = ['A', 'B', 'C', 'D'];
 

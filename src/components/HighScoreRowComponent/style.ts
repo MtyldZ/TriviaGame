@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {rx, screenWidth} from '../../utils/dimensions';
+import {rx} from '../../utils/dimensions';
 import {Colors} from '../../utils/color';
 
 export const Styles = StyleSheet.create({
@@ -8,7 +8,7 @@ export const Styles = StyleSheet.create({
         borderColor: '#000000',
         borderWidth: rx,
         height: 50 * rx,
-        width: screenWidth * 0.95,
+        width: '95%',
         marginVertical: 10 * rx,
         flexDirection: 'row',
     },

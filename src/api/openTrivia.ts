@@ -1,4 +1,4 @@
-import {Question} from '../@types/types';
+import {Question} from '../utils/types';
 
 export async function fetchData(categoryNumber: number, difficulty: string) {
     let categoryUrlPart = (categoryNumber >= 9) ? `&category=${categoryNumber}` : '';

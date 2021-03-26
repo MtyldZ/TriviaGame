@@ -63,15 +63,8 @@ export const triviaGameReducer = createReducer(
         }),
         handle(resetTriviaGameAction, state => {
             return {
-                ...state,
-                questionIndex: 0,
-                totalPoint: 0,
-                lastEarnedPointAmount: 0,
-                questions: [],
-                fiftyPercentJokerIsUsed: false,
-                chosenCategory: 'Any Category',
-                chosenDifficulty: 'Any Difficulty',
-                totalTimeSpent: 0,
+                ...initialState,
+                highScores: state.highScores,
             };
         }),
         handle(incrementTotalTimeSpentAction, (state, action) => {
@@ -89,6 +82,5 @@ export const triviaGameReducer = createReducer(
                 ...state, chosenDifficulty: action.payload.newDifficulty,
             };
         }),
-
     ],
 );

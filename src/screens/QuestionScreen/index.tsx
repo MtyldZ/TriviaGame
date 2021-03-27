@@ -14,7 +14,7 @@ import {HeaderComponent} from '../../components/HeaderComponent';
 import {ChoiceComponent} from '../../components/ChoiceComponent';
 import {textReplace} from '../../utils/replace-text';
 import {randomizer} from '../../utils/randomizer';
-import {StackActions, useFocusEffect, useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {Colors} from '../../utils/color';
 import {DefaultQuestion} from '../../utils/defaultObjects';
 
@@ -48,20 +48,20 @@ export const QuestionScreen = memo(() => {
         if (questionObject.correctAnswer === value) {
             dispatch(incrementTotalPointAction(calculateEarnedPoint(count, questionObject.difficulty)));
             dispatch(incrementTotalTimeSpentAction(15 - count));
-            navigation.dispatch(StackActions.replace('Correct'));
+            navigation.navigate('Correct');
         } else {
-            navigation.dispatch(StackActions.replace('Wrong'));
+            navigation.navigate('Wrong');
         }
     };
 
-    const onBackRequestHandler = useCallback(() => {
+    const hardwareBackPressEventHandler = useCallback(() => {
         Alert.alert('Caution!', 'Are you sure you want give up?', [
             {text: 'Cancel', style: 'cancel'},
             {
                 text: 'Give Up',
                 style: 'default',
                 onPress: () => {
-                    navigation.dispatch(StackActions.replace('Start'));
+                    navigation.navigate('Start');
                     dispatch(resetTriviaGameAction());
                 },
             },
@@ -70,14 +70,14 @@ export const QuestionScreen = memo(() => {
     }, [dispatch, navigation]);
 
     useFocusEffect(useCallback(() => {
-        BackHandler.addEventListener('hardwareBackPress', onBackRequestHandler);
-        return () => BackHandler.removeEventListener('hardwareBackPress', onBackRequestHandler);
-    }, [onBackRequestHandler]));
+        BackHandler.addEventListener('hardwareBackPress', hardwareBackPressEventHandler);
+        return () => BackHandler.removeEventListener('hardwareBackPress', hardwareBackPressEventHandler);
+    }, [hardwareBackPressEventHandler]));
 
     useEffect(() => {
         const intervalToDecrease = setInterval(() => setCount(prev => (prev > 0 ? prev - 1 : 0)), 1000);
         if (count === 0) {
-            navigation.dispatch(StackActions.replace('Timeout'));
+            navigation.navigate('Timeout');
         }
         return () => {
             clearInterval(intervalToDecrease);

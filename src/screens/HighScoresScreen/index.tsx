@@ -59,7 +59,9 @@ export const HighScoresScreen = memo(() => {
                 </TouchableOpacity>
                 <TouchableOpacity style={Styles.buttonStyle}
                                   onPress={() => dispatch(resetHighScoresAction())}
-                                  onLongPress={() => dispatch(setHighScoresAction(fillHighScoreArray()))}
+                                  onLongPress={() =>
+                                      dispatch(setHighScoresAction(fillHighScoreArray()))
+                                  }
                 >
                     <Text style={Styles.buttonText}>Reset Scores</Text>
                 </TouchableOpacity>

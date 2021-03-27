@@ -19,7 +19,7 @@ export const CorrectScreen = memo(() => {
     const timeSpent = useSelector(state => state.triviaGame.totalTimeSpent);
     const allScores = useSelector(state => state.triviaGame.highScores);
 
-    const onBackRequestHandler = useCallback(() => {
+    const hardwareBackPressEventHandler = useCallback(() => {
         Alert.alert('Caution!', 'Are you sure you want give up?', [
             {text: 'Cancel', style: 'cancel'},
             {
@@ -35,13 +35,13 @@ export const CorrectScreen = memo(() => {
     }, [dispatch, navigation]);
 
     useFocusEffect(useCallback(() => {
-        BackHandler.addEventListener('hardwareBackPress', onBackRequestHandler);
-        return () => BackHandler.removeEventListener('hardwareBackPress', onBackRequestHandler);
-    }, [onBackRequestHandler]));
+        BackHandler.addEventListener('hardwareBackPress', hardwareBackPressEventHandler);
+        return () => BackHandler.removeEventListener('hardwareBackPress', hardwareBackPressEventHandler);
+    }, [hardwareBackPressEventHandler]));
 
-    const pressHandler = useCallback(() => {
+    const buttonPressEventHandler = useCallback(() => {
         if (questionIndex === 10) {
-
+            navigation.navigate('Victory');
             const score: UserScore = {
                 totalTimeSpent: timeSpent,
                 category: category,
@@ -50,14 +50,12 @@ export const CorrectScreen = memo(() => {
             };
             const tempArr = [...allScores, score].sort((a, b) => (
                 b.score - a.score));
-
             dispatch(setHighScoresAction(tempArr));
-            navigation.navigate('Start');
             dispatch(resetTriviaGameAction());
-
+        } else {
+            dispatch(incrementQuestionIndexAction());
+            navigation.navigate('Question');
         }
-        dispatch(incrementQuestionIndexAction());
-        navigation.navigate('Question');
     }, [allScores, category, difficulty, dispatch, navigation, questionIndex, timeSpent, totalPoint]);
 
     return (
@@ -75,7 +73,7 @@ export const CorrectScreen = memo(() => {
                     </Text>
                 </View>
                 <TouchableOpacity style={Styles.buttonStyle}
-                                  onPress={pressHandler}>
+                                  onPress={buttonPressEventHandler}>
                     <Text style={Styles.smallerText}>{'Next Question'}</Text>
                 </TouchableOpacity>
             </View>

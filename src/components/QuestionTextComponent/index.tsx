@@ -2,7 +2,6 @@ import React, {memo} from 'react';
 import {Question} from '../../utils/types';
 import {rx} from '../../utils/dimensions';
 import {Text, View} from 'react-native';
-import {textReplace} from '../../utils/replace-text';
 import {Styles} from './styles';
 
 export const QuestionTextPartComponent = memo((props: { questionObject: Question }) => {
@@ -11,7 +10,7 @@ export const QuestionTextPartComponent = memo((props: { questionObject: Question
     return (
         <View style={[Styles.questionContainer, {height: neededHeight}]}>
             <Text style={Styles.questionTextStyle} adjustsFontSizeToFit={true}>
-                {textReplace(props.questionObject.questionText)}
+                {props.questionObject.questionText}
             </Text>
         </View>
     );

@@ -1,4 +1,4 @@
-import React, {memo, useCallback} from 'react';
+import React, {memo, useCallback, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {resetTriviaGameAction} from '../../store/triviaGame/action';
 import {HeaderComponent} from '../../components/HeaderComponent';
@@ -11,11 +11,14 @@ export const WrongScreen = memo(() => {
     const dispatch = useDispatch();
     const navigation = useNavigation();
     const totalPoint = useSelector(state => state.triviaGame.totalPoint);
+    const [isDisabled, setIsDisabled] = useState(false);
 
     const buttonPressEventHandler = useCallback(() => {
+        setIsDisabled(true);
         navigation.dispatch(StackActions.pop(1));
         navigation.dispatch(StackActions.replace('Start'));
         dispatch(resetTriviaGameAction());
+        setIsDisabled(false);
     }, [dispatch, navigation]);
 
     const hardwareBackPressEventHandler = useCallback(() => {
@@ -43,7 +46,8 @@ export const WrongScreen = memo(() => {
                     </Text>
                 </View>
                 <TouchableOpacity style={Styles.buttonStyle}
-                                  onPress={buttonPressEventHandler}>
+                                  onPress={buttonPressEventHandler}
+                                  disabled={isDisabled}>
                     <Text style={Styles.smallerText}>{'Main Menu'}</Text>
                 </TouchableOpacity>
             </View>

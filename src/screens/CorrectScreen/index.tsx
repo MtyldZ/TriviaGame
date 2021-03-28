@@ -11,7 +11,7 @@ import {UserScore} from '../../utils/types';
 export const CorrectScreen = memo(() => {
     const dispatch = useDispatch();
     const navigation = useNavigation();
-    const [waiting, setWaiting] = useState(true);
+    const [isDisabled, setIsDisabled] = useState(false);
     const questionIndex = useSelector(state => state.triviaGame.questionIndex);
     const earnedPoint = useSelector(state => state.triviaGame.lastEarnedPointAmount);
     const totalPoint = useSelector(state => state.triviaGame.totalPoint);
@@ -41,7 +41,7 @@ export const CorrectScreen = memo(() => {
     }, [hardwareBackPressEventHandler]));
 
     const onButtonPress = useCallback(() => {
-        setWaiting(false);
+        setIsDisabled(true);
         // pop the correct Screen from stack
         navigation.dispatch(StackActions.pop(1));
         if (questionIndex === 9) {
@@ -51,6 +51,7 @@ export const CorrectScreen = memo(() => {
                 difficulty: difficulty,
                 score: totalPoint,
             };
+            console.log(score);
             const tempArr = [...allScores, score].sort((a, b) => (
                 b.score - a.score));
             dispatch(setHighScoresAction(tempArr));
@@ -59,7 +60,7 @@ export const CorrectScreen = memo(() => {
             dispatch(incrementQuestionIndexAction());
             navigation.dispatch(StackActions.replace('Question'));
         }
-        setWaiting(true);
+        setIsDisabled(false);
     }, [allScores, category, difficulty, dispatch, navigation, questionIndex, timeSpent, totalPoint]);
 
     return (
@@ -78,7 +79,7 @@ export const CorrectScreen = memo(() => {
                 </View>
                 <TouchableOpacity style={Styles.buttonStyle}
                                   onPress={() => onButtonPress()}
-                                  disabled={!waiting}>
+                                  disabled={isDisabled}>
                     <Text style={Styles.smallerText}>{'Next Question'}</Text>
                 </TouchableOpacity>
             </View>

@@ -1,7 +1,6 @@
 import React, {memo} from 'react';
 import {Text, TouchableOpacity} from 'react-native';
 import {Styles} from './style';
-import {textReplace} from '../../utils/replace-text';
 
 export type Choice = {
     choiceName: string;
@@ -22,7 +21,7 @@ export const ChoiceComponent = memo((props: Choice) => {
             <Text style={Styles.choiceText}
                   adjustsFontSizeToFit={true}
                   numberOfLines={2}>
-                {textReplace(props.choiceText)}
+                {props.choiceText}
             </Text>
         </TouchableOpacity>
     );

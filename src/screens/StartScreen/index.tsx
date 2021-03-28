@@ -2,7 +2,7 @@ import React, {memo, useCallback, useState} from 'react';
 import {Alert, BackHandler, Image, SafeAreaView, Text, TouchableOpacity, View} from 'react-native';
 import {Styles} from './style';
 import {fetchData} from '../../api/openTrivia';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {
     resetTriviaGameAction,
     setChosenCategoryAction,
@@ -17,18 +17,18 @@ import {Difficulties} from '../../utils/difficulties';
 export const StartScreen = memo(() => {
     const dispatch = useDispatch();
     const navigation = useNavigation();
-    const chosenCategory = useSelector(state => state.triviaGame.chosenCategory);
-    const chosenDifficulty = useSelector(state => state.triviaGame.chosenDifficulty);
-    const [buttonDisabled, setButtonDisabled] = useState(false);
+    const [chosenCategory, setChosenCategory] = useState(Categories[0]);
+    const [chosenDifficulty, setChosenDifficulty] = useState(Difficulties[0]);
+    const [isDisabled, setIsDisabled] = useState(false);
 
     const onPressHandler = useCallback(() => {
-        setButtonDisabled(true);
+        setIsDisabled(true);
         fetchData(Categories.indexOf(chosenCategory) + 8, chosenDifficulty)
             .then(arr => {
                 dispatch(resetTriviaGameAction());
                 dispatch(setQuestionsAction(arr));
                 navigation.dispatch(StackActions.replace('Question'));
-            }).finally(() => setButtonDisabled(false));
+            }).finally(() => setIsDisabled(false));
     }, [chosenCategory, chosenDifficulty, dispatch, navigation]);
 
     const onBackRequestHandler = useCallback(() => {
@@ -52,12 +52,18 @@ export const StartScreen = memo(() => {
                     <Text style={Styles.logoText}>A trivia game</Text>
                 </View>
                 <SelectorComponent array={Categories}
-                                   onChange={s => dispatch(setChosenCategoryAction(s))}/>
+                                   onChange={s => {
+                                       dispatch(setChosenCategoryAction(s));
+                                       setChosenCategory(s);
+                                   }}/>
                 <SelectorComponent array={Difficulties}
-                                   onChange={s => dispatch(setChosenDifficultyAction(s))}/>
+                                   onChange={s => {
+                                       dispatch(setChosenDifficultyAction(s));
+                                       setChosenDifficulty(s);
+                                   }}/>
                 <TouchableOpacity style={Styles.buttonStyle}
                                   onPress={onPressHandler}
-                                  disabled={buttonDisabled}>
+                                  disabled={isDisabled}>
                     <Text style={Styles.buttonText}>GET STARTED</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={Styles.buttonStyle}

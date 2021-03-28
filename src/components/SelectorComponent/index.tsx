@@ -2,7 +2,6 @@ import React, {memo, useCallback, useState} from 'react';
 import {View} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import {Styles} from './style';
-import {textReplace} from '../../utils/replace-text';
 
 type SelectionType = {
     array: string[];
@@ -25,7 +24,7 @@ export const SelectorComponent = memo((props: SelectionType) => {
             >
                 {
                     props.array.map((value, index) =>
-                        <Picker.Item label={textReplace(value)}
+                        <Picker.Item label={unescape(value)}
                                      fontFamily={'sans-serif-condensed'}
                                      value={value}
                                      key={`part_${index}`}

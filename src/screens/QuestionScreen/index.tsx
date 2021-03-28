@@ -47,6 +47,7 @@ export const QuestionScreen = memo(() => {
     const [choiceList, setChoiceList] = useState(randomizedChoiceList);
 
     const onChoicePress = useCallback((chosenChoice: Choice) => {
+        // disable all choices
         setChoiceList(choiceList.map((value) => (
             {
                 ...value,

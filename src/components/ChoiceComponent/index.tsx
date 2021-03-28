@@ -1,12 +1,12 @@
 import React, {memo} from 'react';
-import {GestureResponderEvent, Text, TouchableOpacity} from 'react-native';
+import {Text, TouchableOpacity} from 'react-native';
 import {Styles} from './style';
 import {textReplace} from '../../utils/replace-text';
 
 export type Choice = {
     choiceName: string;
     choiceText: string;
-    onPress?: (event: GestureResponderEvent) => void;
+    onPress?: () => void;
     disabled: boolean;
 }
 

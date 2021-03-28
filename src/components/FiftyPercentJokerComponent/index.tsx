@@ -6,7 +6,7 @@ import {spendFiftyPercentJokerRightAction} from '../../store/triviaGame/action';
 import {Question} from '../../utils/types';
 
 type Props = {
-    onPress: (strings: string[]) => void
+    onPress: (choicesThoseWillStayEnabled: string[]) => void
 };
 
 export const FiftyPercentJokerComponent = memo((props: Props) => {

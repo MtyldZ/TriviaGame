@@ -2,7 +2,7 @@ import React, {memo, useCallback} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {resetTriviaGameAction} from '../../store/triviaGame/action';
 import {HeaderComponent} from '../../components/HeaderComponent';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {StackActions, useFocusEffect, useNavigation} from '@react-navigation/native';
 import {Colors} from '../../utils/color';
 import {BackHandler, Image, Text, TouchableOpacity, View} from 'react-native';
 import {Styles} from './style';
@@ -15,7 +15,8 @@ export const Timeout = memo(() => {
     const buttonPressEventHandler = useCallback(
         () => {
             dispatch(resetTriviaGameAction());
-            navigation.navigate('Start');
+            navigation.dispatch(StackActions.pop(1));
+            navigation.dispatch(StackActions.replace('Start'));
         }, [dispatch, navigation]);
 
     const hardwareBackPressEventHandler = useCallback(() => {

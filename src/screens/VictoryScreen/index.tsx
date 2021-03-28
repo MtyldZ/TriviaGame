@@ -2,7 +2,7 @@ import React, {memo, useCallback} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {resetTriviaGameAction} from '../../store/triviaGame/action';
 import {HeaderComponent} from '../../components/HeaderComponent';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {StackActions, useFocusEffect, useNavigation} from '@react-navigation/native';
 import {Colors} from '../../utils/color';
 import {Styles} from '../TimeOutScreen/style';
 import {BackHandler, Image, Text, TouchableOpacity, View} from 'react-native';
@@ -13,7 +13,8 @@ export const VictoryScreen = memo(() => {
     const totalPoint = useSelector(state => state.triviaGame.totalPoint);
 
     const buttonPressEventHandler = useCallback(() => {
-        navigation.navigate('Start');
+        navigation.dispatch(StackActions.pop(1));
+        navigation.dispatch(StackActions.replace('Start'));
         dispatch(resetTriviaGameAction());
     }, [dispatch, navigation]);
 

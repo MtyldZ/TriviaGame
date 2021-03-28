@@ -5,6 +5,18 @@ export function textReplace(text: string) {
         .replace(/&eacute;/g, 'é')
         .replace(/&shy;/g, '')
         .replace(/&ldquo;/g, '“')
+        .replace(/&nbsp;/g, '')
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>')
+        .replace(/&apos;/g, '\'')
+        .replace(/&cent;/g, '¢')
+        .replace(/&pound;/g, '£')
+        .replace(/&yen;/g, '¥')
+        .replace(/&euro;/g, '€')
+        .replace(/&copy;/g, '©')
+        .replace(/&reg;/g, '®')
+        .replace(/&rdquo;/g, '”')
+        .replace(/&rdquo;/g, '”')
         .replace(/&rdquo;/g, '”')
         .replace(/&amp;/g, '&');
 }

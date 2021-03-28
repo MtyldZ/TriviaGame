@@ -11,7 +11,7 @@ import {UserScore} from '../../utils/types';
 export const CorrectScreen = memo(() => {
     const dispatch = useDispatch();
     const navigation = useNavigation();
-    const [disabled, setDisabled] = useState(false);
+    const [waiting, setWaiting] = useState(true);
     const questionIndex = useSelector(state => state.triviaGame.questionIndex);
     const earnedPoint = useSelector(state => state.triviaGame.lastEarnedPointAmount);
     const totalPoint = useSelector(state => state.triviaGame.totalPoint);
@@ -40,8 +40,10 @@ export const CorrectScreen = memo(() => {
         return () => BackHandler.removeEventListener('hardwareBackPress', hardwareBackPressEventHandler);
     }, [hardwareBackPressEventHandler]));
 
-    const buttonPressEventHandler = useCallback(() => {
-        setDisabled(true);
+    const onButtonPress = useCallback(() => {
+        setWaiting(false);
+        // pop the correct Screen from stack
+        navigation.dispatch(StackActions.pop(1));
         if (questionIndex === 9) {
             const score: UserScore = {
                 totalTimeSpent: timeSpent,
@@ -49,18 +51,15 @@ export const CorrectScreen = memo(() => {
                 difficulty: difficulty,
                 score: totalPoint,
             };
-            console.log(timeSpent);
             const tempArr = [...allScores, score].sort((a, b) => (
                 b.score - a.score));
-            navigation.dispatch(StackActions.pop(2));
-            navigation.dispatch(StackActions.replace('Victory'));
             dispatch(setHighScoresAction(tempArr));
+            navigation.dispatch(StackActions.replace('Victory'));
         } else {
             dispatch(incrementQuestionIndexAction());
-            navigation.dispatch(StackActions.pop(2));
             navigation.dispatch(StackActions.replace('Question'));
         }
-        setDisabled(false);
+        setWaiting(true);
     }, [allScores, category, difficulty, dispatch, navigation, questionIndex, timeSpent, totalPoint]);
 
     return (
@@ -78,8 +77,8 @@ export const CorrectScreen = memo(() => {
                     </Text>
                 </View>
                 <TouchableOpacity style={Styles.buttonStyle}
-                                  onPress={buttonPressEventHandler}
-                                  disabled={disabled}>
+                                  onPress={() => onButtonPress()}
+                                  disabled={!waiting}>
                     <Text style={Styles.smallerText}>{'Next Question'}</Text>
                 </TouchableOpacity>
             </View>

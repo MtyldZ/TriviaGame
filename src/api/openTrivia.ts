@@ -1,8 +1,8 @@
 import {Question} from '../utils/types';
 
 export async function fetchData(categoryNumber: number, difficulty: string) {
-    let categoryUrlPart = (categoryNumber >= 9) ? `&category=${categoryNumber}` : '';
-    let difficultyUrlPart = (difficulty.toLowerCase() !== 'any difficulty') ?
+    const categoryUrlPart = (categoryNumber >= 9) ? `&category=${categoryNumber}` : '';
+    const difficultyUrlPart = (difficulty.toLowerCase() !== 'any difficulty') ?
         `&difficulty=${difficulty.toLowerCase()}` : '';
     const url = `https://opentdb.com/api.php?amount=10${categoryUrlPart}${difficultyUrlPart}&type=multiple`;
 

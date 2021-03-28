@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {rx, screenWidth} from '../../utils/dimensions';
+import {rx} from '../../utils/dimensions';
 import {Colors} from '../../utils/color';
 
 export const Styles = StyleSheet.create({
@@ -12,7 +12,7 @@ export const Styles = StyleSheet.create({
     },
     questionContainer: {
         height: 175 * rx,
-        width: screenWidth,
+        width: '100%',
         paddingHorizontal: 10 * rx,
     },
     bodyPartContainer: {
@@ -26,7 +26,7 @@ export const Styles = StyleSheet.create({
     },
     jokerContainer: {
         flexDirection: 'row',
-        width: screenWidth * 0.9,
+        width: '90%',
         justifyContent: 'flex-start',
     },
 });

@@ -1,8 +1,8 @@
-import React, {memo, useCallback} from 'react';
+import React, {memo, useCallback, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {HeaderComponent} from '../../components/HeaderComponent';
 import {incrementQuestionIndexAction, resetTriviaGameAction, setHighScoresAction} from '../../store/triviaGame/action';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {StackActions, useFocusEffect, useNavigation} from '@react-navigation/native';
 import {Colors} from '../../utils/color';
 import {Alert, BackHandler, Image, Text, TouchableOpacity, View} from 'react-native';
 import {Styles} from './style';
@@ -11,6 +11,7 @@ import {UserScore} from '../../utils/types';
 export const CorrectScreen = memo(() => {
     const dispatch = useDispatch();
     const navigation = useNavigation();
+    const [disabled, setDisabled] = useState(false);
     const questionIndex = useSelector(state => state.triviaGame.questionIndex);
     const earnedPoint = useSelector(state => state.triviaGame.lastEarnedPointAmount);
     const totalPoint = useSelector(state => state.triviaGame.totalPoint);
@@ -40,22 +41,26 @@ export const CorrectScreen = memo(() => {
     }, [hardwareBackPressEventHandler]));
 
     const buttonPressEventHandler = useCallback(() => {
-        if (questionIndex === 10) {
-            navigation.navigate('Victory');
+        setDisabled(true);
+        if (questionIndex === 9) {
             const score: UserScore = {
                 totalTimeSpent: timeSpent,
                 category: category,
                 difficulty: difficulty,
                 score: totalPoint,
             };
+            console.log(timeSpent);
             const tempArr = [...allScores, score].sort((a, b) => (
                 b.score - a.score));
+            navigation.dispatch(StackActions.pop(2));
+            navigation.dispatch(StackActions.replace('Victory'));
             dispatch(setHighScoresAction(tempArr));
-            dispatch(resetTriviaGameAction());
         } else {
             dispatch(incrementQuestionIndexAction());
-            navigation.navigate('Question');
+            navigation.dispatch(StackActions.pop(2));
+            navigation.dispatch(StackActions.replace('Question'));
         }
+        setDisabled(false);
     }, [allScores, category, difficulty, dispatch, navigation, questionIndex, timeSpent, totalPoint]);
 
     return (
@@ -73,7 +78,8 @@ export const CorrectScreen = memo(() => {
                     </Text>
                 </View>
                 <TouchableOpacity style={Styles.buttonStyle}
-                                  onPress={buttonPressEventHandler}>
+                                  onPress={buttonPressEventHandler}
+                                  disabled={disabled}>
                     <Text style={Styles.smallerText}>{'Next Question'}</Text>
                 </TouchableOpacity>
             </View>

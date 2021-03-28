@@ -23,4 +23,8 @@ export const Styles = StyleSheet.create({
         fontSize: 26,
         fontFamily: 'sans-serif-condensed',
     },
+    disabled: {
+        opacity: 0.5,
+        backgroundColor: '#00000070',
+    },
 });

@@ -2,9 +2,9 @@ import React, {memo, useCallback} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {resetTriviaGameAction} from '../../store/triviaGame/action';
 import {HeaderComponent} from '../../components/HeaderComponent';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {Colors} from '../../utils/color';
-import {Image, Text, TouchableOpacity, View} from 'react-native';
+import {BackHandler, Image, Text, TouchableOpacity, View} from 'react-native';
 import {Styles} from './style';
 
 export const Timeout = memo(() => {
@@ -12,11 +12,21 @@ export const Timeout = memo(() => {
     const navigation = useNavigation();
     const totalPoint = useSelector(state => state.triviaGame.totalPoint);
 
-    const pressHandler = useCallback(
+    const buttonPressEventHandler = useCallback(
         () => {
             dispatch(resetTriviaGameAction());
             navigation.navigate('Start');
         }, [dispatch, navigation]);
+
+    const hardwareBackPressEventHandler = useCallback(() => {
+        buttonPressEventHandler();
+        return true;
+    }, [buttonPressEventHandler]);
+
+    useFocusEffect(useCallback(() => {
+        BackHandler.addEventListener('hardwareBackPress', hardwareBackPressEventHandler);
+        return () => BackHandler.removeEventListener('hardwareBackPress', hardwareBackPressEventHandler);
+    }, [hardwareBackPressEventHandler]));
 
     return (
         <>
@@ -33,7 +43,7 @@ export const Timeout = memo(() => {
                     </Text>
                 </View>
                 <TouchableOpacity style={Styles.buttonStyle}
-                                  onPress={pressHandler}>
+                                  onPress={buttonPressEventHandler}>
                     <Text style={Styles.smallerText}>{'Main Menu'}</Text>
                 </TouchableOpacity>
             </View>

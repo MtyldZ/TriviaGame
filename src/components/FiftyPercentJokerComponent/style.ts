@@ -4,7 +4,7 @@ import {rx} from '../../utils/dimensions';
 export const Styles = StyleSheet.create({
     jokerContainer: {
         marginVertical: 15 * rx,
-        borderRadius: 25 * rx,
+        borderRadius: 20,
         borderColor: '#ffffff',
         borderWidth: 1.4 * rx,
         height: 65 * rx,
@@ -16,5 +16,10 @@ export const Styles = StyleSheet.create({
     fiftyPercentJokerText: {
         fontSize: 18,
         color: 'white',
+        fontFamily: 'sans-serif-condensed',
+    },
+    disabled: {
+        opacity: 0.5,
+        backgroundColor: '#00000070',
     },
 });

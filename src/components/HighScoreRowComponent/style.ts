@@ -23,7 +23,7 @@ export const Styles = StyleSheet.create({
     rowPartText: {
         fontSize: 20,
         color: '#ffffff',
-        fontWeight: '700',
+        fontWeight: '400',
         fontFamily: 'sans-serif-condensed',
     },
 });

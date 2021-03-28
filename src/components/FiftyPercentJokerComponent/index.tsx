@@ -5,9 +5,11 @@ import {useDispatch, useSelector} from 'react-redux';
 import {spendFiftyPercentJokerRightAction} from '../../store/triviaGame/action';
 import {Question} from '../../utils/types';
 
-export const FiftyPercentJokerComponent = memo((props: {
-        onPress: (strings: string[]) => void
-    }) => {
+type Props = {
+    onPress: (strings: string[]) => void
+};
+
+export const FiftyPercentJokerComponent = memo((props: Props) => {
         const dispatch = useDispatch();
         const used = useSelector(state => state.triviaGame.fiftyPercentJokerIsUsed);
 
@@ -22,12 +24,13 @@ export const FiftyPercentJokerComponent = memo((props: {
         };
         return (
             <>
-                {
-                    renderIf(!used)(() =>
-                        <TouchableOpacity style={Styles.jokerContainer} onPress={pressHandler}>
-                            <Text style={Styles.fiftyPercentJokerText}>%50</Text>
-                        </TouchableOpacity>)
-                }
+                <TouchableOpacity style={[Styles.jokerContainer,
+                    (used ? Styles.disabled : {})]}
+                                  onPress={pressHandler}
+                                  disabled={used}
+                >
+                    <Text style={Styles.fiftyPercentJokerText}>%50</Text>
+                </TouchableOpacity>
             </>
         );
     },

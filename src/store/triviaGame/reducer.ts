@@ -4,6 +4,7 @@ import {
     incrementQuestionIndexAction,
     incrementTotalPointAction,
     incrementTotalTimeSpentAction,
+    refreshFiftyPercentJokerRightAction,
     resetHighScoresAction,
     resetTriviaGameAction,
     setChosenCategoryAction,
@@ -59,6 +60,11 @@ export const triviaGameReducer = createReducer(
         handle(spendFiftyPercentJokerRightAction, (state) => {
             return {
                 ...state, fiftyPercentJokerIsUsed: true,
+            };
+        }),
+        handle(refreshFiftyPercentJokerRightAction, (state) => {
+            return {
+                ...state, fiftyPercentJokerIsUsed: false,
             };
         }),
         handle(resetTriviaGameAction, state => {

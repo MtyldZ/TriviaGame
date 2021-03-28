@@ -30,8 +30,8 @@ export const Styles = StyleSheet.create({
     buttonStyle: {
         alignItems: 'center',
         justifyContent: 'center',
-        height: 40 * rx,
-        width: '60%',
+        height: 50 * rx,
+        width: 240 * rx,
         backgroundColor: '#17633e',
     },
     buttonText: {

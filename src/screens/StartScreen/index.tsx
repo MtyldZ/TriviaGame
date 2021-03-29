@@ -10,9 +10,10 @@ import {
     setQuestionsAction,
 } from '../../store/triviaGame/action';
 import {StackActions, useFocusEffect, useNavigation} from '@react-navigation/native';
-import {Categories} from '../../utils/categories';
 import {SelectorComponent} from '../../components/SelectorComponent';
-import {Difficulties} from '../../utils/difficulties';
+import {changeBusyAction} from '../../store/ui/action';
+import {Question} from '../../utils/types';
+import {Categories, Difficulties} from '../../utils/constants';
 
 const alertFunction = () => {
     Alert.alert('Ohh sorry',
@@ -32,18 +33,25 @@ export const StartScreen = memo(() => {
     const [chosenDifficulty, setChosenDifficulty] = useState(Difficulties[0]);
     const [isDisabled, setIsDisabled] = useState(false);
 
+    const dispatchFunction = useCallback((questions: Question[]) => {
+        dispatch(resetTriviaGameAction());
+        dispatch(setChosenCategoryAction(chosenCategory));
+        dispatch(setChosenDifficultyAction(chosenDifficulty));
+        dispatch(setQuestionsAction(questions));
+        navigation.dispatch(StackActions.replace('Question'));
+    }, [chosenCategory, chosenDifficulty, dispatch, navigation]);
+
     const onPressHandler = useCallback(() => {
         setIsDisabled(true);
+        dispatch(changeBusyAction(true));
         fetchData(Categories.indexOf(chosenCategory) + 8, chosenDifficulty)
-            .then(arr => {
-                dispatch(resetTriviaGameAction());
-                dispatch(setChosenCategoryAction(chosenCategory));
-                dispatch(setChosenDifficultyAction(chosenDifficulty));
-                dispatch(setQuestionsAction(arr));
-                navigation.dispatch(StackActions.replace('Question'));
-            }).catch(() => alertFunction())
-            .finally(() => setIsDisabled(false));
-    }, [chosenCategory, chosenDifficulty, dispatch, navigation]);
+            .then((questions: Question[]) => dispatchFunction(questions))
+            .catch(() => alertFunction())
+            .finally(() => {
+                setIsDisabled(false);
+                dispatch(changeBusyAction(false));
+            });
+    }, [chosenCategory, chosenDifficulty, dispatch, dispatchFunction]);
 
     const onBackRequestHandler = useCallback(() => {
         Alert.alert('Hold on!', 'Are you sure you want to quit?', [

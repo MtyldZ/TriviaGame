@@ -12,11 +12,11 @@ import {HeaderComponent} from '../../components/HeaderComponent';
 import {Choice, ChoiceComponent} from '../../components/ChoiceComponent';
 import {StackActions, useFocusEffect, useNavigation} from '@react-navigation/native';
 import {Colors} from '../../utils/color';
-import {DefaultQuestion} from '../../utils/defaultObjects';
 import {randomizer} from '../../utils/randomizer';
 import {FiftyPercentJokerComponent} from '../../components/FiftyPercentJokerComponent';
 import {QuestionTextPartComponent} from '../../components/QuestionTextComponent';
 import {calculateEarnedPoint} from '../../utils/calculate-earned-point';
+import {DefaultQuestion} from '../../utils/constants';
 
 const optionNames = ['A', 'B', 'C', 'D'];
 

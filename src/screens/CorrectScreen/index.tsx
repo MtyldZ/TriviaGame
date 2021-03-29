@@ -51,7 +51,6 @@ export const CorrectScreen = memo(() => {
                 difficulty: difficulty,
                 score: totalPoint,
             };
-            console.log(score);
             const tempArr = [...allScores, score].sort((a, b) => (
                 b.score - a.score));
             dispatch(setHighScoresAction(tempArr));

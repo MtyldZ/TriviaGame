@@ -37,6 +37,8 @@ export const StartScreen = memo(() => {
         fetchData(Categories.indexOf(chosenCategory) + 8, chosenDifficulty)
             .then(arr => {
                 dispatch(resetTriviaGameAction());
+                dispatch(setChosenCategoryAction(chosenCategory));
+                dispatch(setChosenDifficultyAction(chosenDifficulty));
                 dispatch(setQuestionsAction(arr));
                 navigation.dispatch(StackActions.replace('Question'));
             }).catch(() => alertFunction())
@@ -64,15 +66,9 @@ export const StartScreen = memo(() => {
                     <Text style={Styles.logoText}>A trivia game</Text>
                 </View>
                 <SelectorComponent array={Categories}
-                                   onChange={s => {
-                                       dispatch(setChosenCategoryAction(s));
-                                       setChosenCategory(s);
-                                   }}/>
+                                   onChange={s => setChosenCategory(s)}/>
                 <SelectorComponent array={Difficulties}
-                                   onChange={s => {
-                                       dispatch(setChosenDifficultyAction(s));
-                                       setChosenDifficulty(s);
-                                   }}/>
+                                   onChange={s => setChosenDifficulty(s)}/>
                 <TouchableOpacity style={Styles.buttonStyle}
                                   onPress={onPressHandler}
                                   disabled={isDisabled}>

@@ -50,6 +50,19 @@ export const QuestionScreen = memo(() => {
 
     const [choiceList, setChoiceList] = useState(randomizedChoiceList);
 
+    const answeredCorrectly = useCallback(() => {
+        setGameState(trueAnswered);
+        dispatch(incrementTotalPointAction(calculateEarnedPoint(timeLeft,
+            questionObject.difficulty)));
+        dispatch(incrementTotalTimeSpentAction(15 - timeLeft));
+        navigation.navigate('Correct');
+    }, [dispatch, navigation, questionObject.difficulty, timeLeft]);
+
+    const answeredIncorrectly = useCallback(() => {
+        setGameState(wrongAnswered);
+        navigation.navigate('Wrong');
+    }, [navigation]);
+
     const onChoicePress = useCallback((chosenChoice: Choice) => {
         // disable all choices
         setChoiceList(choiceList.map((value) => (
@@ -58,12 +71,13 @@ export const QuestionScreen = memo(() => {
                 disabled: true,
             }
         )));
+
         if (chosenChoice.choiceText === questionObject.correctAnswer) {
-            setGameState(trueAnswered);
+            answeredCorrectly();
         } else {
-            setGameState(wrongAnswered);
+            answeredIncorrectly();
         }
-    }, [choiceList, questionObject.correctAnswer]);
+    }, [answeredCorrectly, answeredIncorrectly, choiceList, questionObject.correctAnswer]);
 
     const onJokerPressed = useCallback((choicesThoseWillStayEnabled: string[]) => {
         const newList = choiceList.map((value) => (
@@ -76,31 +90,16 @@ export const QuestionScreen = memo(() => {
     }, [choiceList]);
 
     useEffect(() => {
-        if (gameState === trueAnswered) {
-            dispatch(incrementTotalPointAction(calculateEarnedPoint(timeLeft,
-                questionObject.difficulty)));
-            dispatch(incrementTotalTimeSpentAction(15 - timeLeft));
-            navigation.navigate('Correct');
-        } else if (gameState === wrongAnswered) {
-            navigation.navigate('Wrong');
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [gameState]);
-
-    useEffect(() => {
         if (gameState !== waiting) {
             return;
+        }
+        if (timeLeft === 0) {
+            navigation.navigate('Timeout');
         }
         setTimeout(() => {
             setTimeLeft(prevState => prevState - 1);
         }, 1000);
-    }, [gameState, timeLeft]);
-
-    useEffect(() => {
-        if (timeLeft === 0) {
-            navigation.navigate('Timeout');
-        }
-    }, [navigation, timeLeft]);
+    }, [gameState, navigation, timeLeft]);
 
     const hardwareBackPressEventHandler = useCallback(() => {
         Alert.alert('Caution!', 'Are you sure you want give up?', [

@@ -14,6 +14,17 @@ import {Categories} from '../../utils/categories';
 import {SelectorComponent} from '../../components/SelectorComponent';
 import {Difficulties} from '../../utils/difficulties';
 
+const alertFunction = () => {
+    Alert.alert('Ohh sorry',
+        'It looks like we do not have enough questions to ask in that filter. Maybe next update we will.',
+        [
+            {
+                text: 'Okay',
+                onPress: () => null,
+            },
+        ]);
+};
+
 export const StartScreen = memo(() => {
     const dispatch = useDispatch();
     const navigation = useNavigation();
@@ -28,7 +39,8 @@ export const StartScreen = memo(() => {
                 dispatch(resetTriviaGameAction());
                 dispatch(setQuestionsAction(arr));
                 navigation.dispatch(StackActions.replace('Question'));
-            }).finally(() => setIsDisabled(false));
+            }).catch(() => alertFunction())
+            .finally(() => setIsDisabled(false));
     }, [chosenCategory, chosenDifficulty, dispatch, navigation]);
 
     const onBackRequestHandler = useCallback(() => {

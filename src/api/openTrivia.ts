@@ -8,8 +8,11 @@ export async function fetchData(categoryNumber: number, difficulty: string) {
 
     return fetch(url).then(r => r.json()).then(
         json => {
+            if (json.response_code === 1) {
+                return Promise.reject();
+            }
             const allQuestions: Question[] = [];
-            for (let i = 0; i < 10; i++) {
+            for (let i = 0; i < json.results.length; i++) {
                 const result = json.results[i];
                 const questionData: Question = {
                     index: i,
@@ -24,7 +27,6 @@ export async function fetchData(categoryNumber: number, difficulty: string) {
             return allQuestions;
         },
     ).catch(error => {
-        console.error(error);
         throw error;
     });
 }

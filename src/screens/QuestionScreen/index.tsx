@@ -30,13 +30,17 @@ const createChoiceList = (allAnswersArray: string[]) => {
     ));
 };
 
+const waiting = 0;
+const trueAnswered = 1;
+const wrongAnswered = -1;
+const TIME_GIVEN_TO_SOLVE = 15;
+
 export const QuestionScreen = memo(() => {
     const dispatch = useDispatch();
     const totalPoints = useSelector(state => state.triviaGame.totalPoint);
     const navigation = useNavigation();
-    const [timeLeft, setTimeLeft] = useState(15);
-    const [gameState, setGameState] = useState(0);
-    // 0-waiting 1-true 2-wrong
+    const [timeLeft, setTimeLeft] = useState(TIME_GIVEN_TO_SOLVE);
+    const [gameState, setGameState] = useState(waiting);
     const questionObject: Question = useSelector(state =>
         state.triviaGame.questions[state.triviaGame.questionIndex]) || DefaultQuestion;
 
@@ -55,9 +59,9 @@ export const QuestionScreen = memo(() => {
             }
         )));
         if (chosenChoice.choiceText === questionObject.correctAnswer) {
-            setGameState(1);
+            setGameState(trueAnswered);
         } else {
-            setGameState(2);
+            setGameState(wrongAnswered);
         }
     }, [choiceList, questionObject.correctAnswer]);
 
@@ -72,32 +76,31 @@ export const QuestionScreen = memo(() => {
     }, [choiceList]);
 
     useEffect(() => {
-        if (gameState === 1) {
-            dispatch(incrementTotalPointAction(calculateEarnedPoint(timeLeft, questionObject.difficulty)));
+        if (gameState === trueAnswered) {
+            dispatch(incrementTotalPointAction(calculateEarnedPoint(timeLeft,
+                questionObject.difficulty)));
             dispatch(incrementTotalTimeSpentAction(15 - timeLeft));
             navigation.navigate('Correct');
-        } else if (gameState === 2) {
+        } else if (gameState === wrongAnswered) {
             navigation.navigate('Wrong');
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [gameState]);
 
     useEffect(() => {
-        if (gameState !== 0) {
+        if (gameState !== waiting) {
             return;
         }
-        const interval = setInterval(() => {
+        setTimeout(() => {
             setTimeLeft(prevState => prevState - 1);
         }, 1000);
-        return () => clearInterval(interval);
     }, [gameState, timeLeft]);
 
     useEffect(() => {
         if (timeLeft === 0) {
             navigation.navigate('Timeout');
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [timeLeft]);
+    }, [navigation, timeLeft]);
 
     const hardwareBackPressEventHandler = useCallback(() => {
         Alert.alert('Caution!', 'Are you sure you want give up?', [

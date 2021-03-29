@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {rx, screenWidth} from '../../utils/dimensions';
+import {rx} from '../../utils/dimensions';
 import {Colors} from '../../utils/color';
 
 export const Styles = StyleSheet.create({
@@ -30,7 +30,7 @@ export const Styles = StyleSheet.create({
     },
     buttonStyle: {
         marginTop: 20 * rx,
-        width: screenWidth * 0.6,
+        width: 256 * rx,
         height: 40 * rx,
         alignItems: 'center',
         justifyContent: 'center',

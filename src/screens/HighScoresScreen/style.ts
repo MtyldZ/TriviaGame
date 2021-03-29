@@ -8,13 +8,14 @@ export const Styles = StyleSheet.create({
         backgroundColor: '#2ba067',
         alignItems: 'center',
         justifyContent: 'flex-start',
+        paddingTop: 10 * rx,
     },
     headerAndScoreContainer: {
         flex: 1,
     },
     headerContainer: {
         height: 60 * rx,
-        marginTop: 20 * rx,
+        marginTop: 10 * rx,
         alignSelf: 'center',
     },
     headerText: {
@@ -31,7 +32,7 @@ export const Styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         height: 50 * rx,
-        width: 240 * rx,
+        width: 256 * rx,
         backgroundColor: '#17633e',
     },
     buttonText: {

@@ -3,15 +3,16 @@ import {useDispatch, useSelector} from 'react-redux';
 import {HeaderComponent} from '../../components/HeaderComponent';
 import {incrementQuestionIndexAction, resetTriviaGameAction, setHighScoresAction} from '../../store/triviaGame/action';
 import {StackActions, useFocusEffect, useNavigation} from '@react-navigation/native';
-import {Colors} from '../../utils/color';
+import {Colors} from '../../utils/default-styles';
 import {Alert, BackHandler, Image, Text, TouchableOpacity, View} from 'react-native';
 import {Styles} from './style';
 import {UserScore} from '../../utils/types';
+import {StateEnum} from '../../utils/state-enum';
 
 export const CorrectScreen = memo(() => {
     const dispatch = useDispatch();
     const navigation = useNavigation();
-    const [isDisabled, setIsDisabled] = useState(false);
+    const [screenState, setScreenState] = useState(StateEnum.reading);
     const questionIndex = useSelector(state => state.triviaGame.questionIndex);
     const earnedPoint = useSelector(state => state.triviaGame.lastEarnedPointAmount);
     const totalPoint = useSelector(state => state.triviaGame.totalPoint);
@@ -41,9 +42,10 @@ export const CorrectScreen = memo(() => {
     }, [hardwareBackPressEventHandler]));
 
     const onButtonPress = useCallback(() => {
-        setIsDisabled(true);
-        // pop the correct Screen from stack
-        navigation.dispatch(StackActions.pop(1));
+        if (screenState !== StateEnum.reading) {
+            return;
+        }
+        setScreenState(StateEnum.pressed);
         if (questionIndex === 9) {
             const score: UserScore = {
                 totalTimeSpent: timeSpent,
@@ -59,8 +61,7 @@ export const CorrectScreen = memo(() => {
             dispatch(incrementQuestionIndexAction());
             navigation.dispatch(StackActions.replace('Question'));
         }
-        setIsDisabled(false);
-    }, [allScores, category, difficulty, dispatch, navigation, questionIndex, timeSpent, totalPoint]);
+    }, [allScores, category, difficulty, dispatch, navigation, questionIndex, screenState, timeSpent, totalPoint]);
 
     return (
         <>
@@ -78,7 +79,7 @@ export const CorrectScreen = memo(() => {
                 </View>
                 <TouchableOpacity style={Styles.buttonStyle}
                                   onPress={onButtonPress}
-                                  disabled={isDisabled}>
+                                  disabled={screenState !== StateEnum.reading}>
                     <Text style={Styles.smallerText}>{'Next Question'}</Text>
                 </TouchableOpacity>
             </View>

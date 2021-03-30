@@ -11,12 +11,12 @@ import {Question} from '../../utils/types';
 import {HeaderComponent} from '../../components/HeaderComponent';
 import {Choice, ChoiceComponent} from '../../components/ChoiceComponent';
 import {StackActions, useFocusEffect, useNavigation} from '@react-navigation/native';
-import {Colors} from '../../utils/color';
-import {randomizer} from '../../utils/randomizer';
+import {Colors} from '../../utils/default-styles';
+import {shuffle} from '../../utils/shuffle';
 import {FiftyPercentJokerComponent} from '../../components/FiftyPercentJokerComponent';
 import {QuestionTextPartComponent} from '../../components/QuestionTextComponent';
 import {calculateEarnedPoint} from '../../utils/calculate-earned-point';
-import {DefaultQuestion} from '../../utils/constants';
+import {StateEnum} from '../../utils/state-enum';
 
 const optionNames = ['A', 'B', 'C', 'D'];
 
@@ -30,9 +30,6 @@ const createChoiceList = (allAnswersArray: string[]) => {
     ));
 };
 
-const waiting = 0;
-const trueAnswered = 1;
-const wrongAnswered = -1;
 const TIME_GIVEN_TO_SOLVE = 15;
 
 export const QuestionScreen = memo(() => {
@@ -40,46 +37,44 @@ export const QuestionScreen = memo(() => {
     const totalPoints = useSelector(state => state.triviaGame.totalPoint);
     const navigation = useNavigation();
     const [timeLeft, setTimeLeft] = useState(TIME_GIVEN_TO_SOLVE);
-    const [gameState, setGameState] = useState(waiting);
+    const [gameState, setGameState] = useState(StateEnum.reading);
+
     const questionObject: Question = useSelector(state =>
-        state.triviaGame.questions[state.triviaGame.questionIndex]) || DefaultQuestion;
+        state.triviaGame.questions[state.triviaGame.questionIndex]);
 
     const randomizedChoiceList = useMemo(() => {
-        return createChoiceList(randomizer([...questionObject.wrongAnswers, questionObject.correctAnswer]));
+        return createChoiceList(shuffle([...questionObject.wrongAnswers,
+            questionObject.correctAnswer]));
     }, [questionObject]);
 
     const [choiceList, setChoiceList] = useState(randomizedChoiceList);
 
     const answeredCorrectly = useCallback(() => {
-        setGameState(trueAnswered);
         dispatch(incrementTotalPointAction(calculateEarnedPoint(timeLeft,
             questionObject.difficulty)));
         dispatch(incrementTotalTimeSpentAction(15 - timeLeft));
-        navigation.navigate('Correct');
+        navigation.dispatch(StackActions.replace('Correct'));
     }, [dispatch, navigation, questionObject.difficulty, timeLeft]);
 
     const answeredIncorrectly = useCallback(() => {
-        setGameState(wrongAnswered);
-        navigation.navigate('Wrong');
+        navigation.dispatch(StackActions.replace('Wrong'));
     }, [navigation]);
 
     const onChoicePress = useCallback((chosenChoice: Choice) => {
-        // disable all choices
-        setChoiceList(choiceList.map((value) => (
-            {
-                ...value,
-                disabled: true,
-            }
-        )));
-
+        if (gameState !== StateEnum.reading) {
+            return;
+        }
+        setGameState(StateEnum.pressed);
         if (chosenChoice.choiceText === questionObject.correctAnswer) {
+            setGameState(StateEnum.answeredCorrect);
             answeredCorrectly();
         } else {
+            setGameState(StateEnum.answeredWrong);
             answeredIncorrectly();
         }
-    }, [answeredCorrectly, answeredIncorrectly, choiceList, questionObject.correctAnswer]);
+    }, [answeredCorrectly, answeredIncorrectly, gameState, questionObject.correctAnswer]);
 
-    const onJokerPressed = useCallback((choicesThoseWillStayEnabled: string[]) => {
+    const onJokerPress = useCallback((choicesThoseWillStayEnabled: string[]) => {
         const newList = choiceList.map((value) => (
             {
                 ...value,
@@ -90,7 +85,7 @@ export const QuestionScreen = memo(() => {
     }, [choiceList]);
 
     useEffect(() => {
-        if (gameState !== waiting) {
+        if (gameState !== StateEnum.reading) {
             return;
         }
         if (timeLeft === 0) {
@@ -130,14 +125,12 @@ export const QuestionScreen = memo(() => {
                              ]}/>
             <View style={Styles.bodyPartContainer}>
                 <View style={Styles.jokerContainer}>
-                    <FiftyPercentJokerComponent onPress={onJokerPressed}/>
+                    <FiftyPercentJokerComponent onPress={onJokerPress}/>
                 </View>
                 <QuestionTextPartComponent questionObject={questionObject}/>
                 {
                     choiceList.map((choice, index) =>
-                        <ChoiceComponent choiceName={choice.choiceName}
-                                         choiceText={choice.choiceText}
-                                         disabled={choice.disabled}
+                        <ChoiceComponent choice={choice}
                                          onPress={() => onChoicePress(choice)}
                                          key={`key_${index}`}
                         />)

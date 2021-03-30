@@ -1,6 +1,7 @@
 import {StyleSheet} from 'react-native';
 import {rx} from '../../utils/dimensions';
-import {Colors} from '../../utils/color';
+import {Colors, FontFamily} from '../../utils/default-styles';
+
 
 export const Styles = StyleSheet.create({
     container: {
@@ -26,7 +27,7 @@ export const Styles = StyleSheet.create({
         color: '#ffffff',
         fontSize: 32,
         fontWeight: '700',
-        fontFamily: 'sans-serif-condensed',
+        fontFamily: FontFamily.fontFamily,
     },
     buttonStyle: {
         marginTop: 20 * rx,
@@ -39,7 +40,7 @@ export const Styles = StyleSheet.create({
     buttonText: {
         color: '#ffffff',
         fontSize: 20,
-        fontFamily: 'sans-serif-condensed',
+        fontFamily: FontFamily.fontFamily,
     },
 
 });

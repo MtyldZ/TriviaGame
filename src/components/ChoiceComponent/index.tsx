@@ -5,23 +5,27 @@ import {Styles} from './style';
 export type Choice = {
     choiceName: string;
     choiceText: string;
-    onPress?: () => void;
     disabled: boolean;
 }
 
-export const ChoiceComponent = memo((props: Choice) => {
+type ChoiceComponentType = {
+    choice: Choice;
+    onPress?: () => void;
+};
+
+export const ChoiceComponent = memo((props: ChoiceComponentType) => {
     return (
         <TouchableOpacity style={[Styles.choiceContainer,
-            (props.disabled ? Styles.disabled : {})]}
-                          disabled={props.disabled}
+            (props.choice.disabled ? Styles.disabled : {})]}
+                          disabled={props.choice.disabled}
                           onPress={props.onPress}>
             <Text style={Styles.choiceName}>
-                {props.choiceName + ':   '}
+                {props.choice.choiceName + ':   '}
             </Text>
             <Text style={Styles.choiceText}
                   adjustsFontSizeToFit={true}
                   numberOfLines={2}>
-                {props.choiceText}
+                {props.choice.choiceText}
             </Text>
         </TouchableOpacity>
     );

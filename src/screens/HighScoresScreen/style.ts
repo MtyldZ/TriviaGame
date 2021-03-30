@@ -1,5 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {rx} from '../../utils/dimensions';
+import {FontFamily} from '../../utils/default-styles';
 
 export const Styles = StyleSheet.create({
     container: {
@@ -22,7 +23,7 @@ export const Styles = StyleSheet.create({
         color: '#fff',
         fontWeight: 'bold',
         fontSize: 32,
-        fontFamily: 'sans-serif-condensed',
+        fontFamily: FontFamily.fontFamily,
     },
     buttonsContainer: {
         height: 140 * rx,
@@ -39,6 +40,6 @@ export const Styles = StyleSheet.create({
         color: '#fff',
         fontSize: 24,
         fontWeight: 'bold',
-        fontFamily: 'sans-serif-condensed',
+        fontFamily: FontFamily.fontFamily,
     },
 });

@@ -14,7 +14,6 @@ import {
     spendFiftyPercentJokerRightAction,
 } from './action';
 
-
 const initialState: TriviaGameState = {
     questionIndex: 0,
     totalPoint: 0,
@@ -49,22 +48,26 @@ export const triviaGameReducer = createReducer(
         }),
         handle(setHighScoresAction, (state, action) => {
             return {
-                ...state, highScores: [...action.payload.scoreArray],
+                ...state,
+                highScores: [...action.payload.scoreArray],
             };
         }),
         handle(resetHighScoresAction, (state) => {
             return {
-                ...state, highScores: [],
+                ...state,
+                highScores: [],
             };
         }),
         handle(spendFiftyPercentJokerRightAction, (state) => {
             return {
-                ...state, fiftyPercentJokerIsUsed: true,
+                ...state,
+                fiftyPercentJokerIsUsed: true,
             };
         }),
         handle(refreshFiftyPercentJokerRightAction, (state) => {
             return {
-                ...state, fiftyPercentJokerIsUsed: false,
+                ...state,
+                fiftyPercentJokerIsUsed: false,
             };
         }),
         handle(resetTriviaGameAction, state => {
@@ -75,17 +78,20 @@ export const triviaGameReducer = createReducer(
         }),
         handle(incrementTotalTimeSpentAction, (state, action) => {
             return {
-                ...state, totalTimeSpent: state.totalTimeSpent + action.payload.spentTime,
+                ...state,
+                totalTimeSpent: state.totalTimeSpent + action.payload.spentTime,
             };
         }),
         handle(setChosenCategoryAction, (state, action) => {
             return {
-                ...state, chosenCategory: action.payload.newCategory,
+                ...state,
+                chosenCategory: action.payload.newCategory,
             };
         }),
         handle(setChosenDifficultyAction, (state, action) => {
             return {
-                ...state, chosenDifficulty: action.payload.newDifficulty,
+                ...state,
+                chosenDifficulty: action.payload.newDifficulty,
             };
         }),
     ],

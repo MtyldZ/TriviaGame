@@ -1,5 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {rx} from '../../utils/dimensions';
+import {FontFamily} from '../../utils/default-styles';
 
 export const Styles = StyleSheet.create({
     jokerContainer: {
@@ -16,7 +17,7 @@ export const Styles = StyleSheet.create({
     fiftyPercentJokerText: {
         fontSize: 18,
         color: 'white',
-        fontFamily: 'sans-serif-condensed',
+        fontFamily: FontFamily.fontFamily,
     },
     disabled: {
         opacity: 0.5,

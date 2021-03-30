@@ -1,8 +1,8 @@
-import React, {memo, useCallback} from 'react';
+import React, {memo, useCallback, useState} from 'react';
 import {Alert, BackHandler, Image, SafeAreaView, Text, TouchableOpacity, View} from 'react-native';
 import {Styles} from './style';
 import {fetchData} from '../../api/openTrivia';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {
     resetTriviaGameAction,
     setChosenCategoryAction,
@@ -29,22 +29,24 @@ const alertFunction = () => {
 export const StartScreen = memo(() => {
     const dispatch = useDispatch();
     const navigation = useNavigation();
-    const chosenCategory = useSelector(state => state.triviaGame.chosenCategory);
-    const chosenDifficulty = useSelector(state => state.triviaGame.chosenDifficulty);
+    const [chosenCategory, setChosenCategory] = useState(Categories[0]);
+    const [chosenDifficulty, setChosenDifficulty] = useState(Difficulties[0]);
 
     const categorySetHandler = useCallback((newCategory: string) => {
-        dispatch(setChosenCategoryAction(newCategory));
-    }, [dispatch]);
+        setChosenCategory(newCategory);
+    }, []);
 
     const difficultySetHandler = useCallback((newDifficulty: string) => {
-        dispatch(setChosenDifficultyAction(newDifficulty));
-    }, [dispatch]);
+        setChosenDifficulty(newDifficulty);
+    }, []);
 
     const dispatchFunction = useCallback((questions: Question[]) => {
         dispatch(resetTriviaGameAction());
+        dispatch(setChosenCategoryAction(chosenCategory));
+        dispatch(setChosenDifficultyAction(chosenDifficulty));
         dispatch(setQuestionsAction(questions));
         navigation.dispatch(StackActions.replace('Question'));
-    }, [dispatch, navigation]);
+    }, [chosenCategory, chosenDifficulty, dispatch, navigation]);
 
     const onStartPressHandler = useCallback(() => {
         dispatch(changeBusyAction(true));

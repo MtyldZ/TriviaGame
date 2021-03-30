@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {rx} from '../../utils/dimensions';
-import {Colors} from '../../utils/color';
+import {Colors, FontFamily} from '../../utils/default-styles';
 
 export const Styles = StyleSheet.create({
     container: {
@@ -19,6 +19,7 @@ export const Styles = StyleSheet.create({
     biggerText: {
         color: '#ffffff',
         fontSize: 32,
+        fontFamily: FontFamily.fontFamily,
     },
     middleViewContainer: {
         alignItems: 'center',
@@ -27,6 +28,7 @@ export const Styles = StyleSheet.create({
     smallerText: {
         color: '#ffffff',
         fontSize: 22,
+        fontFamily: FontFamily.fontFamily,
     },
     buttonStyle: {
         width: 360 * rx,

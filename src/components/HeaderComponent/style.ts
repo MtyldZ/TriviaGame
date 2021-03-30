@@ -1,5 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {rx} from '../../utils/dimensions';
+import {FontFamily} from '../../utils/default-styles';
 
 export const Styles = StyleSheet.create({
     container: {
@@ -19,6 +20,6 @@ export const Styles = StyleSheet.create({
     rowPartText: {
         color: 'white',
         fontSize: 22,
-        fontFamily: 'sans-serif-condensed',
+        fontFamily: FontFamily.fontFamily,
     },
 });

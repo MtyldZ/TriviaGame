@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {rx} from '../../utils/dimensions';
-import {Colors} from '../../utils/color';
+import {Colors, FontFamily} from '../../utils/default-styles';
 
 export const Styles = StyleSheet.create({
     highScoreRowContainer: {
@@ -24,6 +24,6 @@ export const Styles = StyleSheet.create({
         fontSize: 20,
         color: '#ffffff',
         fontWeight: '400',
-        fontFamily: 'sans-serif-condensed',
+        fontFamily: FontFamily.fontFamily,
     },
 });

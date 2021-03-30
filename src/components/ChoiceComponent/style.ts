@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {rx} from '../../utils/dimensions';
-import {Colors} from '../../utils/color';
+import {Colors, FontFamily} from '../../utils/default-styles';
 
 export const Styles = StyleSheet.create({
     choiceContainer: {
@@ -17,11 +17,12 @@ export const Styles = StyleSheet.create({
     choiceName: {
         color: '#fff',
         fontSize: 20,
+        fontFamily: FontFamily.fontFamily,
     },
     choiceText: {
         color: '#fff',
         fontSize: 26,
-        fontFamily: 'sans-serif-condensed',
+        fontFamily: FontFamily.fontFamily,
     },
     disabled: {
         opacity: 0.5,

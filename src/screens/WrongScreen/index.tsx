@@ -1,25 +1,44 @@
 import React, {memo, useCallback, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {resetTriviaGameAction} from '../../store/triviaGame/action';
 import {HeaderComponent} from '../../components/HeaderComponent';
 import {StackActions, useFocusEffect, useNavigation} from '@react-navigation/native';
-import {Colors} from '../../utils/color';
+import {Colors} from '../../utils/default-styles';
 import {BackHandler, Image, Text, TouchableOpacity, View} from 'react-native';
 import {Styles} from './style';
+import {StateEnum} from '../../utils/state-enum';
+import {UserScore} from '../../utils/types';
+import {setHighScoresAction} from '../../store/triviaGame/action';
 
 export const WrongScreen = memo(() => {
     const dispatch = useDispatch();
     const navigation = useNavigation();
     const totalPoint = useSelector(state => state.triviaGame.totalPoint);
-    const [isDisabled, setIsDisabled] = useState(false);
+    const questionIndex = useSelector(state => state.triviaGame.questionIndex);
+    const category = useSelector(state => state.triviaGame.chosenCategory);
+    const difficulty = useSelector(state => state.triviaGame.chosenDifficulty);
+    const timeSpent = useSelector(state => state.triviaGame.totalTimeSpent);
+    const allScores = useSelector(state => state.triviaGame.highScores);
+    const [screenState, setScreenState] = useState(StateEnum.reading);
 
     const buttonPressEventHandler = useCallback(() => {
-        setIsDisabled(true);
-        navigation.dispatch(StackActions.pop(1));
+        if (screenState !== StateEnum.reading) {
+            return;
+        }
+        setScreenState(StateEnum.pressed);
+        // if the player can solve more than 2 questions, record the score
+        if (questionIndex > 2) {
+            const score: UserScore = {
+                totalTimeSpent: timeSpent,
+                category: category,
+                difficulty: difficulty,
+                score: totalPoint,
+            };
+            const tempArr = [...allScores, score].sort((a, b) => (
+                b.score - a.score));
+            dispatch(setHighScoresAction(tempArr));
+        }
         navigation.dispatch(StackActions.replace('Start'));
-        dispatch(resetTriviaGameAction());
-        setIsDisabled(false);
-    }, [dispatch, navigation]);
+    }, [allScores, category, difficulty, dispatch, navigation, questionIndex, screenState, timeSpent, totalPoint]);
 
     const hardwareBackPressEventHandler = useCallback(() => {
         buttonPressEventHandler();
@@ -47,7 +66,7 @@ export const WrongScreen = memo(() => {
                 </View>
                 <TouchableOpacity style={Styles.buttonStyle}
                                   onPress={buttonPressEventHandler}
-                                  disabled={isDisabled}>
+                                  disabled={screenState !== StateEnum.reading}>
                     <Text style={Styles.smallerText}>{'Main Menu'}</Text>
                 </TouchableOpacity>
             </View>

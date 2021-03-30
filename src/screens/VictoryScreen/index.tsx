@@ -2,20 +2,23 @@ import React, {memo, useCallback, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {HeaderComponent} from '../../components/HeaderComponent';
 import {StackActions, useFocusEffect, useNavigation} from '@react-navigation/native';
-import {Colors} from '../../utils/color';
+import {Colors} from '../../utils/default-styles';
 import {Styles} from '../TimeOutScreen/style';
 import {BackHandler, Image, Text, TouchableOpacity, View} from 'react-native';
+import {StateEnum} from '../../utils/state-enum';
 
 export const VictoryScreen = memo(() => {
     const navigation = useNavigation();
     const totalPoint = useSelector(state => state.triviaGame.totalPoint);
-    const [isDisabled, setIsDisabled] = useState(false);
+    const [screenState, setScreenState] = useState(StateEnum.reading);
 
     const buttonPressEventHandler = useCallback(() => {
-        setIsDisabled(true);
+        if (screenState !== StateEnum.reading) {
+            return;
+        }
+        setScreenState(StateEnum.pressed);
         navigation.dispatch(StackActions.replace('Start'));
-        setIsDisabled(false);
-    }, [navigation]);
+    }, [navigation, screenState]);
 
     const hardwareBackPressEventHandler = useCallback(() => {
         buttonPressEventHandler();
@@ -43,7 +46,7 @@ export const VictoryScreen = memo(() => {
                 </View>
                 <TouchableOpacity style={Styles.buttonStyle}
                                   onPress={buttonPressEventHandler}
-                                  disabled={isDisabled}>
+                                  disabled={screenState !== StateEnum.reading}>
                     <Text style={Styles.smallerText}>{'Main Menu'}</Text>
                 </TouchableOpacity>
             </View>

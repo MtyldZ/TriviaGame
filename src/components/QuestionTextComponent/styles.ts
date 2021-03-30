@@ -1,5 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {rx} from '../../utils/dimensions';
+import {FontFamily} from '../../utils/default-styles';
 
 export const Styles = StyleSheet.create({
     questionContainer: {
@@ -10,6 +11,6 @@ export const Styles = StyleSheet.create({
     questionTextStyle: {
         color: '#fff',
         fontSize: 36,
-        fontFamily: 'sans-serif-condensed',
+        fontFamily: FontFamily.fontFamily,
     },
 });

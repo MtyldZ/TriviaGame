@@ -20,3 +20,7 @@ export const Colors = {
     highScoreRowColor: '#17633e',
     highScoreButton: '#17633e',
 };
+
+export const FontFamily = {
+    fontFamily: 'sans-serif-condensed',
+};

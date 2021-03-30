@@ -1,25 +1,24 @@
 import React, {memo, useCallback, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {resetTriviaGameAction} from '../../store/triviaGame/action';
+import {useSelector} from 'react-redux';
 import {HeaderComponent} from '../../components/HeaderComponent';
 import {StackActions, useFocusEffect, useNavigation} from '@react-navigation/native';
-import {Colors} from '../../utils/color';
+import {Colors} from '../../utils/default-styles';
 import {BackHandler, Image, Text, TouchableOpacity, View} from 'react-native';
 import {Styles} from './style';
+import {StateEnum} from '../../utils/state-enum';
 
 export const Timeout = memo(() => {
-    const dispatch = useDispatch();
     const navigation = useNavigation();
     const totalPoint = useSelector(state => state.triviaGame.totalPoint);
-    const [isDisabled, setIsDisabled] = useState(false);
+    const [screenState, setScreenState] = useState(StateEnum.reading);
 
     const buttonPressEventHandler = useCallback(() => {
-        setIsDisabled(true);
-        dispatch(resetTriviaGameAction());
-        navigation.dispatch(StackActions.pop(1));
+        if (screenState !== StateEnum.reading) {
+            return;
+        }
+        setScreenState(StateEnum.pressed);
         navigation.dispatch(StackActions.replace('Start'));
-        setIsDisabled(false);
-    }, [dispatch, navigation]);
+    }, [navigation, screenState]);
 
     const hardwareBackPressEventHandler = useCallback(() => {
         buttonPressEventHandler();
@@ -47,7 +46,7 @@ export const Timeout = memo(() => {
                 </View>
                 <TouchableOpacity style={Styles.buttonStyle}
                                   onPress={buttonPressEventHandler}
-                                  disabled={isDisabled}>
+                                  disabled={screenState !== StateEnum.reading}>
                     <Text style={Styles.smallerText}>{'Main Menu'}</Text>
                 </TouchableOpacity>
             </View>

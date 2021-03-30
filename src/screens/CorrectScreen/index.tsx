@@ -77,7 +77,7 @@ export const CorrectScreen = memo(() => {
                     </Text>
                 </View>
                 <TouchableOpacity style={Styles.buttonStyle}
-                                  onPress={() => onButtonPress()}
+                                  onPress={onButtonPress}
                                   disabled={isDisabled}>
                     <Text style={Styles.smallerText}>{'Next Question'}</Text>
                 </TouchableOpacity>

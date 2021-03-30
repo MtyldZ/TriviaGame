@@ -1,8 +1,8 @@
-import React, {memo, useCallback, useState} from 'react';
+import React, {memo, useCallback} from 'react';
 import {Alert, BackHandler, Image, SafeAreaView, Text, TouchableOpacity, View} from 'react-native';
 import {Styles} from './style';
 import {fetchData} from '../../api/openTrivia';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {
     resetTriviaGameAction,
     setChosenCategoryAction,
@@ -29,29 +29,36 @@ const alertFunction = () => {
 export const StartScreen = memo(() => {
     const dispatch = useDispatch();
     const navigation = useNavigation();
-    const [chosenCategory, setChosenCategory] = useState(Categories[0]);
-    const [chosenDifficulty, setChosenDifficulty] = useState(Difficulties[0]);
-    const [isDisabled, setIsDisabled] = useState(false);
+    const chosenCategory = useSelector(state => state.triviaGame.chosenCategory);
+    const chosenDifficulty = useSelector(state => state.triviaGame.chosenDifficulty);
+
+    const categorySetHandler = useCallback((newCategory: string) => {
+        dispatch(setChosenCategoryAction(newCategory));
+    }, [dispatch]);
+
+    const difficultySetHandler = useCallback((newDifficulty: string) => {
+        dispatch(setChosenDifficultyAction(newDifficulty));
+    }, [dispatch]);
 
     const dispatchFunction = useCallback((questions: Question[]) => {
         dispatch(resetTriviaGameAction());
-        dispatch(setChosenCategoryAction(chosenCategory));
-        dispatch(setChosenDifficultyAction(chosenDifficulty));
         dispatch(setQuestionsAction(questions));
         navigation.dispatch(StackActions.replace('Question'));
-    }, [chosenCategory, chosenDifficulty, dispatch, navigation]);
+    }, [dispatch, navigation]);
 
-    const onPressHandler = useCallback(() => {
-        setIsDisabled(true);
+    const onStartPressHandler = useCallback(() => {
         dispatch(changeBusyAction(true));
         fetchData(Categories.indexOf(chosenCategory) + 8, chosenDifficulty)
             .then((questions: Question[]) => dispatchFunction(questions))
             .catch(() => alertFunction())
-            .finally(() => {
-                setIsDisabled(false);
-                dispatch(changeBusyAction(false));
-            });
+            .finally(() => dispatch(changeBusyAction(false)));
     }, [chosenCategory, chosenDifficulty, dispatch, dispatchFunction]);
+
+    const onHighScoresPressHandler = useCallback(() => {
+        dispatch(changeBusyAction(true));
+        navigation.navigate('HighScores');
+        dispatch(changeBusyAction(false));
+    }, [dispatch, navigation]);
 
     const onBackRequestHandler = useCallback(() => {
         Alert.alert('Hold on!', 'Are you sure you want to quit?', [
@@ -67,26 +74,23 @@ export const StartScreen = memo(() => {
     }, [onBackRequestHandler]));
 
     return (
-        <>
-            <SafeAreaView style={Styles.container}>
-                <View style={Styles.logoContainer}>
-                    <Image source={require('../../assets/icons/trivia.png')} style={Styles.logoImage}/>
-                    <Text style={Styles.logoText}>A trivia game</Text>
-                </View>
-                <SelectorComponent array={Categories}
-                                   onChange={s => setChosenCategory(s)}/>
-                <SelectorComponent array={Difficulties}
-                                   onChange={s => setChosenDifficulty(s)}/>
-                <TouchableOpacity style={Styles.buttonStyle}
-                                  onPress={onPressHandler}
-                                  disabled={isDisabled}>
-                    <Text style={Styles.buttonText}>GET STARTED</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={Styles.buttonStyle}
-                                  onPress={() => navigation.navigate('HighScores')}>
-                    <Text style={Styles.buttonText}>HIGH SCORES</Text>
-                </TouchableOpacity>
-            </SafeAreaView>
-        </>
+        <SafeAreaView style={Styles.container}>
+            <View style={Styles.logoContainer}>
+                <Image source={require('../../assets/icons/trivia.png')} style={Styles.logoImage}/>
+                <Text style={Styles.logoText}>A trivia game</Text>
+            </View>
+            <SelectorComponent array={Categories}
+                               onChange={categorySetHandler}/>
+            <SelectorComponent array={Difficulties}
+                               onChange={difficultySetHandler}/>
+            <TouchableOpacity style={Styles.buttonStyle}
+                              onPress={onStartPressHandler}>
+                <Text style={Styles.buttonText}>GET STARTED</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={Styles.buttonStyle}
+                              onPress={onHighScoresPressHandler}>
+                <Text style={Styles.buttonText}>HIGH SCORES</Text>
+            </TouchableOpacity>
+        </SafeAreaView>
     );
 });

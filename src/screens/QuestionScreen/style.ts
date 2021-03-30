@@ -9,7 +9,6 @@ export const Styles = StyleSheet.create({
         alignItems: 'stretch',
         backgroundColor: Colors.questionBody,
     },
-
     bodyPartContainer: {
         justifyContent: 'center',
         alignItems: 'center',

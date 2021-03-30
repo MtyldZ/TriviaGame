@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React, {memo, useCallback} from 'react';
 import {HighScoreRowComponent} from '../../components/HighScoreRowComponent';
 import {useDispatch, useSelector} from 'react-redux';
 import {SafeAreaView, ScrollView, Text, TouchableOpacity, View} from 'react-native';
@@ -6,6 +6,7 @@ import {Styles} from './style';
 import {resetHighScoresAction, setHighScoresAction} from '../../store/triviaGame/action';
 import {UserScore} from '../../utils/types';
 import {useNavigation} from '@react-navigation/native';
+import {changeBusyAction} from '../../store/ui/action';
 
 function fillHighScoreArray() {
     const tempArr = [];
@@ -23,18 +24,32 @@ function fillHighScoreArray() {
 }
 
 const HighScoreRowGenerator = memo((props: { userScore: UserScore }) => {
-        return <HighScoreRowComponent text1={props.userScore.score.toString()}
-                                      text2={props.userScore.difficulty}
-                                      text3={props.userScore.category}
-                                      text4={props.userScore.totalTimeSpent.toString()}
-        />;
-    },
-);
+    return <HighScoreRowComponent text1={props.userScore.score.toString()}
+                                  text2={props.userScore.difficulty}
+                                  text3={props.userScore.category}
+                                  text4={props.userScore.totalTimeSpent.toString()}
+    />;
+});
 
 export const HighScoresScreen = memo(() => {
     const dispatch = useDispatch();
     const navigation = useNavigation();
     const allScores = useSelector(state => state.triviaGame.highScores);
+
+    const onMainMenuPressHandler = useCallback(() => {
+        navigation.navigate('Start');
+    }, [navigation]);
+
+    const onResetScoresPressHandler = useCallback(() => {
+        dispatch(resetHighScoresAction());
+    }, [dispatch]);
+
+    const onResetScoresLongPressHandler = useCallback(() => {
+        dispatch(changeBusyAction(true));
+        dispatch(setHighScoresAction(fillHighScoreArray()));
+        dispatch(changeBusyAction(false));
+    }, [dispatch]);
+
     return (
         <SafeAreaView style={Styles.container}>
             <ScrollView showsVerticalScrollIndicator={false} style={Styles.headerAndScoreContainer}>
@@ -53,15 +68,13 @@ export const HighScoresScreen = memo(() => {
             </ScrollView>
             <View style={Styles.buttonsContainer}>
                 <TouchableOpacity style={Styles.buttonStyle}
-                                  onPress={() => navigation.navigate('Start')}
+                                  onPress={onMainMenuPressHandler}
                 >
                     <Text style={Styles.buttonText}>MAIN MENU</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={Styles.buttonStyle}
-                                  onPress={() => dispatch(resetHighScoresAction())}
-                                  onLongPress={() =>
-                                      dispatch(setHighScoresAction(fillHighScoreArray()))
-                                  }
+                                  onPress={onResetScoresPressHandler}
+                                  onLongPress={onResetScoresLongPressHandler}
                 >
                     <Text style={Styles.buttonText}>Reset Scores</Text>
                 </TouchableOpacity>

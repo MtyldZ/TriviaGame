@@ -1,7 +1,7 @@
 import React, {memo, useCallback, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {HeaderComponent} from '../../components/HeaderComponent';
-import {StackActions, useFocusEffect, useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {Colors} from '../../utils/default-styles';
 import {Styles} from '../TimeOutScreen/style';
 import {BackHandler, Image, Text, TouchableOpacity, View} from 'react-native';
@@ -17,7 +17,7 @@ export const VictoryScreen = memo(() => {
             return;
         }
         setScreenState(StateEnum.pressed);
-        navigation.dispatch(StackActions.replace('Start'));
+        navigation.goBack();
     }, [navigation, screenState]);
 
     const hardwareBackPressEventHandler = useCallback(() => {
@@ -41,7 +41,7 @@ export const VictoryScreen = memo(() => {
                         {'You answered correctly to all Questions'}
                     </Text>
                     <Text style={Styles.smallerText}>
-                        {'You won with %%% points.'.replace(/%%%/g, totalPoint.toString())}
+                        {`Total points ${totalPoint.toString()}.`}
                     </Text>
                 </View>
                 <TouchableOpacity style={Styles.buttonStyle}

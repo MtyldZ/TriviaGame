@@ -101,7 +101,7 @@ export const QuestionScreen = memo(() => {
                 text: 'Give Up',
                 style: 'default',
                 onPress: () => {
-                    navigation.dispatch(StackActions.replace('Start'));
+                    navigation.goBack();
                 },
             },
         ]);

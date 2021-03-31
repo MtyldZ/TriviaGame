@@ -30,3 +30,6 @@ export async function fetchData(categoryNumber: number, difficulty: string) {
         throw error;
     });
 }
+
+// export async function fetchCategory() {
+// }

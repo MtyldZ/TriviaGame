@@ -9,7 +9,7 @@ import {
     setChosenDifficultyAction,
     setQuestionsAction,
 } from '../../store/triviaGame/action';
-import {StackActions, useFocusEffect, useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {SelectorComponent} from '../../components/SelectorComponent';
 import {changeBusyAction} from '../../store/ui/action';
 import {CATEGORIES, DIFFICULTIES} from '../../utils/constants';
@@ -45,7 +45,7 @@ export const StartScreen = memo(() => {
                 dispatch(setChosenCategoryAction(chosenCategory));
                 dispatch(setChosenDifficultyAction(chosenDifficulty));
                 dispatch(setQuestionsAction(questions));
-                navigation.dispatch(StackActions.replace('Question'));
+                navigation.navigate('Question');
             }).catch(onFetchFails)
             .finally(() => dispatch(changeBusyAction(false)));
     }, [chosenCategory, chosenDifficulty, dispatch, navigation]);

@@ -1,7 +1,7 @@
 import React, {memo, useCallback, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {HeaderComponent} from '../../components/HeaderComponent';
-import {StackActions, useFocusEffect, useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {Colors} from '../../utils/default-styles';
 import {BackHandler, Image, Text, TouchableOpacity, View} from 'react-native';
 import {Styles} from './style';
@@ -9,7 +9,7 @@ import {StateEnum} from '../../utils/state-enum';
 import {UserScore} from '../../utils/types';
 import {setHighScoresAction} from '../../store/triviaGame/action';
 
-export const WrongScreen = memo(() => {
+export const WrongScreen = memo(function WrongScreen() {
     const dispatch = useDispatch();
     const navigation = useNavigation();
     const totalPoint = useSelector(state => state.triviaGame.totalPoint);
@@ -37,7 +37,7 @@ export const WrongScreen = memo(() => {
                 b.score - a.score));
             dispatch(setHighScoresAction(tempArr));
         }
-        navigation.dispatch(StackActions.replace('Start'));
+        navigation.goBack();
     }, [allScores, category, difficulty, dispatch, navigation, questionIndex, screenState, timeSpent, totalPoint]);
 
     const hardwareBackPressEventHandler = useCallback(() => {
@@ -61,7 +61,7 @@ export const WrongScreen = memo(() => {
                         {'You failed.'}
                     </Text>
                     <Text style={Styles.smallerText}>
-                        {'Total points %%%.'.replace(/%%%/g, totalPoint.toString())}
+                        {`Total points ${totalPoint.toString()}.`}
                     </Text>
                 </View>
                 <TouchableOpacity style={Styles.buttonStyle}

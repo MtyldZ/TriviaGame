@@ -1,6 +1,4 @@
-import {Question} from './types';
-
-export const Categories = [
+export const CATEGORIES = [
     'Any Category',
     'General Knowledge',
     'Entertainment: Books',
@@ -28,17 +26,10 @@ export const Categories = [
     'Entertainment: Cartoon & Animations',
 ];
 
-export const Difficulties = [
+export const DIFFICULTIES = [
     'Any Difficulty',
     'Easy',
     'Medium',
     'Hard',
 ];
 
-export const DefaultQuestion: Question = {
-    index: 99,
-    difficulty: 'easy',
-    questionText: 'This is the default question. What is 2+2?',
-    correctAnswer: '4',
-    wrongAnswers: ['1', '2', '3'],
-};

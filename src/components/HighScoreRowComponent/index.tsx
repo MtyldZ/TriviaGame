@@ -19,10 +19,10 @@ const HighScoresRowPart = memo((props: PartProps) => {
 export const HighScoreRowComponent = memo((props: HighScoreRowPartType) => {
     return (
         <View style={Styles.highScoreRowContainer}>
-            <HighScoresRowPart text={props.text1} size={20}/>
-            <HighScoresRowPart text={props.text2} size={20}/>
-            <HighScoresRowPart text={props.text3} size={35}/>
-            <HighScoresRowPart text={props.text4 + ' seconds'} size={25}/>
+            <HighScoresRowPart text={props.score} size={20}/>
+            <HighScoresRowPart text={props.difficulty} size={20}/>
+            <HighScoresRowPart text={props.category} size={35}/>
+            <HighScoresRowPart text={props.totalSpentTime + ' seconds'} size={25}/>
         </View>
     );
 });

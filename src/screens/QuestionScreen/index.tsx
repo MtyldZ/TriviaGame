@@ -14,12 +14,12 @@ import {QuestionTextPartComponent} from '../../components/QuestionTextComponent'
 import {calculateEarnedPoint} from '../../utils/calculate-earned-point';
 import {StateEnum} from '../../utils/state-enum';
 
-const optionNames = ['A', 'B', 'C', 'D'];
+const OPTION_NAMES = ['A', 'B', 'C', 'D'];
 
 const createChoiceList = (allAnswersArray: string[]) => {
     return allAnswersArray.map((value, index) => (
         {
-            choiceName: optionNames[index],
+            choiceName: OPTION_NAMES[index],
             choiceText: value,
             disabled: false,
         }
@@ -129,8 +129,7 @@ export const QuestionScreen = memo(() => {
                     choiceList.map((choice, index) =>
                         <ChoiceComponent choice={choice}
                                          onPress={() => onChoicePress(choice)}
-                                         key={`key_${index}`}
-                        />)
+                                         key={`key_${index}`}/>)
                 }
             </View>
         </SafeAreaView>

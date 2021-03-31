@@ -6,10 +6,10 @@ export type UserScore = {
 }
 
 export type HighScoreRowPartType = {
-    text1: string;
-    text2: string;
-    text3: string;
-    text4: string;
+    score: string;
+    difficulty: string;
+    category: string;
+    totalSpentTime: string;
 }
 
 export type Question = {

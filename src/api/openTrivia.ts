@@ -16,11 +16,11 @@ export async function fetchData(categoryNumber: number, difficulty: string) {
                 const result = json.results[i];
                 const questionData: Question = {
                     index: i,
-                    difficulty: (difficultyUrlPart === '' ? unescape(result.difficulty) : difficulty),
-                    questionText: unescape(result.question),
-                    correctAnswer: unescape(result.correct_answer),
+                    difficulty: (difficultyUrlPart === '' ? decodeURIComponent(result.difficulty) : difficulty),
+                    questionText: decodeURIComponent(result.question),
+                    correctAnswer: decodeURIComponent(result.correct_answer),
                     wrongAnswers: [...(result.incorrect_answers.map((value: string) =>
-                        unescape(value)))],
+                        decodeURIComponent(value)))],
                 };
                 allQuestions.push(questionData);
             }
@@ -30,5 +30,3 @@ export async function fetchData(categoryNumber: number, difficulty: string) {
         throw error;
     });
 }
-
-

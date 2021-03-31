@@ -2,11 +2,7 @@ import React, {memo, useCallback, useEffect, useMemo, useState} from 'react';
 import {Alert, BackHandler, SafeAreaView, View} from 'react-native';
 import {Styles} from './style';
 import {useDispatch, useSelector} from 'react-redux';
-import {
-    incrementTotalPointAction,
-    incrementTotalTimeSpentAction,
-    resetTriviaGameAction,
-} from '../../store/triviaGame/action';
+import {incrementTotalPointAction, incrementTotalTimeSpentAction} from '../../store/triviaGame/action';
 import {Question} from '../../utils/types';
 import {HeaderComponent} from '../../components/HeaderComponent';
 import {Choice, ChoiceComponent} from '../../components/ChoiceComponent';
@@ -89,11 +85,13 @@ export const QuestionScreen = memo(() => {
             return;
         }
         if (timeLeft === 0) {
-            navigation.navigate('Timeout');
+            navigation.dispatch(StackActions.replace('Timeout'));
+            return;
         }
-        setTimeout(() => {
+        const timer = setTimeout(() => {
             setTimeLeft(prevState => prevState - 1);
         }, 1000);
+        return () => clearTimeout(timer);
     }, [gameState, navigation, timeLeft]);
 
     const hardwareBackPressEventHandler = useCallback(() => {
@@ -104,12 +102,11 @@ export const QuestionScreen = memo(() => {
                 style: 'default',
                 onPress: () => {
                     navigation.dispatch(StackActions.replace('Start'));
-                    dispatch(resetTriviaGameAction());
                 },
             },
         ]);
         return true;
-    }, [dispatch, navigation]);
+    }, [navigation]);
 
     useFocusEffect(useCallback(() => {
         BackHandler.addEventListener('hardwareBackPress', hardwareBackPressEventHandler);

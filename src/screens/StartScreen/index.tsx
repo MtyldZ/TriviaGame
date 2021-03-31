@@ -1,7 +1,7 @@
 import React, {memo, useCallback, useState} from 'react';
 import {Alert, BackHandler, Image, SafeAreaView, Text, TouchableOpacity, View} from 'react-native';
 import {Styles} from './style';
-import {fetchData} from '../../api/openTrivia';
+import {fetchData} from '../../api/trivia-game-fetcher';
 import {useDispatch} from 'react-redux';
 import {
     resetTriviaGameAction,

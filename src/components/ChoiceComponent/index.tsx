@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {Text, TouchableOpacity} from 'react-native';
+import {GestureResponderEvent, Text, TouchableOpacity} from 'react-native';
 import {Styles} from './style';
 
 export type Choice = {
@@ -10,10 +10,10 @@ export type Choice = {
 
 type ChoiceComponentType = {
     choice: Choice;
-    onPress?: () => void;
+    onPress?: (event: GestureResponderEvent) => void;
 };
 
-export const ChoiceComponent = memo((props: ChoiceComponentType) => {
+export const ChoiceComponent = memo(function ChoiceComponent(props: ChoiceComponentType) {
     return (
         <TouchableOpacity style={[Styles.choiceContainer,
             (props.choice.disabled ? Styles.disabled : {})]}

@@ -4,15 +4,17 @@ import {HeaderComponent} from '../../components/HeaderComponent';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {Colors} from '../../utils/default-styles';
 import {Styles} from '../TimeOutScreen/style';
-import {BackHandler, Image, Text, TouchableOpacity, View} from 'react-native';
+import {BackHandler, View} from 'react-native';
 import {StateEnum} from '../../utils/state-enum';
+import {ResultBodyComponent} from '../../components/ResultBodyComponent';
+import {DisableableButtonComponent} from '../../components/DisableableButtonComponent';
 
-export const VictoryScreen = memo(() => {
+export const VictoryScreen = memo(function VictoryScreen() {
     const navigation = useNavigation();
     const totalPoint = useSelector(state => state.triviaGame.totalPoint);
     const [screenState, setScreenState] = useState(StateEnum.reading);
 
-    const buttonPressEventHandler = useCallback(() => {
+    const onButtonPress = useCallback(() => {
         if (screenState !== StateEnum.reading) {
             return;
         }
@@ -21,9 +23,9 @@ export const VictoryScreen = memo(() => {
     }, [navigation, screenState]);
 
     const hardwareBackPressEventHandler = useCallback(() => {
-        buttonPressEventHandler();
+        onButtonPress();
         return true;
-    }, [buttonPressEventHandler]);
+    }, [onButtonPress]);
 
     useFocusEffect(useCallback(() => {
         BackHandler.addEventListener('hardwareBackPress', hardwareBackPressEventHandler);
@@ -34,21 +36,17 @@ export const VictoryScreen = memo(() => {
         <>
             <HeaderComponent color={Colors.victoryHeader}/>
             <View style={Styles.container}>
-                <Image source={require('../../assets/icons/victory.png')} style={Styles.imageStyle}/>
-                <Text style={Styles.biggerText}>{'Victory'}</Text>
-                <View style={Styles.middleViewContainer}>
-                    <Text style={Styles.smallerText}>
-                        {'You answered correctly to all Questions'}
-                    </Text>
-                    <Text style={Styles.smallerText}>
-                        {`Total points ${totalPoint.toString()}.`}
-                    </Text>
-                </View>
-                <TouchableOpacity style={Styles.buttonStyle}
-                                  onPress={buttonPressEventHandler}
-                                  disabled={screenState !== StateEnum.reading}>
-                    <Text style={Styles.smallerText}>{'Main Menu'}</Text>
-                </TouchableOpacity>
+                <ResultBodyComponent
+                    image={require('../../assets/icons/victory.png')}
+                    textUnderImage={'Victory'}
+                    lowerTexts={[
+                        'You answered correctly to all Questions',
+                        `Total points ${totalPoint.toString()}.`]}/>
+                <DisableableButtonComponent
+                    onPress={onButtonPress}
+                    buttonText={'Main Menu'}
+                    color={Colors.victoryButton}
+                    isDisabled={screenState !== StateEnum.reading}/>
             </View>
         </>
     );

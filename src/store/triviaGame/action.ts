@@ -1,6 +1,9 @@
 import {createAction} from 'deox';
-import {Question, UserScore} from '../../utils/types';
+import {Question, SelectorListType, UserScore} from '../../utils/types';
 
+
+export const setCategoriesAction = createAction('SET_CATEGORIES_ACTION',
+    resolve => (categories: SelectorListType[]) => resolve({categories}));
 export const incrementQuestionIndexAction = createAction('INCREMENT_QUESTION_INDEX');
 export const spendFiftyPercentJokerRightAction = createAction('SPEND_FIFTY_PERCENT_JOKER_RIGHT_ACTION');
 export const refreshFiftyPercentJokerRightAction = createAction('REFRESH_FIFTY_PERCENT_JOKER_RIGHT');

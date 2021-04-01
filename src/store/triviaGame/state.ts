@@ -1,6 +1,8 @@
-import {Question, UserScore} from '../../utils/types';
+import {Question, SelectorListType, UserScore} from '../../utils/types';
 
 export interface TriviaGameState {
+    categories: SelectorListType[];
+    difficulties: SelectorListType[];
     questions: Question[];
     highScores: UserScore[];
     chosenDifficulty: string;

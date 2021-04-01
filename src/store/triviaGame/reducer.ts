@@ -7,14 +7,18 @@ import {
     refreshFiftyPercentJokerRightAction,
     resetHighScoresAction,
     resetTriviaGameAction,
+    setCategoriesAction,
     setChosenCategoryAction,
     setChosenDifficultyAction,
     setHighScoresAction,
     setQuestionsAction,
     spendFiftyPercentJokerRightAction,
 } from './action';
+import {DIFFICULTIES} from '../../utils/constants';
 
 const initialState: TriviaGameState = {
+    categories: [],
+    difficulties: DIFFICULTIES,
     questionIndex: 0,
     totalPoint: 0,
     lastEarnedPointAmount: 0,
@@ -28,6 +32,12 @@ const initialState: TriviaGameState = {
 
 export const triviaGameReducer = createReducer(
     initialState, handle => [
+        handle(setCategoriesAction, (state, action) => {
+            return {
+                ...state,
+                categories: action.payload.categories,
+            };
+        }),
         handle(incrementQuestionIndexAction, state => {
             return {
                 ...state,
@@ -43,7 +53,8 @@ export const triviaGameReducer = createReducer(
         }),
         handle(setQuestionsAction, (state, action) => {
             return {
-                ...state, questions: action.payload.questions,
+                ...state,
+                questions: action.payload.questions,
             };
         }),
         handle(setHighScoresAction, (state, action) => {
@@ -74,6 +85,8 @@ export const triviaGameReducer = createReducer(
             return {
                 ...initialState,
                 highScores: state.highScores,
+                categories: state.categories,
+                difficulties: state.difficulties,
             };
         }),
         handle(incrementTotalTimeSpentAction, (state, action) => {

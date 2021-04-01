@@ -4,7 +4,7 @@ import {rx} from '../../utils/dimensions';
 import {Text, View} from 'react-native';
 import {Styles} from './styles';
 
-export const QuestionTextPartComponent = memo((props: { questionObject: Question }) => {
+export const QuestionTextPartComponent = memo(function QuestionTextPartComponent(props: { questionObject: Question }) {
     const lineNumberNeededNormally = Math.ceil(props.questionObject.questionText.length / 32);
     const neededHeight = 40 * lineNumberNeededNormally * rx;
     return (

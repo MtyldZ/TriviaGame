@@ -1,3 +1,5 @@
+import {SelectorListType} from './types';
+
 export const CATEGORIES = [
     'Any Category',
     'General Knowledge',
@@ -26,10 +28,22 @@ export const CATEGORIES = [
     'Entertainment: Cartoon & Animations',
 ];
 
-export const DIFFICULTIES = [
-    'Any Difficulty',
-    'Easy',
-    'Medium',
-    'Hard',
+export const DIFFICULTIES: SelectorListType[] = [
+    {
+        id: 0,
+        name: 'Any Difficulty',
+    },
+    {
+        id: 1,
+        name: 'Easy',
+    },
+    {
+        id: 2,
+        name: 'Medium',
+    },
+    {
+        id: 3,
+        name: 'Hard',
+    },
 ];
 

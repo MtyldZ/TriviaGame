@@ -2,16 +2,17 @@ import React, {memo, useCallback, useState} from 'react';
 import {View} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import {Styles} from './style';
+import {SelectorListType} from '../../utils/types';
 
 type SelectionType = {
-    array: string[];
-    onChange: (string: string) => void;
+    array: SelectorListType[];
+    onChange: (item: SelectorListType) => void;
 }
 
-export const SelectorComponent = memo((props: SelectionType) => {
+export const SelectorComponent = memo(function SelectorComponent(props: SelectionType) {
     const [selected, setSelected] = useState(props.array[0]);
 
-    const valueChangeHandler = useCallback((itemValue: string) => {
+    const valueChangeHandler = useCallback((itemValue: SelectorListType) => {
         setSelected(itemValue);
         props.onChange(itemValue);
     }, [props]);
@@ -24,7 +25,7 @@ export const SelectorComponent = memo((props: SelectionType) => {
             >
                 {
                     props.array.map((value, index) =>
-                        <Picker.Item label={unescape(value)}
+                        <Picker.Item label={unescape(value.name)}
                                      fontFamily={'sans-serif-condensed'}
                                      value={value}
                                      key={`part_${index}`}

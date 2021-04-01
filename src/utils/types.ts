@@ -20,4 +20,7 @@ export type Question = {
     wrongAnswers: string[];
 }
 
-
+export type SelectorListType = {
+    id: number;
+    name: string;
+}

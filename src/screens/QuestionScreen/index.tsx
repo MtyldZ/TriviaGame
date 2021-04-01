@@ -1,9 +1,8 @@
-import React, {memo, useCallback, useEffect, useMemo, useState} from 'react';
+import React, {memo, useCallback, useEffect, useState} from 'react';
 import {Alert, BackHandler, SafeAreaView, View} from 'react-native';
 import {Styles} from './style';
 import {useDispatch, useSelector} from 'react-redux';
 import {incrementTotalPointAction, incrementTotalTimeSpentAction} from '../../store/triviaGame/action';
-import {Question} from '../../utils/types';
 import {HeaderComponent} from '../../components/HeaderComponent';
 import {Choice, ChoiceComponent} from '../../components/ChoiceComponent';
 import {StackActions, useFocusEffect, useNavigation} from '@react-navigation/native';
@@ -28,22 +27,19 @@ const createChoiceList = (allAnswersArray: string[]) => {
 
 const TIME_GIVEN_TO_SOLVE = 15;
 
-export const QuestionScreen = memo(() => {
+export const QuestionScreen = memo(function QuestionScreen() {
     const dispatch = useDispatch();
-    const totalPoints = useSelector(state => state.triviaGame.totalPoint);
     const navigation = useNavigation();
+    const totalPoint = useSelector(state => state.triviaGame.totalPoint);
+    const questionObject = useSelector(
+        state => state.triviaGame.questions[state.triviaGame.questionIndex]);
+
     const [timeLeft, setTimeLeft] = useState(TIME_GIVEN_TO_SOLVE);
     const [gameState, setGameState] = useState(StateEnum.reading);
 
-    const questionObject: Question = useSelector(state =>
-        state.triviaGame.questions[state.triviaGame.questionIndex]);
-
-    const randomizedChoiceList = useMemo(() => {
-        return createChoiceList(shuffle([...questionObject.wrongAnswers,
-            questionObject.correctAnswer]));
-    }, [questionObject]);
-
-    const [choiceList, setChoiceList] = useState(randomizedChoiceList);
+    const [choiceList, setChoiceList] = useState(
+        createChoiceList(shuffle([...questionObject.wrongAnswers,
+            questionObject.correctAnswer])));
 
     const answeredCorrectly = useCallback(() => {
         dispatch(incrementTotalPointAction(calculateEarnedPoint(timeLeft,
@@ -117,7 +113,7 @@ export const QuestionScreen = memo(() => {
         <SafeAreaView style={Styles.container}>
             <HeaderComponent color={Colors.questionHeader}
                              parts={[
-                                 {first: 'Points', second: totalPoints.toString()},
+                                 {first: 'Points', second: totalPoint.toString()},
                                  {first: 'Remaining Time', second: timeLeft.toString()},
                              ]}/>
             <View style={Styles.bodyPartContainer}>

@@ -8,7 +8,7 @@ type PartProps = {
     size: number;
 }
 
-const HighScoresRowPart = memo((props: PartProps) => {
+const HighScoresRowPart = memo(function HighScoresRowPart(props: PartProps) {
     return (
         <View style={[Styles.rowPartContainer, {width: `${props.size}%`}]}>
             <Text style={Styles.rowPartText} numberOfLines={1}>{props.text}</Text>
@@ -16,7 +16,7 @@ const HighScoresRowPart = memo((props: PartProps) => {
     );
 });
 
-export const HighScoreRowComponent = memo((props: HighScoreRowPartType) => {
+export const HighScoreRowComponent = memo(function HighScoreRowComponent(props: HighScoreRowPartType) {
     return (
         <View style={Styles.highScoreRowContainer}>
             <HighScoresRowPart text={props.score} size={20}/>

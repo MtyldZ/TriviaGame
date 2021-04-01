@@ -9,7 +9,7 @@ type Props = {
     onPress: (choicesThoseWillStayEnabled: string[]) => void;
 };
 
-export const FiftyPercentJokerComponent = memo((props: Props) => {
+export const FiftyPercentJokerComponent = memo(function FiftyPercentJokerComponent(props: Props) {
         const dispatch = useDispatch();
         const used = useSelector(state => state.triviaGame.fiftyPercentJokerIsUsed);
 

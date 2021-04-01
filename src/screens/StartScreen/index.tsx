@@ -2,7 +2,7 @@ import React, {memo, useCallback, useState} from 'react';
 import {Alert, BackHandler, Image, SafeAreaView, Text, TouchableOpacity, View} from 'react-native';
 import {Styles} from './style';
 import {fetchData} from '../../api/trivia-game-fetcher';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {
     resetTriviaGameAction,
     setChosenCategoryAction,
@@ -12,7 +12,6 @@ import {
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {SelectorComponent} from '../../components/SelectorComponent';
 import {changeBusyAction} from '../../store/ui/action';
-import {CATEGORIES, DIFFICULTIES} from '../../utils/constants';
 
 const onFetchFails = () => {
     Alert.alert('Ohh sorry', 'It looks like we do not have enough questions to ask in that filter. Maybe next update we will.',
@@ -31,19 +30,21 @@ const onBackRequestHandler = () => {
     return true;
 };
 
-export const StartScreen = memo(() => {
+export const StartScreen = memo(function StartScreen() {
     const dispatch = useDispatch();
     const navigation = useNavigation();
-    const [chosenCategory, setChosenCategory] = useState(CATEGORIES[0]);
-    const [chosenDifficulty, setChosenDifficulty] = useState(DIFFICULTIES[0]);
+    const categoryList = useSelector(state => state.triviaGame.categories);
+    const difficultyList = useSelector(state => state.triviaGame.difficulties);
+    const [chosenCategory, setChosenCategory] = useState(categoryList[0]);
+    const [chosenDifficulty, setChosenDifficulty] = useState(difficultyList[0]);
 
     const onStartPressHandler = useCallback(() => {
         dispatch(changeBusyAction(true));
-        fetchData(CATEGORIES.indexOf(chosenCategory) + 8, chosenDifficulty)
+        fetchData(chosenCategory.id, chosenDifficulty.name)
             .then(questions => {
                 dispatch(resetTriviaGameAction());
-                dispatch(setChosenCategoryAction(chosenCategory));
-                dispatch(setChosenDifficultyAction(chosenDifficulty));
+                dispatch(setChosenCategoryAction(chosenCategory.name));
+                dispatch(setChosenDifficultyAction(chosenDifficulty.name));
                 dispatch(setQuestionsAction(questions));
                 navigation.navigate('Question');
             }).catch(onFetchFails)
@@ -66,9 +67,9 @@ export const StartScreen = memo(() => {
                        style={Styles.logoImage}/>
                 <Text style={Styles.logoText}>A trivia game</Text>
             </View>
-            <SelectorComponent array={CATEGORIES}
+            <SelectorComponent array={categoryList}
                                onChange={setChosenCategory}/>
-            <SelectorComponent array={DIFFICULTIES}
+            <SelectorComponent array={difficultyList}
                                onChange={setChosenDifficulty}/>
             <TouchableOpacity style={Styles.buttonStyle}
                               onPress={onStartPressHandler}>

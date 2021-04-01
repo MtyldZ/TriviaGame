@@ -22,7 +22,7 @@ function generateMockHighScoreList() {
     return tempArr;
 }
 
-export const HighScoresScreen = memo(() => {
+export const HighScoresScreen = memo(function HighScoresScreen() {
     const dispatch = useDispatch();
     const navigation = useNavigation();
     const allScores = useSelector(state => state.triviaGame.highScores);

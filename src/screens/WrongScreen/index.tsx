@@ -3,15 +3,18 @@ import {useDispatch, useSelector} from 'react-redux';
 import {HeaderComponent} from '../../components/HeaderComponent';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {Colors} from '../../utils/default-styles';
-import {BackHandler, Image, Text, TouchableOpacity, View} from 'react-native';
+import {BackHandler, View} from 'react-native';
 import {Styles} from './style';
 import {StateEnum} from '../../utils/state-enum';
 import {UserScore} from '../../utils/types';
 import {setHighScoresAction} from '../../store/triviaGame/action';
+import {DisableableButtonComponent} from '../../components/DisableableButtonComponent';
+import {ResultBodyComponent} from '../../components/ResultBodyComponent';
 
 export const WrongScreen = memo(function WrongScreen() {
     const dispatch = useDispatch();
     const navigation = useNavigation();
+    const questionListLength = useSelector(state => state.triviaGame.questions.length);
     const totalPoint = useSelector(state => state.triviaGame.totalPoint);
     const questionIndex = useSelector(state => state.triviaGame.questionIndex);
     const category = useSelector(state => state.triviaGame.chosenCategory);
@@ -20,13 +23,12 @@ export const WrongScreen = memo(function WrongScreen() {
     const allScores = useSelector(state => state.triviaGame.highScores);
     const [screenState, setScreenState] = useState(StateEnum.reading);
 
-    const buttonPressEventHandler = useCallback(() => {
+    const onButtonPress = useCallback(() => {
         if (screenState !== StateEnum.reading) {
             return;
         }
         setScreenState(StateEnum.pressed);
-        // if the player can solve more than 2 questions, record the score
-        if (questionIndex > 2) {
+        if (questionIndex > Math.round(questionListLength / 2)) {
             const score: UserScore = {
                 totalTimeSpent: timeSpent,
                 category: category,
@@ -38,12 +40,12 @@ export const WrongScreen = memo(function WrongScreen() {
             dispatch(setHighScoresAction(tempArr));
         }
         navigation.goBack();
-    }, [allScores, category, difficulty, dispatch, navigation, questionIndex, screenState, timeSpent, totalPoint]);
+    }, [allScores, category, difficulty, dispatch, navigation, questionIndex, questionListLength, screenState, timeSpent, totalPoint]);
 
     const hardwareBackPressEventHandler = useCallback(() => {
-        buttonPressEventHandler();
+        onButtonPress();
         return true;
-    }, [buttonPressEventHandler]);
+    }, [onButtonPress]);
 
     useFocusEffect(useCallback(() => {
         BackHandler.addEventListener('hardwareBackPress', hardwareBackPressEventHandler);
@@ -54,21 +56,17 @@ export const WrongScreen = memo(function WrongScreen() {
         <>
             <HeaderComponent color={Colors.wrongHeader}/>
             <View style={Styles.container}>
-                <Image source={require('../../assets/icons/wrong.png')} style={Styles.imageStyle}/>
-                <Text style={Styles.biggerText}>{'Wrong'}</Text>
-                <View style={Styles.middleViewContainer}>
-                    <Text style={Styles.smallerText}>
-                        {'You failed.'}
-                    </Text>
-                    <Text style={Styles.smallerText}>
-                        {`Total points ${totalPoint.toString()}.`}
-                    </Text>
-                </View>
-                <TouchableOpacity style={Styles.buttonStyle}
-                                  onPress={buttonPressEventHandler}
-                                  disabled={screenState !== StateEnum.reading}>
-                    <Text style={Styles.smallerText}>{'Main Menu'}</Text>
-                </TouchableOpacity>
+                <ResultBodyComponent
+                    image={require('../../assets/icons/wrong.png')}
+                    textUnderImage={'Wrong'}
+                    lowerTexts={[
+                        'You failed.',
+                        `Total points ${totalPoint.toString()}.`]}/>
+                <DisableableButtonComponent
+                    onPress={onButtonPress}
+                    buttonText={'Main Menu'}
+                    color={Colors.wrongButton}
+                    isDisabled={screenState !== StateEnum.reading}/>
             </View>
         </>
     );

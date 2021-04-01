@@ -8,7 +8,7 @@ export type RowPartType = {
     second: string;
 }
 
-const HeaderRowPartComponent = memo((props: RowPartType) => {
+const HeaderRowPartComponent = memo(function HeaderRowPartComponent(props: RowPartType) {
     return (
         <View style={Styles.rowPartContainer}>
             <Text style={Styles.rowPartText}>{props.first}</Text>
@@ -22,7 +22,7 @@ type HeaderType = {
     color: string;
 }
 
-export const HeaderComponent = memo((props: HeaderType) => {
+export const HeaderComponent = memo(function HeaderComponent(props: HeaderType) {
     const questionIndex = useSelector(state => state.triviaGame.questionIndex);
     const partsDefault = props.parts || [];
     return (

@@ -8,7 +8,7 @@ import {VictoryScreen} from '../screens/VictoryScreen';
 import {QuestionScreen} from '../screens/QuestionScreen';
 import {CorrectScreen} from '../screens/CorrectScreen';
 import {WrongScreen} from '../screens/WrongScreen';
-import {Timeout} from '../screens/TimeOutScreen';
+import {TimeOutScreen} from '../screens/TimeOutScreen';
 
 const Stack = createStackNavigator();
 
@@ -23,7 +23,7 @@ export const ApplicationNavigator = memo(function ApplicationNavigator() {
             <Stack.Screen name="Question" component={QuestionScreen}/>
             <Stack.Screen name="Correct" component={CorrectScreen}/>
             <Stack.Screen name="Wrong" component={WrongScreen}/>
-            <Stack.Screen name="Timeout" component={Timeout}/>
+            <Stack.Screen name="Timeout" component={TimeOutScreen}/>
         </Stack.Navigator>
     );
 });

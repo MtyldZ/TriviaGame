@@ -1,13 +1,14 @@
-import {Question} from '../utils/types';
+import {Question, SelectorListType} from '../utils/types';
 
 export async function fetchData(categoryNumber: number, difficulty: string) {
+    const QUESTION_AMOUNT = 10;
+
     const categoryUrlPart = (categoryNumber >= 9) ? `&category=${categoryNumber}` : '';
     const difficultyUrlPart = (difficulty.toLowerCase() !== 'any difficulty') ?
         `&difficulty=${difficulty.toLowerCase()}` : '';
-    const url = `https://opentdb.com/api.php?amount=10${categoryUrlPart}${difficultyUrlPart}&type=multiple&encode=url3986`;
+    const url = `https://opentdb.com/api.php?amount=${QUESTION_AMOUNT}${categoryUrlPart}${difficultyUrlPart}&type=multiple&encode=url3986`;
 
-    return fetch(url).then(r => r.json()).then(
-        json => {
+    return fetch(url).then(r => r.json()).then(json => {
             if (json.response_code === 1) {
                 return Promise.reject();
             }
@@ -31,5 +32,27 @@ export async function fetchData(categoryNumber: number, difficulty: string) {
     });
 }
 
-// export async function fetchCategory() {
-// }
+export async function fetchCategory() {
+    const urlCategory = 'https://opentdb.com/api_category.php';
+    return fetch(urlCategory).then(r => r.json()).then(json => {
+            const categoryList: SelectorListType[] = [
+                {
+                    id: 0,
+                    name: 'Any Category',
+                },
+            ];
+            for (let i = 0; i < json.trivia_categories.length; i++) {
+                const data = json.trivia_categories[i];
+                categoryList.push({
+                    id: data.id,
+                    name: data.name,
+                });
+            }
+            return categoryList;
+        },
+    ).catch(error => {
+        console.log(error);
+        throw error;
+    });
+
+}

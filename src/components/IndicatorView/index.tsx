@@ -3,7 +3,7 @@ import {Style} from './style';
 import React, {memo, PropsWithChildren} from 'react';
 import {useSelector} from 'react-redux';
 
-export const IndicatorView = memo((props: PropsWithChildren<{}>) => {
+export const IndicatorView = memo(function IndicatorView(props: PropsWithChildren<{}>) {
     const busy = useSelector(state => state.ui.busy);
     return (
         <>

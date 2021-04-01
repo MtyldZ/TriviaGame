@@ -9,7 +9,7 @@ import {Styles} from './style';
 import {UserScore} from '../../utils/types';
 import {StateEnum} from '../../utils/state-enum';
 import {ResultBodyComponent} from '../../components/ResultBodyComponent';
-import {DisableableButtonComponent} from '../../components/DisableableButtonComponent';
+import {ButtonComponent} from '../../components/ButtonComponent';
 
 export const CorrectScreen = memo(function CorrectScreen() {
     const dispatch = useDispatch();
@@ -77,7 +77,7 @@ export const CorrectScreen = memo(function CorrectScreen() {
                         `You have earned ${earnedPoint.toString()} points.`,
                         `Total points ${totalPoint.toString()}.`,
                     ]}/>
-                <DisableableButtonComponent
+                <ButtonComponent
                     onPress={onButtonPress}
                     buttonText={'Next Question'}
                     color={Colors.correctButton}

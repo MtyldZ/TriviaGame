@@ -8,7 +8,7 @@ import {Styles} from './style';
 import {StateEnum} from '../../utils/state-enum';
 import {UserScore} from '../../utils/types';
 import {setHighScoresAction} from '../../store/triviaGame/action';
-import {DisableableButtonComponent} from '../../components/DisableableButtonComponent';
+import {ButtonComponent} from '../../components/ButtonComponent';
 import {ResultBodyComponent} from '../../components/ResultBodyComponent';
 
 export const WrongScreen = memo(function WrongScreen() {
@@ -62,7 +62,7 @@ export const WrongScreen = memo(function WrongScreen() {
                     lowerTexts={[
                         'You failed.',
                         `Total points ${totalPoint.toString()}.`]}/>
-                <DisableableButtonComponent
+                <ButtonComponent
                     onPress={onButtonPress}
                     buttonText={'Main Menu'}
                     color={Colors.wrongButton}

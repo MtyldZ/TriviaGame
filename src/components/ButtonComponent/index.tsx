@@ -9,7 +9,7 @@ type Props = {
     buttonText?: string;
 }
 
-export const DisableableButtonComponent = memo(function DisableableButtonComponent(props: Props) {
+export const ButtonComponent = memo(function ButtonComponent(props: Props) {
     return (
         <>
             <TouchableOpacity style={[Styles.buttonStyle, {backgroundColor: (props.color || '#fff')}]}

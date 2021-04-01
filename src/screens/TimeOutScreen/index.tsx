@@ -9,7 +9,7 @@ import {StateEnum} from '../../utils/state-enum';
 import {UserScore} from '../../utils/types';
 import {setHighScoresAction} from '../../store/triviaGame/action';
 import {ResultBodyComponent} from '../../components/ResultBodyComponent';
-import {DisableableButtonComponent} from '../../components/DisableableButtonComponent';
+import {ButtonComponent} from '../../components/ButtonComponent';
 
 export const TimeOutScreen = memo(function TimeOutScreen() {
     const navigation = useNavigation();
@@ -62,7 +62,7 @@ export const TimeOutScreen = memo(function TimeOutScreen() {
                     lowerTexts={[
                         'You failed.',
                         `Total points ${totalPoint.toString()}.`]}/>
-                <DisableableButtonComponent
+                <ButtonComponent
                     onPress={onButtonPress}
                     buttonText={'Main Menu'}
                     color={Colors.timeOutButton}

@@ -7,7 +7,7 @@ import {Styles} from '../TimeOutScreen/style';
 import {BackHandler, View} from 'react-native';
 import {StateEnum} from '../../utils/state-enum';
 import {ResultBodyComponent} from '../../components/ResultBodyComponent';
-import {DisableableButtonComponent} from '../../components/DisableableButtonComponent';
+import {ButtonComponent} from '../../components/ButtonComponent';
 
 export const VictoryScreen = memo(function VictoryScreen() {
     const navigation = useNavigation();
@@ -42,7 +42,7 @@ export const VictoryScreen = memo(function VictoryScreen() {
                     lowerTexts={[
                         'You answered correctly to all Questions',
                         `Total points ${totalPoint.toString()}.`]}/>
-                <DisableableButtonComponent
+                <ButtonComponent
                     onPress={onButtonPress}
                     buttonText={'Main Menu'}
                     color={Colors.victoryButton}

@@ -38,8 +38,8 @@ export const VictoryScreen = memo(function VictoryScreen() {
             <View style={Styles.container}>
                 <ResultBodyComponent
                     image={require('../../assets/icons/victory.png')}
-                    textUnderImage={'Victory'}
-                    lowerTexts={[
+                    title={'Victory'}
+                    otherTexts={[
                         'You answered correctly to all Questions',
                         `Total points ${totalPoint.toString()}.`]}/>
                 <ButtonComponent

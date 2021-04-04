@@ -1,4 +1,4 @@
-export const calculateEarnedPoint = (remainingTime: number, difficulty: string) => {
+export function calculateEarnedPoint(remainingTime: number, difficulty: string) {
     let rawPoint: number;
     if (difficulty.toLowerCase() === 'easy') {
         rawPoint = 100;
@@ -7,6 +7,5 @@ export const calculateEarnedPoint = (remainingTime: number, difficulty: string) 
     } else if (difficulty.toLowerCase() === 'hard') {
         rawPoint = 400;
     }
-
     return Math.round(Math.log(remainingTime) * (rawPoint));
-};
+}

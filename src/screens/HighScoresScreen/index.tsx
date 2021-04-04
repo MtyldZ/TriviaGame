@@ -3,13 +3,14 @@ import {HighScoreRowComponent} from '../../components/HighScoreRowComponent';
 import {useDispatch, useSelector} from 'react-redux';
 import {SafeAreaView, ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import {Styles} from './style';
-import {resetHighScoresAction, setHighScoresAction} from '../../store/triviaGame/action';
+import {resetHighScoreListAction, setHighScoreListAction} from '../../store/triviaGame/action';
 import {UserScore} from '../../utils/types';
 import {useNavigation} from '@react-navigation/native';
 
 function generateMockHighScoreList() {
+    const amountOfRandomScores = 10;
     const tempArr = [];
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < amountOfRandomScores; i++) {
         const score: UserScore = {
             totalTimeSpent: Math.round(150 * Math.random()),
             category: 'Any Category',
@@ -25,18 +26,18 @@ function generateMockHighScoreList() {
 export const HighScoresScreen = memo(function HighScoresScreen() {
     const dispatch = useDispatch();
     const navigation = useNavigation();
-    const allScores = useSelector(state => state.triviaGame.highScores);
+    const allScores = useSelector(state => state.triviaGame.highScoreList);
 
     const onMainMenuPressHandler = useCallback(() => {
         navigation.navigate('Start');
     }, [navigation]);
 
     const onResetScoresPressHandler = useCallback(() => {
-        dispatch(resetHighScoresAction());
+        dispatch(resetHighScoreListAction());
     }, [dispatch]);
 
     const onResetScoresLongPressHandler = useCallback(() => {
-        dispatch(setHighScoresAction(generateMockHighScoreList()));
+        dispatch(setHighScoreListAction(generateMockHighScoreList()));
     }, [dispatch]);
 
     return (
@@ -45,8 +46,9 @@ export const HighScoresScreen = memo(function HighScoresScreen() {
                 <View style={Styles.headerContainer}>
                     <Text style={Styles.headerText}>HIGH SCORES</Text>
                 </View>
-                <HighScoreRowComponent score={'Score'}
-                                       difficulty={'Difficulty'}
+                {/*//prefer single quote*/}
+                <HighScoreRowComponent score="Score"
+                                       difficulty="Difficulty"
                                        category={'Category'}
                                        totalSpentTime={'Time Spent'}/>
                 {

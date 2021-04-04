@@ -11,10 +11,10 @@ type Props = {
 
 export const FiftyPercentJokerComponent = memo(function FiftyPercentJokerComponent(props: Props) {
         const dispatch = useDispatch();
-        const used = useSelector(state => state.triviaGame.fiftyPercentJokerIsUsed);
+        const used = useSelector(state => state.triviaGame.isJokerUsed);
 
         const questionIndex = useSelector(state => state.triviaGame.questionIndex);
-        const allQuestions: Question[] = useSelector(state => state.triviaGame.questions);
+        const allQuestions: Question[] = useSelector(state => state.triviaGame.questionList);
         const questionObject: Question = allQuestions[questionIndex];
 
         const pressHandler = () => {

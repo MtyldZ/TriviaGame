@@ -1,15 +1,16 @@
 import {Question, SelectorListType, UserScore} from '../../utils/types';
+import {ICategory} from '../../api/trivia-game-fetcher';
 
 export interface TriviaGameState {
-    categories: SelectorListType[];
-    difficulties: SelectorListType[];
-    questions: Question[];
-    highScores: UserScore[];
+    categoryList: SelectorListType<ICategory>[];
+    difficultyList: SelectorListType<ICategory>[];
+    questionList: Question[];
+    highScoreList: UserScore[];
     chosenDifficulty: string;
     chosenCategory: string;
     totalTimeSpent: number;
     questionIndex: number;
     totalPoint: number;
     lastEarnedPointAmount: number;
-    fiftyPercentJokerIsUsed: boolean;
+    isJokerUsed: boolean;
 }

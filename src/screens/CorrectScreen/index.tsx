@@ -1,7 +1,7 @@
 import React, {memo, useCallback, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {HeaderComponent} from '../../components/HeaderComponent';
-import {incrementQuestionIndexAction, resetTriviaGameAction, setHighScoresAction} from '../../store/triviaGame/action';
+import {incrementQuestionIndexAction, resetTriviaGameAction, setHighScoreListAction} from '../../store/triviaGame/action';
 import {StackActions, useFocusEffect, useNavigation} from '@react-navigation/native';
 import {Colors} from '../../utils/default-styles';
 import {Alert, BackHandler, View} from 'react-native';
@@ -14,14 +14,14 @@ import {ButtonComponent} from '../../components/ButtonComponent';
 export const CorrectScreen = memo(function CorrectScreen() {
     const dispatch = useDispatch();
     const navigation = useNavigation();
-    const questionListLength = useSelector(state => state.triviaGame.questions.length);
+    const questionListLength = useSelector(state => state.triviaGame.questionList.length);
     const questionIndex = useSelector(state => state.triviaGame.questionIndex);
     const earnedPoint = useSelector(state => state.triviaGame.lastEarnedPointAmount);
     const totalPoint = useSelector(state => state.triviaGame.totalPoint);
     const category = useSelector(state => state.triviaGame.chosenCategory);
     const difficulty = useSelector(state => state.triviaGame.chosenDifficulty);
     const timeSpent = useSelector(state => state.triviaGame.totalTimeSpent);
-    const allScores = useSelector(state => state.triviaGame.highScores);
+    const allScores = useSelector(state => state.triviaGame.highScoreList);
     const [screenState, setScreenState] = useState(StateEnum.reading);
 
     const hardwareBackPressEventHandler = useCallback(() => {
@@ -53,7 +53,7 @@ export const CorrectScreen = memo(function CorrectScreen() {
             };
             const tempArr = [...allScores, score].sort((a, b) => (
                 b.score - a.score));
-            dispatch(setHighScoresAction(tempArr));
+            dispatch(setHighScoreListAction(tempArr));
             navigation.dispatch(StackActions.replace('Victory'));
         } else {
             dispatch(incrementQuestionIndexAction());
@@ -72,8 +72,8 @@ export const CorrectScreen = memo(function CorrectScreen() {
             <View style={Styles.container}>
                 <ResultBodyComponent
                     image={require('../../assets/icons/correct.png')}
-                    textUnderImage={'Correct'}
-                    lowerTexts={[
+                    title={'Correct'}
+                    otherTexts={[
                         `You have earned ${earnedPoint.toString()} points.`,
                         `Total points ${totalPoint.toString()}.`,
                     ]}/>

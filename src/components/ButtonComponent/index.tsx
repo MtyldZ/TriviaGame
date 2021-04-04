@@ -10,15 +10,17 @@ type Props = {
 }
 
 export const ButtonComponent = memo(function ButtonComponent(props: Props) {
+    const {color, onPress, isDisabled, buttonText} = props;
+
     return (
         <TouchableOpacity
             style={[
                 Styles.buttonStyle,
-                {backgroundColor: (props.color || '#fff')}]}
-            onPress={props.onPress}
-            disabled={props.isDisabled || false}>
+                {backgroundColor: (color || '#fff')}]}
+            onPress={onPress}
+            disabled={isDisabled || false}>
             <Text style={Styles.smallerText}>
-                {props.buttonText || 'DefaultButtonText'}
+                {buttonText || 'DefaultButtonText'}
             </Text>
         </TouchableOpacity>
     );

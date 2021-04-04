@@ -4,15 +4,16 @@ import {Styles} from './style';
 import {useSelector} from 'react-redux';
 
 export type RowPartType = {
-    first: string;
-    second: string;
+    firstLine: string;
+    secondLine: string;
 }
 
 const HeaderRowPartComponent = memo(function HeaderRowPartComponent(props: RowPartType) {
+    const {firstLine, secondLine} = props;
     return (
         <View style={Styles.rowPartContainer}>
-            <Text style={Styles.rowPartText}>{props.first}</Text>
-            <Text style={Styles.rowPartText}>{props.second}</Text>
+            <Text style={Styles.text}>{firstLine}</Text>
+            <Text style={Styles.text}>{secondLine}</Text>
         </View>
     );
 });
@@ -24,14 +25,16 @@ type HeaderType = {
 
 export const HeaderComponent = memo(function HeaderComponent(props: HeaderType) {
     const questionIndex = useSelector(state => state.triviaGame.questionIndex);
-    const partsDefault = props.parts || [];
+    const {parts, color} = props;
+    const partsDefault = parts || [];
+
     return (
-        <View style={[Styles.container, {backgroundColor: props.color}]}>
-            <HeaderRowPartComponent first={'Question'} second={`${questionIndex + 1}/10`}/>
+        <View style={[Styles.container, {backgroundColor: color}]}>
+            <HeaderRowPartComponent firstLine={'Question'} secondLine={`${questionIndex + 1}/10`}/>
             {
                 partsDefault.map((value, index) =>
-                    <HeaderRowPartComponent first={value.first}
-                                            second={value.second}
+                    <HeaderRowPartComponent firstLine={value.firstLine}
+                                            secondLine={value.secondLine}
                                             key={`key=${index}`}/>,
                 )
             }

@@ -4,16 +4,16 @@ import React, {memo} from 'react';
 import {useTimeout} from '../../hooks/timeout';
 import {StackActions, useNavigation} from '@react-navigation/native';
 import {useDispatch} from 'react-redux';
-import {fetchCategory} from '../../api/trivia-game-fetcher';
-import {setCategoriesAction} from '../../store/triviaGame/action';
+import {getCategoryListFromAPI} from '../../api/trivia-game-fetcher';
+import {setCategoryListAction} from '../../store/triviaGame/action';
 
 const DELAY_SECONDS = 2;
 
-const onFetchFails = () => {
+const onFetchFailed = () => {
     Alert.alert('Problem', 'Make sure that device has internet connection',
         [
             {
-                text: 'Try again',
+                text: 'Close',
                 onPress: () => BackHandler.exitApp(),
             },
         ]);
@@ -23,27 +23,23 @@ export const SplashScreen = memo(function SplashScreen() {
     const navigation = useNavigation();
     const dispatch = useDispatch();
     useTimeout(() => {
-            fetchCategory().then(categoryList => {
-                dispatch(setCategoriesAction(categoryList));
-            })
-                .then(() => navigation.dispatch(StackActions.replace('Start')))
-                .catch(onFetchFails);
+            getCategoryListFromAPI()
+                .then(categoryList => {
+                    dispatch(setCategoryListAction(categoryList));
+                    navigation.dispatch(StackActions.replace('Start'));
+                })
+                // .then(() => navigation.dispatch(StackActions.replace('Start')))
+                .catch(onFetchFailed);
         },
         DELAY_SECONDS * 1000,
     );
 
     return (
         <View style={Styles.container}>
-            <Text style={Styles.rowPartText}>
-                Splash Screen
-            </Text>
-            <Text style={Styles.rowPartText}>
-                Welcome Back
-            </Text>
-            <Text style={Styles.rowPartText}>
-                Nothing Changed Here
-            </Text>
-            <Text style={Styles.rowPartText}>
+            <Text style={Styles.text}>
+                Splash Screen{'\n'}
+                Welcome Back{'\n'}
+                Nothing Changed Here{'\n'}
                 Since You Quit
             </Text>
         </View>

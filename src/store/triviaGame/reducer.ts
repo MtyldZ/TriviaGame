@@ -5,26 +5,26 @@ import {
     incrementTotalPointAction,
     incrementTotalTimeSpentAction,
     refreshFiftyPercentJokerRightAction,
-    resetHighScoresAction,
+    resetHighScoreListAction,
     resetTriviaGameAction,
-    setCategoriesAction,
+    setCategoryListAction,
     setChosenCategoryAction,
     setChosenDifficultyAction,
-    setHighScoresAction,
-    setQuestionsAction,
+    setHighScoreListAction,
+    setQuestionListAction,
     spendFiftyPercentJokerRightAction,
 } from './action';
 import {DIFFICULTIES} from '../../utils/constants';
 
 const initialState: TriviaGameState = {
-    categories: [],
-    difficulties: DIFFICULTIES,
+    categoryList: [],
+    difficultyList: DIFFICULTIES,
     questionIndex: 0,
     totalPoint: 0,
     lastEarnedPointAmount: 0,
-    questions: [],
-    highScores: [],
-    fiftyPercentJokerIsUsed: false,
+    questionList: [],
+    highScoreList: [],
+    isJokerUsed: false,
     chosenCategory: 'Any Category',
     chosenDifficulty: 'Any Difficulty',
     totalTimeSpent: 0,
@@ -32,10 +32,10 @@ const initialState: TriviaGameState = {
 
 export const triviaGameReducer = createReducer(
     initialState, handle => [
-        handle(setCategoriesAction, (state, action) => {
+        handle(setCategoryListAction, (state, action) => {
             return {
                 ...state,
-                categories: action.payload.categories,
+                categoryList: action.payload.categoryList,
             };
         }),
         handle(incrementQuestionIndexAction, state => {
@@ -47,46 +47,46 @@ export const triviaGameReducer = createReducer(
         handle(incrementTotalPointAction, (state, action) => {
             return {
                 ...state,
-                totalPoint: state.totalPoint + action.payload.morePoints,
-                lastEarnedPointAmount: action.payload.morePoints,
+                totalPoint: state.totalPoint + action.payload.earnedPoint,
+                lastEarnedPointAmount: action.payload.earnedPoint,
             };
         }),
-        handle(setQuestionsAction, (state, action) => {
+        handle(setQuestionListAction, (state, action) => {
             return {
                 ...state,
-                questions: action.payload.questions,
+                questionList: action.payload.questionList,
             };
         }),
-        handle(setHighScoresAction, (state, action) => {
+        handle(setHighScoreListAction, (state, action) => {
             return {
                 ...state,
-                highScores: [...action.payload.scoreArray],
+                highScoreList: [...action.payload.scoreList],
             };
         }),
-        handle(resetHighScoresAction, (state) => {
+        handle(resetHighScoreListAction, (state) => {
             return {
                 ...state,
-                highScores: [],
+                highScoreList: [],
             };
         }),
         handle(spendFiftyPercentJokerRightAction, (state) => {
             return {
                 ...state,
-                fiftyPercentJokerIsUsed: true,
+                isJokerUsed: true,
             };
         }),
         handle(refreshFiftyPercentJokerRightAction, (state) => {
             return {
                 ...state,
-                fiftyPercentJokerIsUsed: false,
+                isJokerUsed: false,
             };
         }),
         handle(resetTriviaGameAction, state => {
             return {
                 ...initialState,
-                highScores: state.highScores,
-                categories: state.categories,
-                difficulties: state.difficulties,
+                highScoreList: state.highScoreList,
+                categoryList: state.categoryList,
+                difficultyList: state.difficultyList,
             };
         }),
         handle(incrementTotalTimeSpentAction, (state, action) => {

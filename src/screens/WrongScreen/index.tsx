@@ -7,20 +7,20 @@ import {BackHandler, View} from 'react-native';
 import {Styles} from './style';
 import {StateEnum} from '../../utils/state-enum';
 import {UserScore} from '../../utils/types';
-import {setHighScoresAction} from '../../store/triviaGame/action';
+import {setHighScoreListAction} from '../../store/triviaGame/action';
 import {ButtonComponent} from '../../components/ButtonComponent';
 import {ResultBodyComponent} from '../../components/ResultBodyComponent';
 
 export const WrongScreen = memo(function WrongScreen() {
     const dispatch = useDispatch();
     const navigation = useNavigation();
-    const questionListLength = useSelector(state => state.triviaGame.questions.length);
+    const questionListLength = useSelector(state => state.triviaGame.questionList.length);
     const totalPoint = useSelector(state => state.triviaGame.totalPoint);
     const questionIndex = useSelector(state => state.triviaGame.questionIndex);
     const category = useSelector(state => state.triviaGame.chosenCategory);
     const difficulty = useSelector(state => state.triviaGame.chosenDifficulty);
     const timeSpent = useSelector(state => state.triviaGame.totalTimeSpent);
-    const allScores = useSelector(state => state.triviaGame.highScores);
+    const allScores = useSelector(state => state.triviaGame.highScoreList);
     const [screenState, setScreenState] = useState(StateEnum.reading);
 
     const onButtonPress = useCallback(() => {
@@ -37,7 +37,7 @@ export const WrongScreen = memo(function WrongScreen() {
             };
             const tempArr = [...allScores, score].sort((a, b) => (
                 b.score - a.score));
-            dispatch(setHighScoresAction(tempArr));
+            dispatch(setHighScoreListAction(tempArr));
         }
         navigation.goBack();
     }, [allScores, category, difficulty, dispatch, navigation, questionIndex, questionListLength, screenState, timeSpent, totalPoint]);
@@ -58,8 +58,8 @@ export const WrongScreen = memo(function WrongScreen() {
             <View style={Styles.container}>
                 <ResultBodyComponent
                     image={require('../../assets/icons/wrong.png')}
-                    textUnderImage={'Wrong'}
-                    lowerTexts={[
+                    title={'Wrong'}
+                    otherTexts={[
                         'You failed.',
                         `Total points ${totalPoint.toString()}.`]}/>
                 <ButtonComponent

@@ -8,13 +8,14 @@ type PropsLowerComponentType = {
 }
 
 const ResultLowerComponent = memo(function ResultLowerComponent(props: PropsLowerComponentType) {
+    const {upperText, lowerText} = props;
     return (
         <View style={Styles.middleViewContainer}>
             <Text style={Styles.smallerText}>
-                {props.upperText}
+                {upperText}
             </Text>
             <Text style={Styles.smallerText}>
-                {props.lowerText}
+                {lowerText}
             </Text>
         </View>
     );
@@ -23,16 +24,17 @@ const ResultLowerComponent = memo(function ResultLowerComponent(props: PropsLowe
 
 type ResultPropsBodyComponentType = {
     image: ImageSourcePropType;
-    textUnderImage: string;
-    lowerTexts: string[];
+    title: string;
+    otherTexts: string[];
 }
 
 export const ResultBodyComponent = memo(function ResultBodyComponent(props: ResultPropsBodyComponentType) {
+    const {image, title, otherTexts} = props;
     return (
         <>
-            <Image source={props.image} style={Styles.imageStyle}/>
-            <Text style={Styles.biggerText}>{props.textUnderImage}</Text>
-            <ResultLowerComponent upperText={props.lowerTexts[0]} lowerText={props.lowerTexts[1]}/>
+            <Image source={image} style={Styles.imageStyle}/>
+            <Text style={Styles.biggerText}>{title}</Text>
+            <ResultLowerComponent upperText={otherTexts[0]} lowerText={otherTexts[1]}/>
         </>
     );
 });

@@ -1,17 +1,18 @@
 import React, {memo, useCallback, useState} from 'react';
 import {Alert, BackHandler, Image, SafeAreaView, Text, TouchableOpacity, View} from 'react-native';
 import {Styles} from './style';
-import {fetchData} from '../../api/trivia-game-fetcher';
+import {getQuestionListByIdAndDifficultFromAPI} from '../../api/trivia-game-fetcher';
 import {useDispatch, useSelector} from 'react-redux';
 import {
     resetTriviaGameAction,
     setChosenCategoryAction,
     setChosenDifficultyAction,
-    setQuestionsAction,
+    setQuestionListAction,
 } from '../../store/triviaGame/action';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {SelectorComponent} from '../../components/SelectorComponent';
 import {changeBusyAction} from '../../store/ui/action';
+import {DIFFICULTIES} from '../../utils/constants';
 
 const onFetchFails = () => {
     Alert.alert('Ohh sorry', 'It looks like we do not have enough questions to ask in that filter. Maybe next update we will.',
@@ -22,10 +23,10 @@ const onFetchFails = () => {
         ]);
 };
 
-const onBackRequestHandler = () => {
+const onBackPressed = () => {
     Alert.alert('Hold on!', 'Are you sure you want to quit?', [
         {text: 'Cancel', style: 'cancel'},
-        {text: 'Quit', style: 'default', onPress: () => BackHandler.exitApp()},
+        {text: 'Quit', style: 'default', onPress: BackHandler.exitApp},
     ]);
     return true;
 };
@@ -33,31 +34,32 @@ const onBackRequestHandler = () => {
 export const StartScreen = memo(function StartScreen() {
     const dispatch = useDispatch();
     const navigation = useNavigation();
-    const categoryList = useSelector(state => state.triviaGame.categories);
-    const difficultyList = useSelector(state => state.triviaGame.difficulties);
+    const categoryList = useSelector(state => state.triviaGame.categoryList);
+    // const difficultyList = useSelector(state => state.triviaGame.difficultyList);
+    const difficultyList = DIFFICULTIES;
     const [chosenCategory, setChosenCategory] = useState(categoryList[0]);
     const [chosenDifficulty, setChosenDifficulty] = useState(difficultyList[0]);
 
-    const onStartPressHandler = useCallback(() => {
+    const onStartPressed = useCallback(() => {
         dispatch(changeBusyAction(true));
-        fetchData(chosenCategory.id, chosenDifficulty.name)
+        getQuestionListByIdAndDifficultFromAPI(chosenCategory.id, chosenDifficulty.name)
             .then(questions => {
                 dispatch(resetTriviaGameAction());
                 dispatch(setChosenCategoryAction(chosenCategory.name));
                 dispatch(setChosenDifficultyAction(chosenDifficulty.name));
-                dispatch(setQuestionsAction(questions));
+                dispatch(setQuestionListAction(questions));
                 navigation.navigate('Question');
             }).catch(onFetchFails)
             .finally(() => dispatch(changeBusyAction(false)));
     }, [chosenCategory, chosenDifficulty, dispatch, navigation]);
 
-    const onHighScoresPressHandler = useCallback(() => {
+    const onHighScoresPressed = useCallback(() => {
         navigation.navigate('HighScores');
     }, [navigation]);
 
     useFocusEffect(() => {
-        BackHandler.addEventListener('hardwareBackPress', onBackRequestHandler);
-        return () => BackHandler.removeEventListener('hardwareBackPress', onBackRequestHandler);
+        BackHandler.addEventListener('hardwareBackPress', onBackPressed);
+        return () => BackHandler.removeEventListener('hardwareBackPress', onBackPressed);
     });
 
     return (
@@ -67,16 +69,16 @@ export const StartScreen = memo(function StartScreen() {
                        style={Styles.logoImage}/>
                 <Text style={Styles.logoText}>A trivia game</Text>
             </View>
-            <SelectorComponent array={categoryList}
+            <SelectorComponent optionList={categoryList}
                                onChange={setChosenCategory}/>
-            <SelectorComponent array={difficultyList}
+            <SelectorComponent optionList={difficultyList}
                                onChange={setChosenDifficulty}/>
             <TouchableOpacity style={Styles.buttonStyle}
-                              onPress={onStartPressHandler}>
+                              onPress={onStartPressed}>
                 <Text style={Styles.buttonText}>GET STARTED</Text>
             </TouchableOpacity>
             <TouchableOpacity style={Styles.buttonStyle}
-                              onPress={onHighScoresPressHandler}>
+                              onPress={onHighScoresPressed}>
                 <Text style={Styles.buttonText}>HIGH SCORES</Text>
             </TouchableOpacity>
         </SafeAreaView>

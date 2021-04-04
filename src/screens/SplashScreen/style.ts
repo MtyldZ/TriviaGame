@@ -8,9 +8,10 @@ export const Styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: 'white',
     },
-    rowPartText: {
+    text: {
         color: 'black',
         fontSize: 24,
         fontFamily: FontFamily.fontFamily,
+        textAlign: 'center',
     },
 });

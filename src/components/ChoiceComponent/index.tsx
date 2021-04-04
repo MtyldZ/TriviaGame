@@ -14,18 +14,22 @@ type ChoiceComponentType = {
 };
 
 export const ChoiceComponent = memo(function ChoiceComponent(props: ChoiceComponentType) {
+    const {choice, onPress} = props;
+    const {choiceName, choiceText, disabled} = choice;
+
     return (
-        <TouchableOpacity style={[Styles.choiceContainer,
-            (props.choice.disabled ? Styles.disabled : {})]}
-                          disabled={props.choice.disabled}
-                          onPress={props.onPress}>
+        <TouchableOpacity
+            style={[Styles.choiceContainer,
+                (disabled ? Styles.disabled : {})]}
+            disabled={disabled}
+            onPress={onPress}>
             <Text style={Styles.choiceName}>
-                {props.choice.choiceName + ':   '}
+                {choiceName + ':   '}
             </Text>
             <Text style={Styles.choiceText}
                   adjustsFontSizeToFit={true}
                   numberOfLines={2}>
-                {props.choice.choiceText}
+                {choiceText}
             </Text>
         </TouchableOpacity>
     );

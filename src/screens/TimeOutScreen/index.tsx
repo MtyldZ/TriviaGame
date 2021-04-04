@@ -7,19 +7,19 @@ import {BackHandler, View} from 'react-native';
 import {Styles} from './style';
 import {StateEnum} from '../../utils/state-enum';
 import {UserScore} from '../../utils/types';
-import {setHighScoresAction} from '../../store/triviaGame/action';
+import {setHighScoreListAction} from '../../store/triviaGame/action';
 import {ResultBodyComponent} from '../../components/ResultBodyComponent';
 import {ButtonComponent} from '../../components/ButtonComponent';
 
 export const TimeOutScreen = memo(function TimeOutScreen() {
     const navigation = useNavigation();
     const dispatch = useDispatch();
-    const questionListLength = useSelector(state => state.triviaGame.questions.length);
+    const questionListLength = useSelector(state => state.triviaGame.questionList.length);
     const totalPoint = useSelector(state => state.triviaGame.totalPoint);
     const questionIndex = useSelector(state => state.triviaGame.questionIndex);
     const category = useSelector(state => state.triviaGame.chosenCategory);
     const difficulty = useSelector(state => state.triviaGame.chosenDifficulty);
-    const allScores = useSelector(state => state.triviaGame.highScores);
+    const allScores = useSelector(state => state.triviaGame.highScoreList);
     const timeSpent = useSelector(state => state.triviaGame.totalTimeSpent);
     const [screenState, setScreenState] = useState(StateEnum.reading);
 
@@ -37,7 +37,7 @@ export const TimeOutScreen = memo(function TimeOutScreen() {
             };
             const tempArr = [...allScores, score].sort((a, b) => (
                 b.score - a.score));
-            dispatch(setHighScoresAction(tempArr));
+            dispatch(setHighScoreListAction(tempArr));
         }
         navigation.goBack();
     }, [allScores, category, difficulty, dispatch, navigation, questionIndex, questionListLength, screenState, timeSpent, totalPoint]);
@@ -58,8 +58,8 @@ export const TimeOutScreen = memo(function TimeOutScreen() {
             <View style={Styles.container}>
                 <ResultBodyComponent
                     image={require('../../assets/icons/timeout.png')}
-                    textUnderImage={'Time Out'}
-                    lowerTexts={[
+                    title={'Time Out'}
+                    otherTexts={[
                         'You failed.',
                         `Total points ${totalPoint.toString()}.`]}/>
                 <ButtonComponent

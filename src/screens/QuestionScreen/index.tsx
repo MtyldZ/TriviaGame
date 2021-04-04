@@ -25,16 +25,16 @@ const createChoiceList = (allAnswersArray: string[]) => {
     ));
 };
 
-const TIME_GIVEN_TO_SOLVE = 15;
+const TIME_GIVEN_TO_SOLVE_SECONDS = 15;
 
 export const QuestionScreen = memo(function QuestionScreen() {
     const dispatch = useDispatch();
     const navigation = useNavigation();
     const totalPoint = useSelector(state => state.triviaGame.totalPoint);
     const questionObject = useSelector(
-        state => state.triviaGame.questions[state.triviaGame.questionIndex]);
+        state => state.triviaGame.questionList[state.triviaGame.questionIndex]);
 
-    const [timeLeft, setTimeLeft] = useState(TIME_GIVEN_TO_SOLVE);
+    const [timeLeft, setTimeLeft] = useState(TIME_GIVEN_TO_SOLVE_SECONDS);
     const [gameState, setGameState] = useState(StateEnum.reading);
 
     const [choiceList, setChoiceList] = useState(
@@ -52,7 +52,7 @@ export const QuestionScreen = memo(function QuestionScreen() {
         navigation.dispatch(StackActions.replace('Wrong'));
     }, [navigation]);
 
-    const onChoicePress = useCallback((chosenChoice: Choice) => {
+    const onChoicePressed = useCallback((chosenChoice: Choice) => {
         if (gameState !== StateEnum.reading) {
             return;
         }
@@ -113,8 +113,8 @@ export const QuestionScreen = memo(function QuestionScreen() {
         <SafeAreaView style={Styles.container}>
             <HeaderComponent color={Colors.questionHeader}
                              parts={[
-                                 {first: 'Points', second: totalPoint.toString()},
-                                 {first: 'Remaining Time', second: timeLeft.toString()},
+                                 {firstLine: 'Points', secondLine: totalPoint.toString()},
+                                 {firstLine: 'Remaining Time', secondLine: timeLeft.toString()},
                              ]}/>
             <View style={Styles.bodyPartContainer}>
                 <View style={Styles.jokerContainer}>
@@ -124,7 +124,7 @@ export const QuestionScreen = memo(function QuestionScreen() {
                 {
                     choiceList.map((choice, index) =>
                         <ChoiceComponent choice={choice}
-                                         onPress={() => onChoicePress(choice)}
+                                         onPress={() => onChoicePressed(choice)}
                                          key={`key_${index}`}/>)
                 }
             </View>

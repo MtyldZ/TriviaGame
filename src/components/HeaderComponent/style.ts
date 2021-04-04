@@ -17,7 +17,7 @@ export const Styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-    rowPartText: {
+    text: {
         color: 'white',
         fontSize: 22,
         fontFamily: FontFamily.fontFamily,

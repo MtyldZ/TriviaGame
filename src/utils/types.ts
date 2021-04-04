@@ -20,7 +20,13 @@ export type Question = {
     wrongAnswers: string[];
 }
 
-export type SelectorListType = {
+// export type SelectorListType = {
+//     id: number;
+//     name: string;
+// }
+
+export type SelectorListType<T = undefined> = {
     id: number;
     name: string;
+    item?: T;
 }

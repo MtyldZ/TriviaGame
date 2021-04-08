@@ -1,7 +1,7 @@
 import React, {memo, useCallback, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {HeaderComponent} from '../../components/HeaderComponent';
-import {useFocusEffect} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {Colors} from '../../utils/default-styles';
 import {Styles} from '../TimeOutScreen/style';
 import {BackHandler, View} from 'react-native';
@@ -10,7 +10,8 @@ import {ResultBodyComponent} from '../../components/ResultBodyComponent';
 import {ButtonComponent} from '../../components/ButtonComponent';
 import {ScreenPropType} from '../../utils/types';
 
-export const VictoryScreen = memo<ScreenPropType>(function VictoryScreen({navigation}) {
+export const VictoryScreen = memo<ScreenPropType>(function VictoryScreen() {
+    const navigation = useNavigation();
     const totalPoint = useSelector(state => state.triviaGame.totalPoint);
     const [screenState, setScreenState] = useState(StateEnum.reading);
 

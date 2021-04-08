@@ -5,7 +5,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {incrementTotalPointAction, incrementTotalTimeSpentAction} from '../../store/triviaGame/action';
 import {HeaderComponent} from '../../components/HeaderComponent';
 import {Choice, ChoiceComponent} from '../../components/ChoiceComponent';
-import {StackActions, useFocusEffect} from '@react-navigation/native';
+import {StackActions, useFocusEffect, useNavigation} from '@react-navigation/native';
 import {Colors} from '../../utils/default-styles';
 import {shuffle} from '../../utils/shuffle';
 import {FiftyPercentJokerComponent} from '../../components/FiftyPercentJokerComponent';
@@ -28,8 +28,9 @@ const createChoiceList = (allAnswersArray: string[]) => {
 
 const TIME_GIVEN_TO_SOLVE_SECONDS = 15;
 
-export const QuestionScreen = memo<ScreenPropType>(function QuestionScreen({navigation}) {
+export const QuestionScreen = memo<ScreenPropType>(function QuestionScreen() {
     const dispatch = useDispatch();
+    const navigation = useNavigation();
     const totalPoint = useSelector(state => state.triviaGame.totalPoint);
     const questionIndex = useSelector(state => state.triviaGame.questionIndex);
     const questionObject = useSelector(

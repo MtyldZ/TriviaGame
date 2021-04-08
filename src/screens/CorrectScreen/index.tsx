@@ -6,7 +6,7 @@ import {
     resetTriviaGameAction,
     setHighScoreListAction,
 } from '../../store/triviaGame/action';
-import {StackActions, useFocusEffect} from '@react-navigation/native';
+import {StackActions, useFocusEffect, useNavigation} from '@react-navigation/native';
 import {Colors} from '../../utils/default-styles';
 import {Alert, BackHandler, View} from 'react-native';
 import {Styles} from './style';
@@ -15,9 +15,10 @@ import {StateEnum} from '../../utils/state-enum';
 import {ResultBodyComponent} from '../../components/ResultBodyComponent';
 import {ButtonComponent} from '../../components/ButtonComponent';
 
-export const CorrectScreen = memo<ScreenPropType>(function CorrectScreen({navigation, route}) {
+export const CorrectScreen = memo<ScreenPropType>(function CorrectScreen({route}) {
     const {earnedPoint, totalPoint, questionIndex} = route.params;
 
+    const navigation = useNavigation();
     const dispatch = useDispatch();
     const questionListLength = useSelector(state => state.triviaGame.questionList.length);
     const category = useSelector(state => state.triviaGame.chosenCategory);

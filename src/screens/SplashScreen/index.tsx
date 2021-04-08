@@ -2,7 +2,7 @@ import {Alert, BackHandler, Text, View} from 'react-native';
 import {Styles} from './style';
 import React, {memo} from 'react';
 import {useTimeout} from '../../hooks/timeout';
-import {StackActions} from '@react-navigation/native';
+import {StackActions, useNavigation} from '@react-navigation/native';
 import {useDispatch} from 'react-redux';
 import {getCategoryListFromAPI} from '../../api/trivia-game-fetcher';
 import {setCategoryListAction} from '../../store/triviaGame/action';
@@ -20,8 +20,9 @@ const onFetchFailed = () => {
         ]);
 };
 
-export const SplashScreen = memo<ScreenPropType>(function SplashScreen({navigation}) {
+export const SplashScreen = memo<ScreenPropType>(function SplashScreen() {
     const dispatch = useDispatch();
+    const navigation = useNavigation();
     useTimeout(() => {
             getCategoryListFromAPI()
                 .then(categoryList => {

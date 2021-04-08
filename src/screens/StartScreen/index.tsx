@@ -9,7 +9,7 @@ import {
     setChosenDifficultyAction,
     setQuestionListAction,
 } from '../../store/triviaGame/action';
-import {useFocusEffect} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {SelectorComponent} from '../../components/SelectorComponent';
 import {changeBusyAction} from '../../store/ui/action';
 import {DIFFICULTIES} from '../../utils/constants';
@@ -32,8 +32,9 @@ const onBackPressed = () => {
     return true;
 };
 
-export const StartScreen = memo<ScreenPropType>(function StartScreen({navigation}) {
+export const StartScreen = memo<ScreenPropType>(function StartScreen() {
     const dispatch = useDispatch();
+    const navigation = useNavigation();
     const categoryList = useSelector(state => state.triviaGame.categoryList);
     const difficultyList = DIFFICULTIES;
     const [chosenCategory, setChosenCategory] = useState(categoryList[0]);

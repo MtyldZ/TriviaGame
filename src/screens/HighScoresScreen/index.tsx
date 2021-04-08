@@ -5,9 +5,11 @@ import {SafeAreaView, ScrollView, Text, TouchableOpacity, View} from 'react-nati
 import {Styles} from './style';
 import {resetHighScoreListAction} from '../../store/triviaGame/action';
 import {ScreenPropType} from '../../utils/types';
+import {useNavigation} from '@react-navigation/native';
 
-export const HighScoresScreen = memo<ScreenPropType>(function HighScoresScreen({navigation}) {
+export const HighScoresScreen = memo<ScreenPropType>(function HighScoresScreen() {
     const dispatch = useDispatch();
+    const navigation = useNavigation();
     const allScores = useSelector(state => state.triviaGame.highScoreList);
 
     const onMainMenuPressed = useCallback(() => {

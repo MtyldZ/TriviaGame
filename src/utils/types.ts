@@ -30,7 +30,7 @@ export type SelectorListType<T = undefined> = {
 }
 
 export type ScreenPropType<T = undefined> = {
-    navigation: NavigationProp<ParamListBase>;
+    navigation?: NavigationProp<ParamListBase>;
     route: {
         key: string;
         name: string;
@@ -42,5 +42,5 @@ export type ParamType<T> = {
     earnedPoint?: number;
     totalPoint?: number;
     questionIndex?: number;
-    item?: T
+    item?: T;
 }

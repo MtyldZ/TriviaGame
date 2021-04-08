@@ -1,7 +1,7 @@
 import React, {memo, useCallback, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {HeaderComponent} from '../../components/HeaderComponent';
-import {useFocusEffect} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {Colors} from '../../utils/default-styles';
 import {BackHandler, View} from 'react-native';
 import {Styles} from './style';
@@ -11,9 +11,10 @@ import {setHighScoreListAction} from '../../store/triviaGame/action';
 import {ButtonComponent} from '../../components/ButtonComponent';
 import {ResultBodyComponent} from '../../components/ResultBodyComponent';
 
-export const WrongScreen = memo<ScreenPropType>(function WrongScreen({navigation, route}) {
+export const WrongScreen = memo<ScreenPropType>(function WrongScreen({route}) {
     const {totalPoint, questionIndex} = route.params;
 
+    const navigation = useNavigation();
     const dispatch = useDispatch();
     const questionListLength = useSelector(state => state.triviaGame.questionList.length);
     const category = useSelector(state => state.triviaGame.chosenCategory);

@@ -1,3 +1,6 @@
+import {NavigationProp} from '@react-navigation/core/lib/typescript/src/types';
+import {ParamListBase} from '@react-navigation/routers';
+
 export type UserScore = {
     category: string;
     difficulty: string;
@@ -20,13 +23,24 @@ export type Question = {
     wrongAnswers: string[];
 }
 
-// export type SelectorListType = {
-//     id: number;
-//     name: string;
-// }
-
 export type SelectorListType<T = undefined> = {
     id: number;
     name: string;
     item?: T;
+}
+
+export type ScreenPropType<T = undefined> = {
+    navigation: NavigationProp<ParamListBase>;
+    route: {
+        key: string;
+        name: string;
+        params: ParamType<T>;
+    }
+}
+
+export type ParamType<T> = {
+    earnedPoint?: number;
+    totalPoint?: number;
+    questionIndex?: number;
+    item?: T
 }

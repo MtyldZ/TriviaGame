@@ -1,30 +1,32 @@
 import React, {memo, useCallback, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {HeaderComponent} from '../../components/HeaderComponent';
-import {incrementQuestionIndexAction, resetTriviaGameAction, setHighScoreListAction} from '../../store/triviaGame/action';
-import {StackActions, useFocusEffect, useNavigation} from '@react-navigation/native';
+import {
+    incrementQuestionIndexAction,
+    resetTriviaGameAction,
+    setHighScoreListAction,
+} from '../../store/triviaGame/action';
+import {StackActions, useFocusEffect} from '@react-navigation/native';
 import {Colors} from '../../utils/default-styles';
 import {Alert, BackHandler, View} from 'react-native';
 import {Styles} from './style';
-import {UserScore} from '../../utils/types';
+import {ScreenPropType, UserScore} from '../../utils/types';
 import {StateEnum} from '../../utils/state-enum';
 import {ResultBodyComponent} from '../../components/ResultBodyComponent';
 import {ButtonComponent} from '../../components/ButtonComponent';
 
-export const CorrectScreen = memo(function CorrectScreen() {
+export const CorrectScreen = memo<ScreenPropType>(function CorrectScreen({navigation, route}) {
+    const {earnedPoint, totalPoint, questionIndex} = route.params;
+
     const dispatch = useDispatch();
-    const navigation = useNavigation();
     const questionListLength = useSelector(state => state.triviaGame.questionList.length);
-    const questionIndex = useSelector(state => state.triviaGame.questionIndex);
-    const earnedPoint = useSelector(state => state.triviaGame.lastEarnedPointAmount);
-    const totalPoint = useSelector(state => state.triviaGame.totalPoint);
     const category = useSelector(state => state.triviaGame.chosenCategory);
     const difficulty = useSelector(state => state.triviaGame.chosenDifficulty);
     const timeSpent = useSelector(state => state.triviaGame.totalTimeSpent);
     const allScores = useSelector(state => state.triviaGame.highScoreList);
     const [screenState, setScreenState] = useState(StateEnum.reading);
 
-    const hardwareBackPressEventHandler = useCallback(() => {
+    const hardwareBackPressed = useCallback(() => {
         Alert.alert('Caution!', 'Are you sure you want give up?', [
             {text: 'Cancel', style: 'cancel'},
             {
@@ -39,7 +41,7 @@ export const CorrectScreen = memo(function CorrectScreen() {
         return true;
     }, [dispatch, navigation]);
 
-    const onButtonPress = useCallback(() => {
+    const onButtonPressed = useCallback(() => {
         if (screenState !== StateEnum.reading) {
             return;
         }
@@ -62,9 +64,9 @@ export const CorrectScreen = memo(function CorrectScreen() {
     }, [allScores, category, difficulty, dispatch, navigation, questionIndex, questionListLength, screenState, timeSpent, totalPoint]);
 
     useFocusEffect(useCallback(() => {
-        BackHandler.addEventListener('hardwareBackPress', hardwareBackPressEventHandler);
-        return () => BackHandler.removeEventListener('hardwareBackPress', hardwareBackPressEventHandler);
-    }, [hardwareBackPressEventHandler]));
+        BackHandler.addEventListener('hardwareBackPress', hardwareBackPressed);
+        return () => BackHandler.removeEventListener('hardwareBackPress', hardwareBackPressed);
+    }, [hardwareBackPressed]));
 
     return (
         <>
@@ -72,14 +74,14 @@ export const CorrectScreen = memo(function CorrectScreen() {
             <View style={Styles.container}>
                 <ResultBodyComponent
                     image={require('../../assets/icons/correct.png')}
-                    title={'Correct'}
+                    title='Correct'
                     otherTexts={[
                         `You have earned ${earnedPoint.toString()} points.`,
                         `Total points ${totalPoint.toString()}.`,
                     ]}/>
                 <ButtonComponent
-                    onPress={onButtonPress}
-                    buttonText={'Next Question'}
+                    onPress={onButtonPressed}
+                    buttonText='Next Question'
                     color={Colors.correctButton}
                     isDisabled={screenState !== StateEnum.reading}/>
             </View>

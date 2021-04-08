@@ -2,10 +2,11 @@ import {Alert, BackHandler, Text, View} from 'react-native';
 import {Styles} from './style';
 import React, {memo} from 'react';
 import {useTimeout} from '../../hooks/timeout';
-import {StackActions, useNavigation} from '@react-navigation/native';
+import {StackActions} from '@react-navigation/native';
 import {useDispatch} from 'react-redux';
 import {getCategoryListFromAPI} from '../../api/trivia-game-fetcher';
 import {setCategoryListAction} from '../../store/triviaGame/action';
+import {ScreenPropType} from '../../utils/types';
 
 const DELAY_SECONDS = 2;
 
@@ -19,8 +20,7 @@ const onFetchFailed = () => {
         ]);
 };
 
-export const SplashScreen = memo(function SplashScreen() {
-    const navigation = useNavigation();
+export const SplashScreen = memo<ScreenPropType>(function SplashScreen({navigation}) {
     const dispatch = useDispatch();
     useTimeout(() => {
             getCategoryListFromAPI()
@@ -28,7 +28,6 @@ export const SplashScreen = memo(function SplashScreen() {
                     dispatch(setCategoryListAction(categoryList));
                     navigation.dispatch(StackActions.replace('Start'));
                 })
-                // .then(() => navigation.dispatch(StackActions.replace('Start')))
                 .catch(onFetchFailed);
         },
         DELAY_SECONDS * 1000,

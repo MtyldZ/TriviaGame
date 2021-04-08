@@ -11,6 +11,5 @@ export interface TriviaGameState {
     totalTimeSpent: number;
     questionIndex: number;
     totalPoint: number;
-    lastEarnedPointAmount: number;
     isJokerUsed: boolean;
 }

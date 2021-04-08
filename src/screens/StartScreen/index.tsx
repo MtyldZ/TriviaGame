@@ -9,12 +9,13 @@ import {
     setChosenDifficultyAction,
     setQuestionListAction,
 } from '../../store/triviaGame/action';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {useFocusEffect} from '@react-navigation/native';
 import {SelectorComponent} from '../../components/SelectorComponent';
 import {changeBusyAction} from '../../store/ui/action';
 import {DIFFICULTIES} from '../../utils/constants';
+import {ScreenPropType} from '../../utils/types';
 
-const onFetchFails = () => {
+const onFetchFailed = () => {
     Alert.alert('Ohh sorry', 'It looks like we do not have enough questions to ask in that filter. Maybe next update we will.',
         [
             {
@@ -31,11 +32,9 @@ const onBackPressed = () => {
     return true;
 };
 
-export const StartScreen = memo(function StartScreen() {
+export const StartScreen = memo<ScreenPropType>(function StartScreen({navigation}) {
     const dispatch = useDispatch();
-    const navigation = useNavigation();
     const categoryList = useSelector(state => state.triviaGame.categoryList);
-    // const difficultyList = useSelector(state => state.triviaGame.difficultyList);
     const difficultyList = DIFFICULTIES;
     const [chosenCategory, setChosenCategory] = useState(categoryList[0]);
     const [chosenDifficulty, setChosenDifficulty] = useState(difficultyList[0]);
@@ -49,7 +48,8 @@ export const StartScreen = memo(function StartScreen() {
                 dispatch(setChosenDifficultyAction(chosenDifficulty.name));
                 dispatch(setQuestionListAction(questions));
                 navigation.navigate('Question');
-            }).catch(onFetchFails)
+            })
+            .catch(onFetchFailed)
             .finally(() => dispatch(changeBusyAction(false)));
     }, [chosenCategory, chosenDifficulty, dispatch, navigation]);
 

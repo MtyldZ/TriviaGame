@@ -10,19 +10,30 @@ import {CorrectScreen} from '../screens/CorrectScreen';
 import {WrongScreen} from '../screens/WrongScreen';
 import {TimeOutScreen} from '../screens/TimeOutScreen';
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<MainRouteParamList>();
 
 export const ApplicationNavigator = memo(function ApplicationNavigator() {
     return (
         <Stack.Navigator screenOptions={{headerShown: false}}>
-            <Stack.Screen name="Splash" component={SplashScreen}/>
-            <Stack.Screen name="Start" component={StartScreen}/>
-            <Stack.Screen name="HighScores" component={HighScoresScreen}/>
-            <Stack.Screen name="Victory" component={VictoryScreen}/>
-            <Stack.Screen name="Question" component={QuestionScreen}/>
-            <Stack.Screen name="Correct" component={CorrectScreen}/>
-            <Stack.Screen name="Wrong" component={WrongScreen}/>
-            <Stack.Screen name="Timeout" component={TimeOutScreen}/>
+            <Stack.Screen name='Splash' component={SplashScreen}/>
+            <Stack.Screen name='Start' component={StartScreen}/>
+            <Stack.Screen name='HighScores' component={HighScoresScreen}/>
+            <Stack.Screen name='Victory' component={VictoryScreen}/>
+            <Stack.Screen name='Question' component={QuestionScreen}/>
+            <Stack.Screen name='Correct' component={CorrectScreen}/>
+            <Stack.Screen name='Wrong' component={WrongScreen}/>
+            <Stack.Screen name='Timeout' component={TimeOutScreen}/>
         </Stack.Navigator>
     );
 });
+
+type MainRouteParamList = {
+    Splash: undefined;
+    Start: undefined;
+    HighScores: undefined;
+    Victory: undefined;
+    Correct: undefined;
+    Question: undefined;
+    Wrong: undefined;
+    Timeout: undefined;
+}

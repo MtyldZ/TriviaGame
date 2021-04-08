@@ -1,29 +1,28 @@
 import React, {memo, useCallback, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {HeaderComponent} from '../../components/HeaderComponent';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {useFocusEffect} from '@react-navigation/native';
 import {Colors} from '../../utils/default-styles';
 import {BackHandler, View} from 'react-native';
 import {Styles} from './style';
 import {StateEnum} from '../../utils/state-enum';
-import {UserScore} from '../../utils/types';
+import {ScreenPropType, UserScore} from '../../utils/types';
 import {setHighScoreListAction} from '../../store/triviaGame/action';
 import {ResultBodyComponent} from '../../components/ResultBodyComponent';
 import {ButtonComponent} from '../../components/ButtonComponent';
 
-export const TimeOutScreen = memo(function TimeOutScreen() {
-    const navigation = useNavigation();
+export const TimeOutScreen = memo<ScreenPropType>(function TimeOutScreen({navigation, route}) {
+    const {totalPoint, questionIndex} = route.params;
+
     const dispatch = useDispatch();
     const questionListLength = useSelector(state => state.triviaGame.questionList.length);
-    const totalPoint = useSelector(state => state.triviaGame.totalPoint);
-    const questionIndex = useSelector(state => state.triviaGame.questionIndex);
     const category = useSelector(state => state.triviaGame.chosenCategory);
     const difficulty = useSelector(state => state.triviaGame.chosenDifficulty);
     const allScores = useSelector(state => state.triviaGame.highScoreList);
     const timeSpent = useSelector(state => state.triviaGame.totalTimeSpent);
     const [screenState, setScreenState] = useState(StateEnum.reading);
 
-    const onButtonPress = useCallback(() => {
+    const onButtonPressed = useCallback(() => {
         if (screenState !== StateEnum.reading) {
             return;
         }
@@ -43,9 +42,9 @@ export const TimeOutScreen = memo(function TimeOutScreen() {
     }, [allScores, category, difficulty, dispatch, navigation, questionIndex, questionListLength, screenState, timeSpent, totalPoint]);
 
     const hardwareBackPressEventHandler = useCallback(() => {
-        onButtonPress();
+        onButtonPressed();
         return true;
-    }, [onButtonPress]);
+    }, [onButtonPressed]);
 
     useFocusEffect(useCallback(() => {
         BackHandler.addEventListener('hardwareBackPress', hardwareBackPressEventHandler);
@@ -58,13 +57,13 @@ export const TimeOutScreen = memo(function TimeOutScreen() {
             <View style={Styles.container}>
                 <ResultBodyComponent
                     image={require('../../assets/icons/timeout.png')}
-                    title={'Time Out'}
+                    title='Time Out'
                     otherTexts={[
                         'You failed.',
                         `Total points ${totalPoint.toString()}.`]}/>
                 <ButtonComponent
-                    onPress={onButtonPress}
-                    buttonText={'Main Menu'}
+                    onPress={onButtonPressed}
+                    buttonText='Main Menu'
                     color={Colors.timeOutButton}
                     isDisabled={screenState !== StateEnum.reading}/>
             </View>

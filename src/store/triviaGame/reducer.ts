@@ -21,7 +21,6 @@ const initialState: TriviaGameState = {
     difficultyList: DIFFICULTIES,
     questionIndex: 0,
     totalPoint: 0,
-    lastEarnedPointAmount: 0,
     questionList: [],
     highScoreList: [],
     isJokerUsed: false,
@@ -48,7 +47,7 @@ export const triviaGameReducer = createReducer(
             return {
                 ...state,
                 totalPoint: state.totalPoint + action.payload.earnedPoint,
-                lastEarnedPointAmount: action.payload.earnedPoint,
+                // lastEarnedPointAmount: action.payload.earnedPoint,
             };
         }),
         handle(setQuestionListAction, (state, action) => {

@@ -1,29 +1,28 @@
 import React, {memo, useCallback, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {HeaderComponent} from '../../components/HeaderComponent';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {useFocusEffect} from '@react-navigation/native';
 import {Colors} from '../../utils/default-styles';
 import {BackHandler, View} from 'react-native';
 import {Styles} from './style';
 import {StateEnum} from '../../utils/state-enum';
-import {UserScore} from '../../utils/types';
+import {ScreenPropType, UserScore} from '../../utils/types';
 import {setHighScoreListAction} from '../../store/triviaGame/action';
 import {ButtonComponent} from '../../components/ButtonComponent';
 import {ResultBodyComponent} from '../../components/ResultBodyComponent';
 
-export const WrongScreen = memo(function WrongScreen() {
+export const WrongScreen = memo<ScreenPropType>(function WrongScreen({navigation, route}) {
+    const {totalPoint, questionIndex} = route.params;
+
     const dispatch = useDispatch();
-    const navigation = useNavigation();
     const questionListLength = useSelector(state => state.triviaGame.questionList.length);
-    const totalPoint = useSelector(state => state.triviaGame.totalPoint);
-    const questionIndex = useSelector(state => state.triviaGame.questionIndex);
     const category = useSelector(state => state.triviaGame.chosenCategory);
     const difficulty = useSelector(state => state.triviaGame.chosenDifficulty);
     const timeSpent = useSelector(state => state.triviaGame.totalTimeSpent);
     const allScores = useSelector(state => state.triviaGame.highScoreList);
     const [screenState, setScreenState] = useState(StateEnum.reading);
 
-    const onButtonPress = useCallback(() => {
+    const onButtonPressed = useCallback(() => {
         if (screenState !== StateEnum.reading) {
             return;
         }
@@ -43,9 +42,9 @@ export const WrongScreen = memo(function WrongScreen() {
     }, [allScores, category, difficulty, dispatch, navigation, questionIndex, questionListLength, screenState, timeSpent, totalPoint]);
 
     const hardwareBackPressEventHandler = useCallback(() => {
-        onButtonPress();
+        onButtonPressed();
         return true;
-    }, [onButtonPress]);
+    }, [onButtonPressed]);
 
     useFocusEffect(useCallback(() => {
         BackHandler.addEventListener('hardwareBackPress', hardwareBackPressEventHandler);
@@ -58,13 +57,13 @@ export const WrongScreen = memo(function WrongScreen() {
             <View style={Styles.container}>
                 <ResultBodyComponent
                     image={require('../../assets/icons/wrong.png')}
-                    title={'Wrong'}
+                    title='Wrong'
                     otherTexts={[
                         'You failed.',
                         `Total points ${totalPoint.toString()}.`]}/>
                 <ButtonComponent
-                    onPress={onButtonPress}
-                    buttonText={'Main Menu'}
+                    onPress={onButtonPressed}
+                    buttonText='Main Menu'
                     color={Colors.wrongButton}
                     isDisabled={screenState !== StateEnum.reading}/>
             </View>
